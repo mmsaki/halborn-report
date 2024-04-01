@@ -24,6 +24,9 @@ class DependabotData:
 
   def __str__(self):
     return json.dumps(self.data, indent=2)
+  
+  def __repr__(self):
+    return f"DependabotData(length={len(self.data)})"
 
 class Issue:
   def __init__(self, issue):
@@ -67,3 +70,6 @@ class Issue:
 
   def __str__(self):
     return json.dumps(self.issue, indent=2)
+  
+  def __repr__(self):
+    return f"Issue(number={self.number}, severity={self.severitiy}, package={self.name})"
