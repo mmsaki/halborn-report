@@ -6,3 +6,8 @@ __pycache__
 
 # environment
 venv
+
+# unstage files
+results.json
+mediums.json
+pars.ipynb
