@@ -33,11 +33,22 @@ class ReportItem():
     self.title = self.type + "-" + str(self.number) + " " + issue.summary
     self.desc = self.conver_to_asciidoc(issue.description)
 
-  def conver_to_asciidoc(self, string):
+  def __str__(self) -> str:
+    return f"""## tag::{self.number}[]
+== {self.title}
+
+{self.desc}
+
+
+## end::{self.number}[]
+"""
+
+  def conver_to_asciidoc(self, string) -> str:
     """
     Converts .md syntax to .asccidoc syntax
-      in:  "### My Links\n\n* [Blog](https://msaki.io)\n* [Github](https://github.com/mmsaki)\n* Thank you"
-      out: "### My Links\n\n* https://msaki.io[Blog]\n* https://github.com/mmsaki[Github]\n* Thank you"
+
+    in:  \n* [Blog](https://msaki.io)\n* [Github](https://github.com/mmsaki)\n* Thank you\n
+    out: \n* https://msaki.io[Blog]\n* https://github.com/mmsaki[Github]\n* Thank you
     """
     pattern = '(\[)(.+?)(\])(\()(.+?)(\))'
     grep = re.compile(pattern)
@@ -58,11 +69,12 @@ class ReportItem():
     string = string.replace("#", "===")
     return string
     
-  def convert_md_link(self, string):
+  def convert_md_link(self, string) -> str:
     """
     Converts a markdown links to asciidoc links
-      in:  [My Website](https://msaki.io)
-      out: https://msaki.io[My Website]
+
+    in:  [My Website](https://msaki.io)
+    out: https://msaki.io[My Website]
     """
     pattern = '(\[)(.+?)(\])(\()(.+?)(\))'
     grep = re.compile(pattern)
