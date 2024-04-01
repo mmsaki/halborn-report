@@ -1,7 +1,7 @@
 import json
 
 class DependabotData:
-  def __init__(self, data):
+  def __init__(self, data: list):
     self.data = [Issue(issue) for issue in data]
     self._index = 0
 
@@ -19,7 +19,7 @@ class DependabotData:
     else:
       raise StopIteration
   
-  def __getitem__(self, index):
+  def __getitem__(self, index: int):
     return self.data[index]
 
   def __str__(self):
@@ -29,45 +29,45 @@ class DependabotData:
     return f"DependabotData(length={len(self.data)})"
 
 class Issue:
-  def __init__(self, issue):
-    self.issue                    = issue
-    self.number                   = self.issue["number"]
-    self.state                    = self.issue["state"]
-    self.dependency               = self.issue["dependency"]
-    self.package                  = self.dependency["package"]
-    self.ecosystem                = self.package["ecosystem"]
-    self.name                     = self.package["name"]
-    self.path                     = self.dependency["manifest_path"]
-    self.scope                    = self.dependency["scope"]
-    self.advisory                 = self.issue["security_advisory"]
-    self.ghsa_id                  = self.advisory["ghsa_id"]
-    self.cve_id                   = self.advisory["cve_id"]
-    self.summary                  = self.advisory["summary"]
-    self.description              = self.advisory["description"]
-    self.is_markdown              = self.description.startswith("#")
-    self.severity                 = self.advisory["severity"]
-    self.identifiers              = self.advisory["identifiers"]
-    self.references               = [url["url"] for url in self.advisory["references"]]
-    self.published_at             = self.advisory["published_at"]
-    self.updated_at               = self.advisory["updated_at"]
-    self.withdrawn_at             = self.advisory["withdrawn_at"]
-    self.vulnerabilities          = self.advisory["vulnerabilities"]
-    self.cvss                     = self.advisory["cvss"]["vector_string"]
-    self.score                    = self.advisory["cvss"]["score"]
-    self.cwes                     = self.advisory["cwes"] 
-    self.vulnerability            = self.issue["security_vulnerability"]
-    self.vulnerability_package    = self.vulnerability["package"]["name"]
-    self.vulnerability_serverity  = self.vulnerability["severity"]
-    self.vulnerability_range      = self.vulnerability["vulnerable_version_range"]
-    self.vulnerability_patch      = self.vulnerability["first_patched_version"]
-    self.has_patch                = bool(self.vulnerability["first_patched_version"])
-    self.url                      = self.issue["url"]
-    self.html_url                 = self.issue["html_url"]
-    self.created_at               = self.issue["created_at"]
-    self.updated_at               = self.issue["updated_at"]
-    self.dismissed_at             = self.issue["dismissed_at"]
-    self.dismissed_by             = self.issue["dismissed_by"]
-    self.dismissed_reason         = self.issue["dismissed_reason"]
+  def __init__(self, issue: dict):
+    self.issue                   : dict = issue
+    self.number                  : int  = self.issue["number"]
+    self.state                   : str  = self.issue["state"]
+    self.dependency              : dict = self.issue["dependency"]
+    self.package                 : dict = self.dependency["package"]
+    self.ecosystem               : str  = self.package["ecosystem"]
+    self.name                    : str  = self.package["name"]
+    self.path                    : str  = self.dependency["manifest_path"]
+    self.scope                   : str  = self.dependency["scope"]
+    self.advisory                : dict = self.issue["security_advisory"]
+    self.ghsa_id                 : str  = self.advisory["ghsa_id"]
+    self.cve_id                  : str  = self.advisory["cve_id"]
+    self.summary                 : str  = self.advisory["summary"]
+    self.description             : str  = self.advisory["description"]
+    self.is_markdown             : bool = self.description.startswith("#") or  self.description.contains("##")
+    self.severity                : str  = self.advisory["severity"]
+    self.identifiers             : list = self.advisory["identifiers"]
+    self.references              : list = [url["url"] for url in self.advisory["references"]]
+    self.published_at            : str  = self.advisory["published_at"]
+    self.updated_at              : str  = self.advisory["updated_at"]
+    self.withdrawn_at            : str  = self.advisory["withdrawn_at"]
+    self.vulnerabilities         : list = self.advisory["vulnerabilities"]
+    self.cvss                    : str  = self.advisory["cvss"]["vector_string"]
+    self.score                   : str  = self.advisory["cvss"]["score"]
+    self.cwes                    : list = self.advisory["cwes"] 
+    self.vulnerability           : dict = self.issue["security_vulnerability"]
+    self.vulnerability_package   : str  = self.vulnerability["package"]["name"]
+    self.vulnerability_serverity : str  = self.vulnerability["severity"]
+    self.vulnerability_range     : str  = self.vulnerability["vulnerable_version_range"]
+    self.vulnerability_patch     : dict = self.vulnerability["first_patched_version"]
+    self.has_patch               : bool = bool(self.vulnerability["first_patched_version"])
+    self.url                     : str  = self.issue["url"]
+    self.html_url                : str  = self.issue["html_url"]
+    self.created_at              : str  = self.issue["created_at"]
+    self.updated_at              : str  = self.issue["updated_at"]
+    self.dismissed_at            : str  = self.issue["dismissed_at"]
+    self.dismissed_by            : str  = self.issue["dismissed_by"]
+    self.dismissed_reason        : str  = self.issue["dismissed_reason"]
 
   def __str__(self):
     return json.dumps(self.issue, indent=2)
