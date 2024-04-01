@@ -3,7 +3,7 @@ from pygments import highlight, lexers, formatters
 
 class DependabotData:
   def __init__(self, data):
-    self.data = data
+    self.data = [Issue(issue) for issue in data]
     self._index = 0
 
   def __len__(self):
@@ -21,11 +21,10 @@ class DependabotData:
       raise StopIteration
   
   def __getitem__(self, index):
-    return Issue(self.data[index])
+    return self.data[index]
 
   def __str__(self):
     return highlight(json.dumps(self.data, indent=2), lexers.JsonLexer(), formatters.TerminalFormatter())
-  
 
 class Issue:
   def __init__(self, issue):
@@ -60,7 +59,8 @@ class Issue:
     self.vulnerability_package    = self.vulnerability["package"]["name"]
     self.vulnerability_serverity  = self.vulnerability["severity"]
     self.vulnerability_range      = self.vulnerability["vulnerable_version_range"]
-    self.vulnerability_patch      = self.vulnerability["first_patched_version"]["identifier"]
+    self.vulnerability_patch      = self.vulnerability["first_patched_version"]
+    self.has_patch                = bool(self.vulnerability["first_patched_version"])
     self.url                      = self.issue["url"]
     self.html_url                 = self.issue["html_url"]
     self.created_at               = self.issue["created_at"]
@@ -72,11 +72,16 @@ class Issue:
 
   def __str__(self):
     return highlight(json.dumps(self.issue, indent=2), lexers.PythonLexer(), formatters.TerminalFormatter())
+  
+  def __repr__(self):
+    return 
 
   def all_vuls(self):
     items = []
-    for vul in self.vulnerabilities:
-      items.append(f"name: {vul['package']['name']}, severity: {vul['severity']}, vulnerable_version: {vul['vulnerable_version_range']}, patch_version: {vul['first_patched_version']['identifier']}")
+    if type(self.vulnerabilities) == list:
+      for vul in self.vulnerabilities:
+
+        items.append(f"name: {vul['package']['name']}, severity: {vul['severity']}, vulnerable_version: {vul['vulnerable_version_range']}, patch_version: {vul['first_patched_version']}")
     self.all_vuls = items
   
   def all_cwes(self):
