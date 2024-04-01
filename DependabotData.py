@@ -4,6 +4,7 @@ from pygments import highlight, lexers, formatters
 class DependabotData:
   def __init__(self, data):
     self.data = data
+    self._index = 0
 
   def __len__(self):
     return len(self.data)
@@ -12,7 +13,12 @@ class DependabotData:
     return self
   
   def __next__(self):
-    pass
+    if self._index < len(self.data):
+      item = self.data[self._index]
+      self._index += 1
+      return item
+    else:
+      raise StopIteration
   
   def __getitem__(self, index):
     return Issue(self.data[index])
