@@ -1,0 +1,59 @@
+## tag::intro[]
+== Summary
+
+This security assessment was conducted on the commit {url-commit}{commit-hash}[e0e91e5...ca1ee] of master {url-repo}[CTFs] repo starting on March 25th, 2024 and ended on April 2nd, 2024. 
+
+## end::intro[]
+
+## tag::file-tree[]
+== Files
+
+[source,shell]
+----
+.
+├── .DS_Store
+├── .git
+├── .gitignore
+├── HalbornCTF_Golang_Cosmos
+├── HalbornCTF_Rust_Solana
+├── HalbornCTF_Rust_Substrate
+├── HalbornCTF_Solidity_Ethereum
+└── README.md
+
+5 directories, 3 files
+----
+## end::file-tree[]
+
+## tag::loc[]
+
+.Languages used and lines of codes
+[%header%footer, cols="6*"]
+|===
+| Language         | Files | Lines | Blanks | Comments | Code
+| Protocol Buffers | 129   | 10377 | 1628   | 3260     | 5489  
+| Go               | 52    | 9424  | 1026   | 537      | 7861  
+| YAML             | 48    | 629   | 150    | 11       | 468   
+| Rust             | 40    | 4408  | 525    | 745      | 3138  
+| Shell            | 40    | 1368  | 292    | 204      | 872   
+| TOML             | 17    | 1001  | 159    | 315      | 527   
+| Terraform        | 16    | 948   | 152    | 34       | 762   
+| Markdown         | 12    | 417   | 132    | 0        | 285   
+| Solidity         | 7     | 511   | 77     | 67       | 367   
+| gitignore        | 7     | 53    | 9      | 10       | 34    
+| JSON             | 6     | 57851 | 2      | 0        | 57849 
+| Makefile         | 6     | 712   | 158    | 105      | 449   
+| BASH             | 3     | 121   | 28     | 12       | 81    
+| Jinja            | 3     | 920   | 127    | 0        | 793   
+| License          | 3     | 1550  | 275    | 0        | 1275  
+| Python           | 3     | 2299  | 196    | 199      | 1904  
+| INI              | 2     | 243   | 45     | 155      | 43    
+| SVG              | 2     | 26    | 0      | 0        | 26    
+| Dockerfile       | 1     | 24    | 6      | 7        | 11    
+| JavaScript       | 1     | 167   | 1      | 0        | 166   
+| Plain Text       | 1     | 31    | 0      | 0        | 31    
+| Stylus           | 1     | 69    | 10     | 0        | 59    
+| Vue              | 1     | 11    | 1      | 0        | 10    
+| Total            | 401   | 93160 | 4999   | 5661     | 82500 
+|===
+
+## end::loc[]

@@ -1,0 +1,9 @@
+## tag::refs[]
+
+* [[[yellow-paper,1]]] https://ethereum.github.io/yellowpaper/paper.pdf[ETHEREUM: A Secure Decentralised Generalised Transaction Ledger: Dr. Gavin Wood Founder, Ethereum & Parity]
+
+* [[[python-dsstore,2]]] https://github.com/gehaxelt/Python-dsstore
+
+* [[[parsing-dsstor,3]]] https://0day.work/parsing-the-ds_store-file-format/
+
+## end::refs[]

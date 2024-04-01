@@ -1,0 +1,132 @@
+= Halborn CTF Secutiy Report: Halborn Offensive Security Engineer applying for a full time position
+Meek Msaki <meek.dev3@gmail.com>
+:revnumber: v0.1
+:revdate: 03.26.2024
+:revremark: Work in progress
+:sectnums: 
+:partnums:
+:toc: auto
+:doctype: book
+:!chapter-signifier: 
+:appendix-caption: Exhibit
+:ctf-dir: ../CTFs/
+:url-commit: https://github.com/HalbornSecurity/CTFs/commit/
+:url-repo: https://github.com/HalbornSecurity/CTFs
+:commit-hash: e0e91e535617f9ed3bfeb5db740e7c9782dca1ee
+:url-blob: /blob/{commit-hash}/
+:url-nist: https://nvd.nist.gov/vuln/detail/
+:url-ghsa: https://github.com/advisories/
+:url-cwe: https://cwe.mitre.org/data/definitions/
+:imagesdir: ./images
+:source-highlighter: pygments
+:highlightjs-languages: rust, swift
+:highlightjs-theme: github-dark
+:pygments-linenums-mode: inline
+:pygments-style: github-dark
+:pdf-theme: report/themes/pdf-theme.yml
+
+
+[preface]
+= Introduction
+
+include::intro.adoc[leveloffset=1, tags=intro]
+include::revisions.adoc[leveloffset=1, tags=version]
+
+= Critical
+
+include::findings-critical.adoc[tags=1]
+include::findings-critical.adoc[tags=2]
+include::findings-critical.adoc[tags=3]
+include::findings-critical.adoc[tags=4]
+include::findings-critical.adoc[tags=5]
+include::findings-critical.adoc[tags=6]
+include::findings-critical.adoc[tags=7]
+include::findings-critical.adoc[tags=8]
+include::findings-critical.adoc[tags=9]
+
+= High
+
+include::findings-high.adoc[tags=1]
+include::findings-high.adoc[tags=2]
+include::findings-high.adoc[tags=3]
+include::findings-high.adoc[tags=4]
+include::findings-high.adoc[tags=5]
+include::findings-high.adoc[tags=6]
+include::findings-high.adoc[tags=7]
+include::findings-high.adoc[tags=8]
+include::findings-high.adoc[tags=9]
+include::findings-high.adoc[tags=10]
+include::findings-high.adoc[tags=11]
+include::findings-high.adoc[tags=12]
+include::findings-high.adoc[tags=13]
+include::findings-high.adoc[tags=14]
+include::findings-high.adoc[tags=15]
+include::findings-high.adoc[tags=16]
+include::findings-high.adoc[tags=17]
+include::findings-high.adoc[tags=18]
+include::findings-high.adoc[tags=19]
+include::findings-high.adoc[tags=20]
+include::findings-high.adoc[tags=21]
+include::findings-high.adoc[tags=22]
+include::findings-high.adoc[tags=23]
+include::findings-high.adoc[tags=24]
+include::findings-high.adoc[tags=25]
+include::findings-high.adoc[tags=26]
+
+= Medium
+
+include::findings-med.adoc[tags=1]
+include::findings-med.adoc[tags=2]
+include::findings-med.adoc[tags=3]
+include::findings-med.adoc[tags=4]
+include::findings-med.adoc[tags=5]
+include::findings-med.adoc[tags=6]
+include::findings-med.adoc[tags=7]
+include::findings-med.adoc[tags=8]
+include::findings-med.adoc[tags=9]
+include::findings-med.adoc[tags=10]
+include::findings-med.adoc[tags=11]
+include::findings-med.adoc[tags=12]
+include::findings-med.adoc[tags=13]
+include::findings-med.adoc[tags=14]
+include::findings-med.adoc[tags=15]
+include::findings-med.adoc[tags=16]
+
+= Low
+include::findings-low.adoc[tags=1]
+include::findings-low.adoc[tags=2]
+include::findings-low.adoc[tags=3]
+include::findings-low.adoc[tags=4]
+include::findings-low.adoc[tags=5]
+include::findings-low.adoc[tags=6]
+include::findings-low.adoc[tags=7]
+include::findings-low.adoc[tags=8]
+include::findings-low.adoc[tags=9]
+include::findings-low.adoc[tags=10]
+include::findings-low.adoc[tags=11]
+
+[appendix]
+== Tools Used
+
+=== SARIF
+
+=== Certora
+
+=== Wake
+
+=== Foundry
+
+[appendix]
+== Challenges
+
+=== Context
+
+[glossary]
+= Terminology
+include::glossary.adoc[tags=terminology]
+
+[bibliography]
+= References
+include::references.adoc[tags=refs]
+
+

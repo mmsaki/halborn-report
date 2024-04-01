@@ -1,0 +1,500 @@
+## tag::1[]
+== L-1 rootless: `/sys/fs/cgroup` is writable when cgroupns isn't unshared in runc
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-m8cg-xc2p-r3fc[GHSA-m8cg-xc2p-r3fc] {url-cwe}281.html[CWE-281]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#None[HalbornCTF_Golang_Cosmos/go.mod#None]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=1..5]
+----
+
+=== Impact
+It was found that rootless runc makes `/sys/fs/cgroup` writable in following conditons:
+1. when runc is executed inside the user namespace, and the `config.json` does not specify the cgroup namespace to be unshared (e.g.., `(docker|podman|nerdctl) run --cgroupns=host`, with Rootless Docker/Podman/nerdctl)
+2. or, when runc is executed outside the user namespace, and `/sys` is mounted with `rbind, ro` (e.g., `runc spec --rootless`; this condition is very rare)
+
+A container may gain the write access to user-owned cgroup hierarchy `/sys/fs/cgroup/user.slice/...` on the host .
+Other users's cgroup hierarchies are not affected.
+
+=== Patches
+v1.1.5 (planned)
+
+=== Workarounds
+- Condition 1: Unshare the cgroup namespace (`(docker|podman|nerdctl) run --cgroupns=private)`. This is the default behavior of Docker/Podman/nerdctl on cgroup v2 hosts.
+- Condition 2 (very rare): add `/sys/fs/cgroup` to `maskedPaths`
+
+
+=== Impact: Low 2.5 / 10
+
+.CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:C/C:N/I:N/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | High
+| Privileges required | High
+| User interaction | None
+| Scope | Changed
+| Confidentiality | None
+| Integrity | None
+| Availability  | Low
+|===
+
+=== References
+
+* https://github.com/opencontainers/runc/security/advisories/GHSA-m8cg-xc2p-r3fc
+* https://nvd.nist.gov/vuln/detail/CVE-2023-25809
+* https://github.com/opencontainers/runc/commit/0d62b950e60f6980b54fe3bafd9a9c608dc1df17
+* https://github.com/advisories/GHSA-m8cg-xc2p-r3fc
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::1[]
+## tag::2[]
+== L-2 Go package github.com/cosmos/cosmos-sdk module x/crisis does NOT cause chain halt
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-qfc5-6r3j-jj22[GHSA-qfc5-6r3j-jj22] 
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#None[HalbornCTF_Golang_Cosmos/go.mod#None]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=1..5]
+----
+
+=== x/crisis does NOT cause chain halt
+
+=== Impact
+If an invariant check fails on a Cosmos SDK network and a transaction is sent to the `x/crisis` module to halt the chain, the chain does not halt. All versions of the `x/crisis` module is affected on all versions of the Cosmos SDK.
+
+=== Details
+The `x/crisis` module is supposed to allow anyone to halt a chain in the event of a violated invariant by sending a `MsgVerifyInvariant` with the name of the invariant. Processing this message is supposed to cause the nodes to panic. However, because the panic is within a transaction, it is caught by the SDK’s built-in panic-recovery machinery and just treated as a normal “invalid” transaction (ie. it returns a non-zero abci Code). Thus the `x/crisis` transactions don’t actually cause chains to halt. If there is an invariant violation, it can be confirmed with an `x/crisis` transaction, but it won’t cause any nodes to halt, they will just continue processing blocks.
+
+That said, any node running with `start --inv-check-period X` will actually panic when it runs the periodic check (though it will still not panic just by processing an `x/crisis` transaction). Since this panic is located in EndBlock, it is not caught by the panic-recovery machinery and does actually crash the node. Presumably few if any nodes actually run with this in production because of how long the invariant checks take, and this runs all of them every `X` blocks.
+
+=== Patches
+No patches will be released.
+
+The `x/crisis` module was originally intended to allow chains to halt rather than continue with some unknown behaviour in the case of an invariant violation (safety over liveness). However, as chains mature, and especially as the potential https://github.com/osmosis-labs/osmosis/issues/570[cost of halting increases], chains should consider carefully what invariants they really want to halt for, and what invariants are just sort of helpful sanity checks, but may not be worth halting for.
+
+In some cases, chains have already broken the invariant calculations but have dealt with the consequences off-chain or during development. Halting these chains would be counter-productive.
+
+The SDK team is working on new modules that allow chain developers to fine-tune the chain invariants and the necessary actions.
+
+Hence, the decision was made that the `x/crisis` module will not be patched for chain halts. The module will be deprecated when new modules take over its responsibilities.
+
+=== Workarounds
+In case of a valid invariant check failure that requires a chain halt, the network validators are encouraged to coordinate off-chain for network halts. This has been an already established process for security patches.
+
+=== References
+SDK developer epic about invariant checking: https://github.com/cosmos/cosmos-sdk/issues/15706
+Public report: https://github.com/cosmos/cosmos-sdk/issues/15325
+
+=== References
+
+* https://github.com/cosmos/cosmos-sdk/security/advisories/GHSA-qfc5-6r3j-jj22
+* https://github.com/cosmos/cosmos-sdk/issues/15325
+* https://github.com/cosmos/cosmos-sdk/issues/15706
+* https://github.com/advisories/GHSA-qfc5-6r3j-jj22
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::2[]
+## tag::3[]
+== L-3 github.com/cosmos/cosmos-sdk's x/crisis does not charge ConstantFee
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-w5w5-2882-47pc[GHSA-w5w5-2882-47pc] 
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#None[HalbornCTF_Golang_Cosmos/go.mod#None]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=1..5]
+----
+
+=== x/crisis does not charge ConstantFee
+=== Impact
+If a transaction is sent to the `x/crisis` module to check an invariant, the ConstantFee parameter of the chain is NOT charged. All versions of the `x/crisis` module are affected on all versions of the Cosmos SDK.
+
+=== Details
+The `x/crisis` module is supposed to allow anyone to halt a chain in the event of a violated invariant by sending a `MsgVerifyInvariant` with the name of the invariant. Processing this message takes extra processing power hence a `ConstantFee` was introduced on the chain that is charged as extra from the reporter for the extra computational work. This is supposed to avert spammers on the chain making nodes do extra computations using this transaction. By not charging the `ConstantFee`, the transactions related to invariant checking are relatively cheaper compared to the computational need and other transactions.
+
+That said, the submitter still has to pay the transaction fee to put the transaction on the network, hence using this weakness for spamming is limited by the usual mechanisms.
+
+Synthetic testing showed up to a 20% increase in CPU usage on a validator node that is spammed by hundreds of `MsgVerifyInvariant` messages which still makes this an expensive operation to carry out on a live blockchain network.
+
+=== Patches
+The `ConstantFee` charge of the `x/crisis` module will either be fixed or disabled in an upcoming regular release of the Cosmos SDK.
+
+The `x/crisis` module was originally intended to allow chains to halt rather than continue with some unknown behavior in the case of an invariant violation (safety over liveness). However, as chains mature, and especially as the potential https://github.com/osmosis-labs/osmosis/issues/570[cost of halting increases], chains should consider carefully what invariants they really want to halt for, and what invariants are just sort of helpful sanity checks.
+
+The SDK team is working on new modules that allow chain developers to fine-tune the chain invariants and the necessary actions.
+
+Hence, the decision was made that the `x/crisis` module will be deprecated when new modules take over its responsibilities.
+
+=== Workarounds
+There is no workaround posted. Validators are advised to leave some extra computing room on their servers for possible spamming scenarios. (This is a good measure in any case.)
+
+=== References
+SDK developer epic about invariant checking: https://github.com/cosmos/cosmos-sdk/issues/15706
+
+
+=== References
+
+* https://github.com/cosmos/cosmos-sdk/security/advisories/GHSA-w5w5-2882-47pc
+* https://github.com/cosmos/cosmos-sdk/issues/15706
+* https://github.com/advisories/GHSA-w5w5-2882-47pc
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::3[]
+## tag::4[]
+== L-4 ASA-2024-003: Missing `BlockedAddressed` Validation in Vesting Module
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-4j93-fm92-rp4m[GHSA-4j93-fm92-rp4m] {url-cwe}20.html[CWE-20]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#None[HalbornCTF_Golang_Cosmos/go.mod#None]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=1..5]
+----
+
+=== ASA-2024-003: Missing `BlockedAddressed` Validation in Vesting Module
+
+**Component**: Cosmos SDK
+**Criticality**: Low
+**Affected Versions**: Cosmos SDK versions <= 0.50.3; <= 0.47.8
+**Affected Users**: Chain developers, Validator and Node operators
+**Impact**: Denial of Service
+
+=== Description
+
+A vulnerability was identified in the `x/auth/vesting` module, which can allow a user to create a periodic vesting account on a blocked address, for example a non-initialized module account. Additional validation was added to prevent creation of a periodic vesting account in this scenario.
+
+If this case is triggered, there is the potential for a chain halt if the uninitialized account in question is called by `GetModuleAccount` in `Begin`/`EndBlock` of a module. This combination of an uninitialized blocked module account is not common.  
+
+=== Next Steps for Impacted Parties
+
+If your chain has uninitialized blocked module accounts, it is recommended to proactively initialize them, as they are often initialized during a chain migration or during init genesis.
+
+If you are a chain developer on an affected version of the Cosmos SDK, it is advised to update to the latest available version of the Cosmos SDK for your project.  Once a patched version is available, it is recommended that network operators upgrade.
+
+A Github Security Advisory for this issue is available in the Cosmos-SDK https://github.com/cosmos/cosmos-sdk/security/advisories[repository]. For more information about Cosmos SDK, see https://docs.cosmos.network/.
+
+This issue was found by https://github.com/dongsam[Dongsam] who reported it to the Cosmos Bug Bounty Program on HackerOne on January 30, 2024. If you believe you have found a bug in the Interchain Stack or would like to contribute to the program by reporting a bug, please see https://hackerone.com/cosmos.
+
+=== Impact: Low 3.5 / 10
+
+.CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Adjacent
+| Attack complexity | Low
+| Privileges required | Low
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | Low
+|===
+
+=== References
+
+* https://github.com/cosmos/cosmos-sdk/security/advisories/GHSA-4j93-fm92-rp4m
+* https://github.com/cosmos/cosmos-sdk/releases/tag/v0.47.9
+* https://github.com/cosmos/cosmos-sdk/releases/tag/v0.50.4
+* https://github.com/advisories/GHSA-4j93-fm92-rp4m
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::4[]
+## tag::5[]
+== L-5 ASA-2024-005: Potential slashing evasion during re-delegation
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-86h5-xcpx-cfqc[GHSA-86h5-xcpx-cfqc] {url-cwe}372.html[CWE-372]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#None[HalbornCTF_Golang_Cosmos/go.mod#None]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=1..5]
+----
+
+=== ASA-2024-005: Potential slashing evasion during re-delegation
+
+**Component**: Cosmos SDK
+**Criticality**: Low
+**Affected Versions**: Cosmos SDK versions <= 0.50.4; <= 0.47.9
+**Affected Users**: Chain developers, Validator and Node operators
+**Impact**: Slashing Evasion
+
+=== Summary
+
+An issue was identified in the slashing mechanism that may allow for the evasion of slashing penalties during a slashing event. If a delegation contributed to byzantine behavior of a validator, and the validator has not yet been slashed, it may be possible for that delegation to evade a pending slashing penalty through re-delegation behavior. Additional validation logic was added to restrict this behavior.
+
+=== Next Steps for Impacted Parties
+
+If you are a chain developer on an affected version of the Cosmos SDK, it is advised to update to the latest available version of the Cosmos SDK for your project.  Once a patched version is available, it is recommended that network operators upgrade.
+
+A Github Security Advisory for this issue is available in the Cosmos-SDK https://github.com/cosmos/cosmos-sdk/security/advisories/GHSA-86h5-xcpx-cfqc[repository]. For more information about Cosmos SDK, see https://docs.cosmos.network/.
+
+This issue was found by cat shark (Khanh) who reported it to the Cosmos Bug Bounty Program on HackerOne on December 6, 2024. If you believe you have found a bug in the Interchain Stack or would like to contribute to the program by reporting a bug, please see https://hackerone.com/cosmos.
+
+
+=== References
+
+* https://github.com/cosmos/cosmos-sdk/security/advisories/GHSA-86h5-xcpx-cfqc
+* https://github.com/cosmos/cosmos-sdk/commit/7dbed2fc0c3ed7c285645e21cb1037d8810372ae
+* https://github.com/cosmos/cosmos-sdk/commit/d1b5b0c5ae2c51206cc1849e09e4d59986742cc3
+* https://github.com/advisories/GHSA-86h5-xcpx-cfqc
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::5[]
+## tag::6[]
+== L-6 Lenient Parsing of Content-Length Header When Prefixed with Plus Sign
+
+Tags: `runtime`, Weaknesses: {url-cwe}444.html[CWE-444], CVE ID: {url-nist}CVE-2021-32715[CVE-2021-32715], GHSA ID: {url-ghsa}GHSA-f3pg-qwvg-p99c[GHSA-f3pg-qwvg-p99c]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L2258-L2262[HalbornCTF_Rust_Substrate/Cargo.lock#L2258-L2262]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=2258..2262]
+----
+
+To determine if vulnerable, all these things must be true:
+
+- **Using hyper as an HTTP server**. While the lenient decoder also exists in the client, a vulnerability does not exist around _responses_.
+- **Using HTTP/1**. The HTTP/2 code uses a stricter parser.
+- **Using a vulnerable HTTP proxy upstream to hyper**. If an upstream proxy correctly rejects the illegal `Content-Length` header, *OR* can parse the length with the plus sign, the desync attack cannot succeed.
+
+=== Impact: Low 3.1 / 10
+
+.CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:N
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | None
+| User interaction | Required
+| Scope | Unchange
+| Confidentiality | Low
+| Integrity | None
+| Availability  | None
+|===
+
+=== Patches
+
+We have released the following patch versions:
+
+- v0.14.10 (to be released when this advisor is published)
+
+<RECOMMENDATION>
+
+=== References
+
+
+
+## end::6[]
+## tag::7[]
+== L-7 `tokio::io::ReadHalf<T>::unsplit` is Unsound
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-4q83-7cq4-p6wg[GHSA-4q83-7cq4-p6wg] 
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L7836-L7840[HalbornCTF_Rust_Substrate/Cargo.lock#L7836-L7840]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=7836..7840]
+----
+
+`tokio::io::ReadHalf<T>::unsplit` can violate the `Pin` contract
+
+The soundness issue is described in the https://github.com/tokio-rs/tokio/issues/5372[tokio/issues#5372]
+
+Specific set of conditions needed to trigger an issue (a !Unpin type in ReadHalf)
+is unusual, combined with the difficulty of making any arbitrary use-after-free
+exploitable in Rust without doing a lot of careful alignment of data types in
+the surrounding code.
+
+The `tokio` feature `io-util` is also required to be enabled to trigger this
+soundness issue.
+
+Thanks to zachs18 reporting the issue to Tokio team responsibly and taiki-e
+and carllerche appropriately responding and fixing the soundness bug.
+
+Tokio before 0.2.0 used `futures` 0.1 that did not have `Pin`, so it is not
+affected by this issue.
+
+
+=== References
+
+* https://github.com/tokio-rs/tokio/issues/5372
+* https://rustsec.org/advisories/RUSTSEC-2023-0005.html
+* https://github.com/advisories/GHSA-4q83-7cq4-p6wg
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::7[]
+## tag::8[]
+== L-8 Race Condition Enabling Link Following and Time-of-check Time-of-use (TOCTOU) Race Condition in remove_dir_all
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-mc8h-8q98-g5hr[GHSA-mc8h-8q98-g5hr] {url-cwe}366.html[CWE-366], {url-cwe}367.html[CWE-367]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L5299-L5303[HalbornCTF_Rust_Substrate/Cargo.lock#L5299-L5303]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=5299..5303]
+----
+
+The `remove_dir_all` crate is a Rust library that offers additional features over the Rust standard library `fs::remove_dir_all` function. It suffers the same class of failure as the code it was layering over: TOCTOU race conditions, with the ability to cause arbitrary paths to be deleted by substituting a symlink for a path after the type of the path was checked.
+
+Thanks to the Rust security team for identifying the problem and alerting us to it.
+
+=== References
+
+* https://github.com/XAMPPRocky/remove_dir_all/security/advisories/GHSA-mc8h-8q98-g5hr
+* https://github.com/XAMPPRocky/remove_dir_all/commit/7247a8b6ee59fc99bbb69ca6b3ca4bfd8c809ead
+* https://rustsec.org/advisories/RUSTSEC-2023-0018.html
+* https://github.com/advisories/GHSA-mc8h-8q98-g5hr
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::8[]
+## tag::9[]
+== L-9 Undefined Behavior in Rust runtime functions
+
+Tags: `runtime`, Weaknesses: {url-cwe}758.html[CWE-758], CVE ID: {url-nist}CVE-2023-30624[CVE-2023-30624], GHSA ID: {url-ghsa}GHSA-ch89-5g45-qwc7[GHSA-ch89-5g45-qwc7]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L8589-L8593[HalbornCTF_Rust_Substrate/Cargo.lock#L8589-L8593]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=8589..8593]
+----
+
+Wasmtime's implementation of managing per-instance state, such as tables and memories, contains LLVM-level undefined behavior. This undefined behavior was found to cause runtime-level issues when compiled with LLVM 16 which causes some writes, which are critical for correctness, to be optimized away. Vulnerable versions of Wasmtime compiled with Rust 1.70, which is currently in beta, or later are known to have incorrectly compiled functions. Versions of Wasmtime compiled with the current Rust stable release, 1.69, and prior are not known at this time to have any issues, but can theoretically exhibit potential issues.
+
+The underlying problem is that Wasmtime's runtime state for an instance involves a Rust-defined structure called `Instance` which has a trailing `VMContext` structure after it. This `VMContext` structure has a runtime-defined layout that is unique per-module. This representation cannot be expressed with safe code in Rust so `unsafe` code is required to maintain this state. The code doing this, however, has methods which take `&self` as an argument but modify data in the `VMContext` part of the allocation. This means that pointers derived from `&self` are mutated. This is typically not allowed, except in the presence of `UnsafeCell`, in Rust. When compiled to LLVM these functions have `noalias readonly` parameters which means it's UB to write through the pointers.
+
+Wasmtime's internal representation and management of `VMContext` has been updated to use `&mut self` methods where appropriate. Additionally verification tools for `unsafe` code in Rust, such as `cargo miri`, are planned to be executed on the `main` branch soon to fix any Rust-level issues that may be exploited in future compiler versions.
+
+Precomplied binaries available for Wasmtime from GitHub releases have been compiled with at most LLVM 15 so are not known to be vulnerable. As mentioned above, however, it's still recommended to update.
+
+=== Impact: Low 3.9 / 10
+
+.CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:L/I:L/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | High
+| User interaction | Required
+| Scope | Unchange
+| Confidentiality | Low
+| Integrity | Low
+| Availability  | Low
+|===
+
+=== Patches
+
+Wasmtime version 6.0.2, 7.0.1, and 8.0.1 have been issued which contain the patch necessary to work correctly on LLVM 16 and have no known UB on LLVM 15 and earlier.
+
+<RECOMMENDATION>
+
+=== References
+
+* https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-ch89-5g45-qwc7[GitHub Advisory]
+* https://groups.google.com/a/bytecodealliance.org/g/sec-announce/c/ecK-6G2yi90[Mailing list announcement]
+
+## end::9[]
+## tag::10[]
+== L-10 atty potential unaligned read
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-g98v-hv3f-hcfr[GHSA-g98v-hv3f-hcfr] 
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L389-L393[HalbornCTF_Rust_Substrate/Cargo.lock#L389-L393]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=389..393]
+----
+
+On windows, `atty` dereferences a potentially unaligned pointer.
+
+In practice however, the pointer won't be unaligned unless a custom global allocator is used.
+
+In particular, the `System` allocator on windows uses `HeapAlloc`, which guarantees a large enough alignment.
+
+=== atty is Unmaintained
+
+A Pull Request with a fix has been provided over a year ago but the maintainer seems to be unreachable.
+
+Last release of `atty` was almost 3 years ago.
+
+=== Possible Alternative(s)
+
+The below list has not been vetted in any way and may or may not contain alternatives;
+
+- https://doc.rust-lang.org/stable/std/io/trait.IsTerminal.html[std::io::IsTerminal] - Stable since Rust 1.70.0
+- https://crates.io/crates/is-terminal[is-terminal] - Standalone crate supporting Rust older than 1.70.0"
+
+
+=== References
+
+* https://github.com/softprops/atty/issues/50
+* https://github.com/softprops/atty/pull/51
+* https://rustsec.org/advisories/RUSTSEC-2021-0145.html
+* https://github.com/advisories/GHSA-g98v-hv3f-hcfr
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::10[]
+## tag::11[]
+== L-11 wasmtime_trap_code C API function has out of bounds write vulnerability
+
+Tags: `runtime`, Weaknesses: {url-cwe}787.html[CWE-787], CVE ID: {url-nist}CVE-2022-39394[CVE-2022-39394], GHSA ID: {url-ghsa}GHSA-h84q-m8rr-3v9q[GHSA-h84q-m8rr-3v9q]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L8589-L8593[HalbornCTF_Rust_Substrate/Cargo.lock#L8589-L8593]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=8589..8593]
+----
+
+There is a bug in Wasmtime's C API implementation where the definition of the `wasmtime_trap_code` does not match its declared signature in the `wasmtime/trap.h` header file. This discrepancy causes the function implementation to perform a 4-byte write into a 1-byte buffer provided by the caller. This can lead to three zero bytes being written beyond the 1-byte location provided by the caller.
+
+=== Impact: Low 3.8 / 10
+
+.CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:U/C:L/I:L/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | High
+| Privileges required | High
+| User interaction | Required
+| Scope | Unchange
+| Confidentiality | Low
+| Integrity | Low
+| Availability  | Low
+|===
+
+=== Patches
+
+This bug has been patched and users should upgrade to Wasmtime 2.0.2.
+
+<RECOMMENDATION>
+
+=== References
+
+* https://docs.wasmtime.dev/c-api/trap_8h.html#a6580f4f209d3eaebb6e8b9a901a30b7a[Definition of `wasmtime_trap_code`]
+* https://groups.google.com/a/bytecodealliance.org/g/sec-announce/c/c1HBDDJwNPA[Mailing list announcement]
+* https://github.com/bytecodealliance/wasmtime/commit/5b6d5e78de106503b3b9add218bb3d2b1d63c493[Patch to fix for `main` branch]
+
+## end::11[]

@@ -1,0 +1,9 @@
+## tag::terminology[]
+
+EVM:: also known as Etherum virtual machine, is a turing-complete virtual machine that executes smart contract code on a stack with a depth of 1024 items
+Opcodes:: Operations codes that run instructions on the Ethereum Virtual Machine
+Intrinsic Gas Costs:: amount of gas paid prior to execution of a transaction, the gas paid by the initiator of a transaction, which will always be an externally-owned account, before any state updates are made or any code is executed
+.DS_Store:: 
+  In the Apple macOS operating system, `.DS_Store` is a file that stores custom attributes of its containing folder, such as folder view options, icon positions, and other visual information. The name is an abbreviation of Desktop Services Store, reflecting its purpose. It is created and maintained by the Finder application in every folder, and has functions similar to the file desktop.ini in Microsoft Windows.
+
+## end::terminology[]

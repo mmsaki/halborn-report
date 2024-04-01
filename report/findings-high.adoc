@@ -1,0 +1,1377 @@
+## tag::1[]
+== H-1 Uncontrolled Resource Consumption
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-vvpx-j8f3-3w6h[GHSA-vvpx-j8f3-3w6h] {url-cwe}400.html[CWE-400]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L246-L250[HalbornCTF_Golang_Cosmos/go.mod#L246-L250]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=246..250]
+----
+
+A maliciously crafted HTTP/2 stream could cause excessive CPU consumption in the HPACK decoder, sufficient to cause a denial of service from a small number of small requests.
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== References
+
+* https://nvd.nist.gov/vuln/detail/CVE-2022-41723
+* https://go.dev/cl/468135
+* https://go.dev/issue/57855
+* https://groups.google.com/g/golang-announce/c/V0aBFqaFs_E
+* https://vuln.go.dev/ID/GO-2023-1571.json
+* https://go.dev/cl/468295
+* https://pkg.go.dev/vuln/GO-2023-1571
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/4MA5XS5DAOJ5PKKNG5TUXKPQOFHT5VBC/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/RLBQ3A7ROLEQXQLXFDLNJ7MYPKG5GULE/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/RGW7GE2Z32ZT47UFAQFDRQE33B7Q7LMT/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/XX3IMUTZKRQ73PBZM4E2JP4BKYH4C6XE/
+* https://www.couchbase.com/alerts/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/4BUK2ZIAGCULOOYDNH25JPU6JBES5NF2/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/REMHVVIBDNKSRKNOTV7EQSB7CYQWOUOU/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/T7N5GV4CHH6WAGX3GFMDD3COEOVCZ4RI/
+* https://security.gentoo.org/glsa/202311-09
+* https://github.com/advisories/GHSA-vvpx-j8f3-3w6h
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::1[]
+## tag::2[]
+== H-2 golang.org/x/crypto/ssh Denial of service via crafted Signer
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-8c26-wmh5-6g9v[GHSA-8c26-wmh5-6g9v] {url-cwe}327.html[CWE-327]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L244-L248[HalbornCTF_Golang_Cosmos/go.mod#L244-L248]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=244..248]
+----
+
+The golang.org/x/crypto/ssh package before 0.0.0-20220314234659-1baeb1ce4c0b for Go allows an attacker to crash a server in certain circumstances involving AddHostKey.
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== References
+
+* https://nvd.nist.gov/vuln/detail/CVE-2022-27191
+* https://groups.google.com/g/golang-announce
+* https://groups.google.com/g/golang-announce/c/-cp44ypCT5s
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/HHGBEGJ54DZZGTXFUQNS7ZIG3E624YAF/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/QTFOIDHQRGNI4P6LYN6ILH5G443RYYKB/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/YHYRQB7TRMHDB3NEHW5XBRG7PPMUTPGV/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/ZQNPPQWSTP2IX7SHE6TS4SP4EVMI5EZK/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/J5WPM42UR6XIBQNQPNQHM32X7S4LJTRX/
+* https://security.netapp.com/advisory/ntap-20220429-0002/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/EZ3S7LB65N54HXXBCB67P4TTOHTNPP5O/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/ZFUNHFHQVJSADNH7EZ3B53CYDZVEEPBP/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/DLUJZV3HBP56ADXU6QH2V7RNYUPMVBXQ/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/ZY2SLWOQR4ZURQ7UBRZ7JIX6H6F5JHJR/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/Z55VUVGO7E5PJFXIOVAY373NZRHBNCI5/
+* https://raw.githubusercontent.com/golang/vulndb/df2d3d326300e2ae768f00351ffa96cc2c56cf54/reports/GO-2021-0356.yaml
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/RQXU752ALW53OJAF5MG3WMR5CCZVLWW6/
+* https://go.dev/cl/392355
+* https://go.googlesource.com/crypto/+/1baeb1ce4c0b006eff0f294c47cb7617598dfb3d
+* https://pkg.go.dev/vuln/GO-2021-0356
+* https://github.com/advisories/GHSA-8c26-wmh5-6g9v
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::2[]
+## tag::3[]
+== H-3 golang.org/x/net/http2 Denial of Service vulnerability
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-69cg-p879-7622[GHSA-69cg-p879-7622] 
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L246-L250[HalbornCTF_Golang_Cosmos/go.mod#L246-L250]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=246..250]
+----
+
+In net/http in Go before 1.18.6 and 1.19.x before 1.19.1, attackers can cause a denial of service because an HTTP/2 connection can hang during closing if shutdown were preempted by a fatal error.
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== References
+
+* https://nvd.nist.gov/vuln/detail/CVE-2022-27664
+* https://groups.google.com/g/golang-announce
+* https://groups.google.com/g/golang-announce/c/x49AQzIVX-s
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/TXS2OQ57KZC5XZKK5UW4SYKPVQAHIOJX/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/JXKTHIGE5F576MAPFYCIJXNRGBSPISUF/
+* https://security.gentoo.org/glsa/202209-26
+* https://security.netapp.com/advisory/ntap-20220923-0004/
+* https://pkg.go.dev/vuln/GO-2022-0969
+* https://go.dev/cl/428735
+* https://go.dev/issue/54658
+* https://github.com/advisories/GHSA-69cg-p879-7622
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::3[]
+## tag::4[]
+== H-4 golang.org/x/text/language Denial of service via crafted Accept-Language header
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-69ch-w2m2-3vjp[GHSA-69ch-w2m2-3vjp] {url-cwe}772.html[CWE-772]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L250-L254[HalbornCTF_Golang_Cosmos/go.mod#L250-L254]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=250..254]
+----
+
+The BCP 47 tag parser has quadratic time complexity due to inherent aspects of its design. Since the parser is, by design, exposed to untrusted user input, this can be leveraged to force a program to consume significant time parsing Accept-Language headers. The parser cannot be easily rewritten to fix this behavior for various reasons. Instead the solution implemented in this CL is to limit the total complexity of tags passed into ParseAcceptLanguage by limiting the number of dashes in the string to 1000. This should be more than enough for the majority of real world use cases, where the number of tags being sent is likely to be in the single digits.
+
+=== Specific Go Packages Affected
+golang.org/x/text/language
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== References
+
+* https://nvd.nist.gov/vuln/detail/CVE-2022-32149
+* https://go.dev/cl/442235
+* https://go.dev/issue/56152
+* https://groups.google.com/g/golang-announce/c/-hjNw559_tE/m/KlGTfid5CAAJ
+* https://pkg.go.dev/vuln/GO-2022-1059
+* https://github.com/golang/go/issues/56152
+* https://github.com/golang/text/commit/434eadcdbc3b0256971992e8c70027278364c72c
+* https://github.com/advisories/GHSA-69ch-w2m2-3vjp
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::4[]
+## tag::5[]
+== H-5 golang.org/x/net/http2/h2c vulnerable to request smuggling attack
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-fxg5-wq6x-vr4w[GHSA-fxg5-wq6x-vr4w] {url-cwe}444.html[CWE-444]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L246-L250[HalbornCTF_Golang_Cosmos/go.mod#L246-L250]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=246..250]
+----
+
+A request smuggling attack is possible when using MaxBytesHandler. When using MaxBytesHandler, the body of an HTTP request is not fully consumed. When the server attempts to read HTTP2 frames from the connection, it will instead be reading the body of the HTTP request, which could be attacker-manipulated to represent arbitrary HTTP2 requests.
+
+=== Specific Go Packages Affected
+golang.org/x/net/http2/h2c
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== References
+
+* https://nvd.nist.gov/vuln/detail/CVE-2022-41721
+* https://go.dev/cl/447396
+* https://go.dev/issue/56352
+* https://pkg.go.dev/vuln/GO-2023-1495
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/X3H3EWQXM2XL5AGBX6UL443JEJ3GQXJN/
+* https://github.com/advisories/GHSA-fxg5-wq6x-vr4w
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::5[]
+## tag::6[]
+== H-6 Opencontainers runc Incorrect Authorization vulnerability
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-vpvm-3wq2-2wvm[GHSA-vpvm-3wq2-2wvm] {url-cwe}706.html[CWE-706]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L188-L192[HalbornCTF_Golang_Cosmos/go.mod#L188-L192]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=188..192]
+----
+
+runc 1.0.0-rc95 through 1.1.4 has Incorrect Access Control leading to Escalation of Privileges, related to `libcontainer/rootfs_linux.go`. To exploit this, an attacker must be able to spawn two containers with custom volume-mount configurations, and be able to run custom images. NOTE: this issue exists because of a CVE-2019-19921 regression.
+
+=== Impact: High 7.0 / 10
+
+.CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | High
+| Privileges required | Low
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | High
+| Integrity | High
+| Availability  | High
+|===
+
+=== References
+
+* https://nvd.nist.gov/vuln/detail/CVE-2023-27561
+* https://github.com/opencontainers/runc/issues/2197#issuecomment-1437617334
+* https://github.com/opencontainers/runc/issues/3751
+* https://gist.github.com/LiveOverflow/c937820b688922eb127fb760ce06dab9
+* https://lists.debian.org/debian-lts-announce/2023/03/msg00023.html
+* https://github.com/opencontainers/runc/pull/3785
+* https://github.com/opencontainers/runc/releases/tag/v1.1.5
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/DHGVGGMKGZSJ7YO67TGGPFEHBYMS63VF/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/FYVE3GB4OG3BNT5DLQHYO4M5SXX33AQ5/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/I6BF24VCZRFTYBTT3T7HDZUOTKOTNPLZ/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/ANUGDBJ7NBUMSUFZUSKU3ZMQYZ2Z3STN/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/FNB2UEDIIJCRQW4WJLZOPQJZXCVSXMLD/
+* https://github.com/advisories/GHSA-vpvm-3wq2-2wvm
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::6[]
+## tag::7[]
+== H-7 Docker Swarm encrypted overlay network may be unauthenticated
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-232p-vwff-86mp[GHSA-232p-vwff-86mp] {url-cwe}420.html[CWE-420], {url-cwe}636.html[CWE-636]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L83-L87[HalbornCTF_Golang_Cosmos/go.mod#L83-L87]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=83..87]
+----
+
+https://mobyproject.org/[Moby] is an open source container framework developed by Docker Inc. that is distributed as Docker, Mirantis Container Runtime, and various other downstream projects/products. The Moby daemon component (`dockerd`), which is developed as https://github.com/moby/moby[moby/moby] is commonly referred to as *Docker*.
+
+Swarm Mode, which is compiled in and delivered by default in `dockerd` and is thus present in most major Moby downstreams, is a simple, built-in container orchestrator that is implemented through a combination of https://github.com/moby/swarmkit[SwarmKit] and supporting network code.
+
+The `overlay` network driver is a core feature of Swarm Mode, providing isolated virtual LANs that allow communication between containers and services across the cluster. This driver is an implementation/user of https://en.wikipedia.org/wiki/Virtual_Extensible_LAN[VXLAN], which encapsulates link-layer (Ethernet) frames in UDP datagrams that tag the frame with a VXLAN Network ID (VNI) that identifies the originating overlay network. In addition, the overlay network driver supports an optional, off-by-default encrypted mode, which is especially useful when VXLAN packets traverses an untrusted network between nodes.
+
+Encrypted overlay networks function by encapsulating the VXLAN datagrams through the use of the https://en.wikipedia.org/wiki/IPsec#Encapsulating_Security_Payload[IPsec Encapsulating Security Payload] protocol in https://en.wikipedia.org/wiki/IPsec#Transport_mode[Transport mode]. By deploying IPSec encapsulation, encrypted overlay networks gain the additional properties of source authentication through cryptographic proof, data integrity through check-summing, and confidentiality through encryption.
+
+When setting an endpoint up on an encrypted overlay network, Moby installs three https://www.netfilter.org/projects/iptables/index.html[iptables] (Linux kernel firewall) rules that enforce both incoming and outgoing IPSec. These rules rely on the `u32` iptables extension provided by the `xt_u32` kernel module to directly filter on a VXLAN packet's VNI field, so that IPSec guarantees can be enforced on encrypted overlay networks without interfering with other overlay networks or other users of VXLAN.
+
+https://github.com/moby/libnetwork/blob/d9fae4c73daf76c3b0f77e14b45b8bf612ba764d/drivers/overlay/encryption.go#L230-L234[Two iptables rules] serve to filter incoming VXLAN datagrams with a VNI that corresponds to an encrypted network and discards unencrypted datagrams. The rules are appended to the end of the `INPUT` filter chain, following any rules that have been previously set by the system administrator. Administrator-set rules take precedence over the rules Moby sets to discard unencrypted VXLAN datagrams, which can potentially admit unencrypted datagrams that should have been discarded.
+
+On Red Hat Enterprise Linux and derivatives such as CentOS and Rocky, the `xt_u32` module has been:
+* https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/8.3_release_notes/rhel-8-3-0-release#technology-preview_networking[moved to the kernel-modules-extra package and no longer installed by default in RHEL 8.3]
+* https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/8.6_release_notes/deprecated_functionality#deprecated-functionality_networking[officially deprecated in RHEL 8.6]
+* https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/considerations_in_adopting_rhel_9/assembly_networking_considerations-in-adopting-rhel-9#ref_firewall-networking_assembly_networking[removed completely in RHEL 9]
+
+These rules are not created when `xt_u32` is unavailable, even though the container is still attached to the network.
+
+=== Impact
+Encrypted overlay networks on affected configurations silently accept cleartext VXLAN datagrams that are tagged with the VNI of an encrypted overlay network. As a result, it is possible to inject arbitrary Ethernet frames into the encrypted overlay network by encapsulating them in VXLAN datagrams.
+
+The injection of arbitrary Ethernet frames can enable a Denial of Service attack. A sophisticated attacker may be able to establish a UDP or TCP connection by way of the container’s outbound gateway that would otherwise be blocked by a stateful firewall, or carry out other escalations beyond simple injection by smuggling packets into the overlay network.
+
+=== Patches
+Patches are available in Moby releases 23.0.3, and 20.10.24. As Mirantis Container Runtime's 20.10 releases are numbered differently, users of that platform should update to 20.10.16.
+
+=== Workarounds
+* Close the VXLAN port (by default, UDP port 4789) to incoming traffic at the Internet boundary (see https://github.com/moby/moby/security/advisories/GHSA-vwm3-crmr-xfxw[GHSA-vwm3-crmr-xfxw]) to prevent all VXLAN packet injection.
+* Ensure that the `xt_u32` kernel module is available on all nodes of the Swarm cluster.
+
+=== Background
+* https://github.com/moby/moby/issues/43382[#43382] partially discussed this concern, but did not consider the security implications.
+* Mirantis FIELD-5788 essentially duplicates https://github.com/moby/moby/issues/43382[#43382], and was created six months earlier; it similarly overlooked the security implications.
+* https://github.com/moby/moby/pull/45118[#45118] is the ancestor of the final patches, and was where the security implications were discovered.
+
+=== Related
+* https://github.com/moby/moby/security/advisories/GHSA-33pg-m6jh-5237[CVE-2023-28841: Encrypted overlay network traffic may be unencrypted]
+* https://github.com/moby/moby/security/advisories/GHSA-6wrf-mxfj-pf5p[CVE-2023-28842: Encrypted overlay network with a single endpoint is unauthenticated]
+* https://github.com/moby/moby/security/advisories/GHSA-vwm3-crmr-xfxw[GHSA-vwm3-crmr-xfxw: The Swarm VXLAN port may be exposed to attack due to ambiguous documentation]
+* https://github.com/moby/libnetwork/security/advisories/GHSA-gvm4-2qqg-m333[GHSA-gvm4-2qqg-m333: Security issues in encrypted overlay networks] (libnetwork)
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | None
+| User interaction | None
+| Scope | Changed
+| Confidentiality | High
+| Integrity | None
+| Availability  | Low
+|===
+
+=== References
+
+* https://github.com/moby/libnetwork/security/advisories/GHSA-gvm4-2qqg-m333
+* https://github.com/moby/moby/security/advisories/GHSA-232p-vwff-86mp
+* https://github.com/moby/moby/security/advisories/GHSA-33pg-m6jh-5237
+* https://github.com/moby/moby/security/advisories/GHSA-6wrf-mxfj-pf5p
+* https://github.com/moby/moby/security/advisories/GHSA-vwm3-crmr-xfxw
+* https://github.com/moby/moby/issues/43382
+* https://github.com/moby/moby/pull/45118
+* https://nvd.nist.gov/vuln/detail/CVE-2023-28840
+* https://github.com/advisories/GHSA-232p-vwff-86mp
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::7[]
+## tag::8[]
+== H-8 gopkg.in/yaml.v3 Denial of Service
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-hp87-p4gw-j4gq[GHSA-hp87-p4gw-j4gq] {url-cwe}502.html[CWE-502]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L254-L258[HalbornCTF_Golang_Cosmos/go.mod#L254-L258]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=254..258]
+----
+
+An issue in the Unmarshal function in Go-Yaml v3 can cause a program to panic when attempting to deserialize invalid input.
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== References
+
+* https://nvd.nist.gov/vuln/detail/CVE-2022-28948
+* https://github.com/go-yaml/yaml/issues/666
+* https://github.com/go-yaml/yaml/commit/8f96da9f5d5eff988554c1aae1784627c4bf6754
+* https://security.netapp.com/advisory/ntap-20220923-0006/
+* https://github.com/advisories/GHSA-hp87-p4gw-j4gq
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::8[]
+## tag::9[]
+== H-9 HTTP/2 rapid reset can cause excessive work in net/http
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-4374-p667-p6c8[GHSA-4374-p667-p6c8] {url-cwe}400.html[CWE-400], {url-cwe}770.html[CWE-770]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L246-L250[HalbornCTF_Golang_Cosmos/go.mod#L246-L250]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=246..250]
+----
+
+A malicious HTTP/2 client which rapidly creates requests and immediately resets them can cause excessive server resource consumption. While the total number of requests is bounded by the http2.Server.MaxConcurrentStreams setting, resetting an in-progress request allows the attacker to create a new request while the existing one is still executing. 
+
+With the fix applied, HTTP/2 servers now bound the number of simultaneously executing handler goroutines to the stream concurrency limit (MaxConcurrentStreams). New requests arriving when at the limit (which can only happen after the client has reset an existing, in-flight request) will be queued until a handler exits. If the request queue grows too large, the server will terminate the connection. 
+
+This issue is also fixed in golang.org/x/net/http2 for users manually configuring HTTP/2.
+
+The default stream concurrency limit is 250 streams (requests) per HTTP/2 connection. This value may be adjusted using the golang.org/x/net/http2 package; see the Server.MaxConcurrentStreams setting and the ConfigureServer function.
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== References
+
+* https://github.com/golang/go/issues/63417
+* https://go.dev/cl/534215
+* https://go.dev/cl/534235
+* https://go.dev/issue/63417
+* https://groups.google.com/g/golang-announce/c/iNNxDTCjZvo/m/UDd7VKQuAAAJ
+* https://nvd.nist.gov/vuln/detail/CVE-2023-39325
+* https://pkg.go.dev/vuln/GO-2023-2102
+* https://security.gentoo.org/glsa/202311-09
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3OVW5V2DM5K5IC3H7O42YDUGNJ74J35O
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/3SZN67IL7HMGMNAVLOTIXLIHUDXZK4LH
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/4BUK2ZIAGCULOOYDNH25JPU6JBES5NF2
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/5RSKA2II6QTD4YUKUNDVJQSRYSFC4VFR
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/AVZDNSMVDAQJ64LJC5I5U5LDM5753647
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/CHHITS4PUOZAKFIUBQAQZC7JWXMOYE4B
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/CLB4TW7KALB3EEQWNWCN7OUIWWVWWCG2
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/D2BBIDR2ZMB3X5BC7SR4SLQMHRMVPY6L
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/ECRC75BQJP6FJN2L7KCKYZW4DSBD7QSD
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/FTMJ3NJIDAZFWJQQSP3L22MUFJ3UP2PT
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/GSY7SXFFTPZFWDM6XELSDSHZLVW3AHK7
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/HZQIELEIRSZUYTFFH5KTH2YJ4IIQG2KE
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/IPWCNYB5PQ5PCVZ4NJT6G56ZYFZ5QBU6
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/KEOTKBUPZXHE3F352JBYNTSNRXYLWD6P
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/KSEGD2IWKNUO3DWY4KQGUQM5BISRWHQE
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/MZQYOOKHQDQ57LV2IAG6NRFOVXKHJJ3Z
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/NG7IMPL55MVWU3LCI4JQJT3K2U5CHDV7
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/OXGWPQOJ3JNDW2XIYKIVJ7N7QUIFNM2Q
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/PJCUNGIQDUMZ4Z6HWVYIMR66A35F5S74
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/QF5QSYAOPDOWLY6DUHID56Q4HQFYB45I
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/R3UETKPUB3V5JS5TLZOF3SMTGT5K5APS
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/REMHVVIBDNKSRKNOTV7EQSB7CYQWOUOU
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/T7N5GV4CHH6WAGX3GFMDD3COEOVCZ4RI
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/ULQQONMSCQSH5Z5OWFFQHCGEZ3NL4DRJ
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/UTT7DG3QOF5ZNJLUGHDNLRUIN6OWZARP
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/W2LZSWTV4NV4SNQARNXG5T6LRHP26EW2
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/WCNCBYKZXLDFGAJUB7ZP5VLC3YTHJNVH
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/XFOIBB4YFICHDM7IBOP7PWXW3FX4HLL2
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/XTNLSL44Y5FB6JWADSZH6DCV4JJAAEQY
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/YRKEXKANQ7BKJW2YTAMP625LJUJZLJ4P
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/ZSVEMQV5ROY5YW5QE3I57HT3ITWG5GCV
+* https://security.netapp.com/advisory/ntap-20231110-0008
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/L5E5JSJBZLYXOTZWXHJKRVCIXIHVWKJ6
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/YJWHBLVZDM5KQSDFRBFRKU5KSSOLIRQ4
+* https://github.com/advisories/GHSA-4374-p667-p6c8
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::9[]
+## tag::10[]
+== H-10 gRPC-Go HTTP/2 Rapid Reset vulnerability
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-m425-mq94-257g[GHSA-m425-mq94-257g] 
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L27-L31[HalbornCTF_Golang_Cosmos/go.mod#L27-L31]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=27..31]
+----
+
+=== Impact
+In affected releases of gRPC-Go, it is possible for an attacker to send HTTP/2 requests, cancel them, and send subsequent requests, which is valid by the HTTP/2 protocol, but would cause the gRPC-Go server to launch more concurrent method handlers than the configured maximum stream limit.
+
+=== Patches
+This vulnerability was addressed by #6703 and has been included in patch releases: 1.56.3, 1.57.1, 1.58.3.  It is also included in the latest release, 1.59.0.
+
+Along with applying the patch, users should also ensure they are using the `grpc.MaxConcurrentStreams` server option to apply a limit to the server's resources used for any single connection.
+
+=== Workarounds
+None.
+
+=== References
+#6703
+
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== References
+
+* https://github.com/grpc/grpc-go/security/advisories/GHSA-m425-mq94-257g
+* https://github.com/grpc/grpc-go/pull/6703
+* https://github.com/grpc/grpc-go/commit/f2180b4d5403d2210b30b93098eb7da31c05c721
+* https://github.com/advisories/GHSA-m425-mq94-257g
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::10[]
+## tag::11[]
+== H-11 runc vulnerable to container breakout through process.cwd trickery and leaked fds
+
+Tags: `runtime`, Weaknesses: {url-cwe}403.html[CWE-403], {url-cwe}668.html[CWE-668], CVE ID: {url-nist}CVE-2024-21626[CVE-2024-21626], GHSA ID: {url-ghsa}GHSA-xr7r-f8xq-vfvv[GHSA-xr7r-f8xq-vfvv]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L188-L192[HalbornCTF_Golang_Cosmos/go.mod#L188-L192]
+[source, go, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=188..192]
+----
+
+In runc 1.1.11 and earlier, due to an internal file descriptor leak, an attacker could cause a newly-spawned container process (from `runc exec`) to have a working directory in the host filesystem namespace, allowing for a container escape by giving access to the host filesystem ("attack 2"). The same attack could be used by a malicious image to allow a container process to gain access to the host filesystem through `runc run` ("attack 1"). Variants of attacks 1 and 2 could be also be used to overwrite semi-arbitrary host binaries, allowing for complete container escapes ("attack 3a" and "attack 3b").
+
+Strictly speaking, while attack 3a is the most severe from a CVSS perspective, attacks 2 and 3b are arguably more dangerous in practice because they allow for a breakout from inside a container as opposed to requiring a user execute a malicious image. The reason attacks 1 and 3a are scored higher is because being able to socially engineer users is treated as a given for UI:R vectors, despite attacks 2 and 3b requiring far more minimal user interaction (just reasonable `runc exec` operations on a container the attacker has access to). In any case, all four attacks can lead to full control of the host system.
+
+=== Impact: High 8.6 / 10
+
+.CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:C/C:H/I:H/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | Required
+| Scope | Changed
+| Confidentiality | High
+| Integrity | High
+| Availability  | High
+|===
+
+=== Patches
+
+
+
+<RECOMMENDATION>
+
+=== References
+
+
+
+## end::11[]
+## tag::12[]
+== H-12 Memory access due to code generation flaw in Cranelift module
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-hpqh-2wqx-7qp5[GHSA-hpqh-2wqx-7qp5] {url-cwe}125.html[CWE-125], {url-cwe}788.html[CWE-788]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L900-L904[HalbornCTF_Rust_Substrate/Cargo.lock#L900-L904]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=900..904]
+----
+
+There is a bug in 0.73.0 of the Cranelift x64 backend that can create a scenario that could result in a potential sandbox escape in a WebAssembly module.  Users of versions 0.73.0 of Cranelift should upgrade to either 0.73.1 or 0.74 to remediate this vulnerability.  Users of Cranelift prior to 0.73.0 should update to 0.73.1 or 0.74 if they were not using the old default backend.
+
+=== Description
+
+This bug was introduced in the new backend on 2020-09-08 and first included in a release on 2020-09-30, but the new backend was not the default prior to 0.73.0. The recently-released version 0.73.0 with default settings, and prior versions with an explicit build flag to select the new backend, are vulnerable.  The bug in question performs a sign-extend instead of a zero-extend on a value loaded from the stack, under a specific set of circumstances.  If those circumstances occur, the bug could allow access to memory addresses up to 2GiB before the start of the heap allocated for the WebAssembly module.
+
+If the heap bound is larger than 2GiB, then it would be possible to read memory from a computable range dependent on the size of the heap's bound.  
+
+The impact of this bug is highly dependent on heap implementation; specifically:
+* if the heap has bounds checks, and
+* does not rely exclusively on guard pages, and 
+* the heap bound is 2GiB or smaller 
+
+then this bug cannot be used to reach memory from another WebAssembly module heap.
+
+The impact of the vulnerability is mitigated if there is no memory mapped in the range accessible using this bug, for example, if there is a 2 GiB guard region before the WebAssembly module heap.
+
+The bug in question performs a sign-extend instead of a zero-extend on a value loaded from the stack when the register allocator reloads a spilled integer value narrower than 64 bits. This interacts poorly with another optimization: the instruction selector elides a 32-to-64-bit zero-extend operator when we know that an instruction producing a 32-bit value actually zeros the upper 32 bits of its destination register. Hence, we rely on these zeroed bits, but the type of the value is still i32, and the spill/reload reconstitutes those bits as the sign extension of the i32’s MSB.
+
+The issue would thus occur when:
+* An i32 value is greater than or equal to 0x8000_0000;
+* The value is spilled and reloaded by the register allocator due to high register pressure in the program between the value’s definition and its use;
+* The value is produced by an instruction that we know to be "special" in that it zeroes the upper 32 bits of its destination: add, sub, mul, and, or;
+* The value is then zero-extended to 64 bits;
+* The resulting 64-bit value is used.
+
+Under these circumstances there is a potential sandbox escape when the i32 value is a pointer. The usual code emitted for heap accesses zero-extends the WebAssembly heap address, adds it to a 64-bit heap base, and accesses the resulting address. If the zero-extend becomes a sign-extend, the module could reach backward and access memory up to 2GiB before the start of its heap.
+
+This bug was identified by developers at Fastly following a report from Javier Cabrera Arteaga, KTH Royal Institute of Technology, with support from project Trustful of Stiftelsen för Strategisk Forskning.  In addition to supporting the analysis and remediation of this vulnerability, Fastly will publish a related Fastly Security Advisory at https://www.fastly.com/security-advisories[https://www.fastly.com/security-advisories].
+
+In addition to assessing the nature of the code generation bug in Cranelift, we have also determined that under specific circumstances, both Lucet and Wasmtime using this version of Cranelift may be exploitable.
+
+=== General Impact to Lucet
+
+Lucet inherits the heap address computation and bounds-checks of Cranelift, which it uses as its backend code generator. Of particular importance specifically is the address-space layout used by Lucet. In the default configuration for Lucet, only a single module is running, and therefore it is not possible to access memory from another module.
+
+By default, the open source implementation of Lucet uses a maximum heap size of 4 GiB, and an instance slot size of 8 GiB, when invoking an instance from the lucet-wasi command-line tool. These settings are within the range of vulnerability described above, but only a single instance is running, so there is no other instance to read. When embedding the runtime (for example, in a long-running daemon), the default for the heap size as described in the source is 1MB; with this setting, the runtime is not vulnerable.
+
+Lucet allocates its WebAssembly module instances into "instance slots", which are contiguous zones of virtual address space that contain the VM context at the bottom, the WebAssembly heap in the next page after that, a guard region in the middle, and other data at the top: the stack and the globals.
+
+If the instance slot size is less than (max heap) + 2GiB, then the lowest accessible address using the bug will overlap with the prior instance’s heap. If the size of VM context + stack + globals is greater than (4GiB - heap limit), then the highest accessible address using the bug will overlap with this critical data. If neither of these conditions are true, the bug should only result in an access to the prior instance’s guard region.
+
+Generally, if the limit is between 2GiB and 4GiB - ~1MB (depending on stack/global size) and the instance slot size is less than 6GiB, the configuration is vulnerable. If the limit is greater than 4GiB - ~1MB, the configuration is vulnerable regardless of instance slot size. Otherwise, the configuration is not vulnerable.
+
+=== General Impact on Wasmtime
+
+In Wasmtime, the same Cranelift heap address computations and heap types are used as above. The memory layout, however, is slightly different, with different outcomes:
+* With the mmap implementation impact is mitigated probabilistically if ASLR is enabled.
+* With the pooling allocator, the vulnerability only exists if a memory reservation size lower than the default of 6GB is used.
+
+With the default mmap-based instance memory implementation, Wasmtime uses mmap() to allocate a block of memory large enough for the heap and guard region, as specified in its configuration. If the underlying OS implements ASLR (modern Linux, macOS and Windows do) then this address will be randomized, and the region below it will (probabilistically) be free. Hence, the bug is mitigated probabilistically in the default configuration if ASLR is enabled.
+
+If using the pooling allocator, the vulnerability exists if instance memory size (`memory_reservation_size` in InstanceLimit) is strictly less than 6GiB (4 GiB + 2 GiB of guard pages). The default is 6GiB, so the vulnerability is masked in the default pooling allocator configuration.
+
+
+=== Impact: High 7.2 / 10
+
+.CVSS:3.1/AV:L/AC:H/PR:L/UI:R/S:C/C:H/I:H/A:N
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | High
+| Privileges required | Low
+| User interaction | Required
+| Scope | Changed
+| Confidentiality | High
+| Integrity | High
+| Availability  | None
+|===
+
+=== References
+
+* https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-hpqh-2wqx-7qp5
+* https://nvd.nist.gov/vuln/detail/CVE-2021-32629
+* https://github.com/bytecodealliance/wasmtime/commit/95559c01aaa7c061088a433040f31e8291fb09d0
+* https://crates.io/crates/cranelift-codegen
+* https://www.fastly.com/security-advisories/memory-access-due-to-code-generation-flaw-in-cranelift-module
+* https://github.com/RustSec/advisory-db/blob/main/crates/cranelift-codegen/RUSTSEC-2021-0067.md
+* https://rustsec.org/advisories/RUSTSEC-2021-0067.html
+* https://github.com/advisories/GHSA-hpqh-2wqx-7qp5
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::12[]
+## tag::13[]
+== H-13 Overflow in prost-types
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-x4qm-mcjq-v2gf[GHSA-x4qm-mcjq-v2gf] {url-cwe}120.html[CWE-120], {url-cwe}190.html[CWE-190]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L4917-L4921[HalbornCTF_Rust_Substrate/Cargo.lock#L4917-L4921]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=4917..4921]
+----
+
+Affected versions of this crate contained a bug in which untrusted input could cause an overflow and panic when converting a Timestamp to SystemTime. It is recommended to upgrade to prost-types v0.8 and switch the usage of From<Timestamp> for SystemTime to TryFrom<Timestamp> for SystemTime.
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== References
+
+* https://nvd.nist.gov/vuln/detail/CVE-2021-38192
+* https://github.com/tokio-rs/prost/issues/438
+* https://rustsec.org/advisories/RUSTSEC-2021-0073.html
+* https://github.com/tokio-rs/prost/pull/439
+* https://github.com/tokio-rs/prost/commit/59f2a7311dd6540696bfd0145f5281ce495f4385
+* https://github.com/advisories/GHSA-x4qm-mcjq-v2gf
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::13[]
+## tag::14[]
+== H-14 Soundness issue in raw-cpuid
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-hvqc-pc78-x9wh[GHSA-hvqc-pc78-x9wh] {url-cwe}198.html[CWE-198], {url-cwe}400.html[CWE-400]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L963-L967[HalbornCTF_Rust_Substrate/Cargo.lock#L963-L967]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=963..967]
+----
+
+VendorInfo::as_string(), SoCVendorBrand::as_string(), and ExtendedFunctionInfo::processor_brand_string() construct byte slices using std::slice::from_raw_parts(), with data coming from #[repr(Rust)] structs. This is always undefined behavior.
+This flaw has been fixed in v9.0.0, by making the relevant structs #[repr(C)].
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== References
+
+* https://nvd.nist.gov/vuln/detail/CVE-2021-26306
+* https://github.com/gz/rust-cpuid/issues/40
+* https://github.com/RustSec/advisory-db/pull/614
+* https://rustsec.org/advisories/RUSTSEC-2021-0013.html
+* https://github.com/advisories/GHSA-hvqc-pc78-x9wh
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::14[]
+## tag::15[]
+== H-15 Use After Free in lru
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-v362-2895-h9r2[GHSA-v362-2895-h9r2] {url-cwe}416.html[CWE-416]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L3055-L3059[HalbornCTF_Rust_Substrate/Cargo.lock#L3055-L3059]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=3055..3059]
+----
+
+Lru crate has two functions for getting an iterator. Both iterators give references to key and value. Calling specific functions, like pop(), will remove and free the value, and but it's still possible to access the reference of value which is already dropped causing use after free.
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== References
+
+* https://nvd.nist.gov/vuln/detail/CVE-2021-45720
+* https://raw.githubusercontent.com/rustsec/advisory-db/main/crates/lru/RUSTSEC-2021-0130.md
+* https://rustsec.org/advisories/RUSTSEC-2021-0130.html
+* https://github.com/jeromefroe/lru-rs/issues/120
+* https://github.com/advisories/GHSA-v362-2895-h9r2
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::15[]
+## tag::16[]
+== H-16 crossbeam-utils Race Condition vulnerability
+
+Tags: `runtime`, Weaknesses: {url-cwe}362.html[CWE-362], CVE ID: {url-nist}CVE-2022-23639[CVE-2022-23639], GHSA ID: {url-ghsa}GHSA-qc84-gqf4-9926[GHSA-qc84-gqf4-9926]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L313-L317[HalbornCTF_Rust_Substrate/Cargo.lock#L313-L317]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=313..317]
+----
+
+The affected version of this crate incorrectly assumed that the alignment of `{i,u}64` was always the same as `Atomic{I,U}64`. 
+
+However, the alignment of `{i,u}64` on a 32-bit target can be smaller than `Atomic{I,U}64`.
+
+This can cause the following problems:
+
+- Unaligned memory accesses
+- Data race
+
+Crates using `fetch_*` methods with `AtomicCell<{i,u}64>` are affected by this issue.
+
+32-bit targets without `Atomic{I,U}64` and 64-bit targets are not affected by this issue.
+32-bit targets with `Atomic{I,U}64` and `{i,u}64` have the same alignment are also not affected by this issue.
+
+The following is a complete list of the builtin targets that may be affected. (last update: nightly-2022-02-11)
+
+- armv7-apple-ios (tier 3)
+- armv7s-apple-ios (tier 3)
+- i386-apple-ios (tier 3)
+- i586-unknown-linux-gnu
+- i586-unknown-linux-musl
+- i686-apple-darwin (tier 3)
+- i686-linux-android
+- i686-unknown-freebsd
+- i686-unknown-haiku (tier 3)
+- i686-unknown-linux-gnu
+- i686-unknown-linux-musl
+- i686-unknown-netbsd (tier 3)
+- i686-unknown-openbsd (tier 3)
+- i686-wrs-vxworks (tier 3)
+
+(https://gist.github.com/taiki-e/3c7891e8c5f5e0cbcb44d7396aabfe10[script to get list])
+
+=== Impact: High 8.1 / 10
+
+.CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | High
+| Integrity | High
+| Availability  | High
+|===
+
+=== Patches
+
+This has been fixed in crossbeam-utils 0.8.7.
+
+Affected 0.8.x releases have been yanked.
+
+<RECOMMENDATION>
+
+=== References
+
+https://github.com/crossbeam-rs/crossbeam/pull/781
+
+## end::16[]
+## tag::17[]
+== H-17 Rust's regex crate vulnerable to regular expression denial of service
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-m5pq-gvj9-9vr8[GHSA-m5pq-gvj9-9vr8] {url-cwe}400.html[CWE-400], {url-cwe}1333.html[CWE-1333]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L11-L15[HalbornCTF_Rust_Substrate/Cargo.lock#L11-L15]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=11..15]
+----
+
+> This is a cross-post of [the official security advisory][advisory]. The official advisory contains a signed version with our PGP key, as well.
+
+[advisory]: https://groups.google.com/g/rustlang-security-announcements/c/NcNNL1Jq7Yw
+
+The Rust Security Response WG was notified that the `regex` crate did not properly limit the complexity of the regular expressions (regex) it parses. An attacker could use this security issue to perform a denial of service, by sending a specially crafted regex to a service accepting untrusted regexes. No known vulnerability is present when parsing untrusted input with trusted regexes.
+
+This issue has been assigned CVE-2022-24713. The severity of this vulnerability is "high" when the `regex` crate is used to parse untrusted regexes. Other uses of the `regex` crate are not affected by this vulnerability.
+
+=== Overview
+
+The `regex` crate features built-in mitigations to prevent denial of service attacks caused by untrusted regexes, or untrusted input matched by trusted regexes. Those (tunable) mitigations already provide sane defaults to prevent attacks. This guarantee is documented and it's considered part of the crate's API.
+
+Unfortunately a bug was discovered in the mitigations designed to prevent untrusted regexes to take an arbitrary amount of time during parsing, and it's possible to craft regexes that bypass such mitigations. This makes it possible to perform denial of service attacks by sending specially crafted regexes to services accepting user-controlled, untrusted regexes.
+
+=== Affected versions
+
+All versions of the `regex` crate before or equal to 1.5.4 are affected by this issue. The fix is include starting from  `regex` 1.5.5.
+
+=== Mitigations
+
+We recommend everyone accepting user-controlled regexes to upgrade immediately to the latest version of the `regex` crate.
+
+Unfortunately there is no fixed set of problematic regexes, as there are practically infinite regexes that could be crafted to exploit this vulnerability. Because of this, we do not recommend denying known problematic regexes.
+
+=== Acknowledgements
+
+We want to thank Addison Crump for responsibly disclosing this to us according to the https://www.rust-lang.org/policies/security[Rust security policy], and for helping review the fix.
+
+We also want to thank Andrew Gallant for developing the fix, and Pietro Albini for coordinating the disclosure and writing this advisory.
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== References
+
+* https://github.com/rust-lang/regex/security/advisories/GHSA-m5pq-gvj9-9vr8
+* https://github.com/rust-lang/regex/commit/ae70b41d4f46641dbc45c7a4f87954aea356283e
+* https://groups.google.com/g/rustlang-security-announcements/c/NcNNL1Jq7Yw
+* https://nvd.nist.gov/vuln/detail/CVE-2022-24713
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/JANLZ3JXWJR7FSHE57K66UIZUIJZI67T/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/PDOWTHNVGBOP2HN27PUFIGRYNSNDTYRJ/
+* https://lists.fedoraproject.org/archives/list/package-announce@lists.fedoraproject.org/message/O3YB7CURSG64CIPCDPNMGPE4UU24AB6H/
+* https://lists.debian.org/debian-lts-announce/2022/04/msg00003.html
+* https://www.debian.org/security/2022/dsa-5113
+* https://lists.debian.org/debian-lts-announce/2022/04/msg00009.html
+* https://www.debian.org/security/2022/dsa-5118
+* https://rustsec.org/advisories/RUSTSEC-2022-0013.html
+* https://security.gentoo.org/glsa/202208-08
+* https://security.gentoo.org/glsa/202208-14
+* https://github.com/advisories/GHSA-m5pq-gvj9-9vr8
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::17[]
+## tag::18[]
+== H-18 Use after free in Wasmtime
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-gwc9-348x-qwv2[GHSA-gwc9-348x-qwv2] {url-cwe}416.html[CWE-416]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L5822-L5826[HalbornCTF_Rust_Substrate/Cargo.lock#L5822-L5826]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=5822..5826]
+----
+
+There is a use after free vulnerability in Wasmtime when both running Wasm that uses `externref`s and enabling https://docs.rs/wasmtime/latest/wasmtime/struct.Config.html#method.epoch_interruption[epoch interruption] in Wasmtime. If you are not explicitly enabling epoch interruption (it is disabled by default) then you are not affected. If you are explicitly disabling the Wasm reference types proposal (it is enabled by default) then you are also not affected.
+
+The use after free is caused by Cranelift failing to emit stack maps when there are safepoints inside cold blocks. Cold blocks occur when epoch interruption is enabled. Cold blocks are emitted at the end of compiled functions, and change the order blocks are emitted versus defined. This reordering accidentally caused Cranelift to skip emitting some stack maps because it expected to emit the stack maps in block definition order, rather than block emission order. When Wasmtime would eventually collect garbage, it would fail to find live references on the stack because of the missing stack maps, think that they were unreferenced garbage, and therefore reclaim them. Then after the collection ended, the Wasm code could use the reclaimed-too-early references, which is a use after free.
+
+This bug was discovered while extending our fuzz targets for `externref`s and GC in Wasmtime. The updated fuzz target thoroughly exercises these code paths and feature combinations now. We have also added a regression test for this bug. Released versions 0.34.2 and 0.35.2, which fix the vulnerability. We recommend all Wasmtime users upgrade to these patched versions. If upgrading is not an option for you at this time, you can avoid the vulnerability by either disabling the Wasm reference types proposal or by disabling epoch interruption if you were previously enabling it.
+
+=== Impact: High 8.1 / 10
+
+.CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | High
+| Integrity | High
+| Availability  | High
+|===
+
+=== References
+
+* https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-gwc9-348x-qwv2
+* https://nvd.nist.gov/vuln/detail/CVE-2022-24791
+* https://github.com/bytecodealliance/wasmtime/commit/666c2554ea0e1728c35aa41178cf235920db888a
+* https://docs.rs/wasmtime/latest/wasmtime/struct.Config.html#method.epoch_interruption
+* https://github.com/WebAssembly/reference-types
+* https://rustsec.org/advisories/RUSTSEC-2022-0016.html
+* https://github.com/advisories/GHSA-gwc9-348x-qwv2
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::18[]
+## tag::19[]
+== H-19 Parser creates invalid uninitialized value
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-f67m-9j94-qv9j[GHSA-f67m-9j94-qv9j] 
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L2258-L2262[HalbornCTF_Rust_Substrate/Cargo.lock#L2258-L2262]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=2258..2262]
+----
+
+Affected versions of this crate called `mem::uninitialized()` in the HTTP1 parser to create values of type `httparse::Header` (from the `httparse` crate).
+This is unsound, since `Header` contains references and thus must be non-null.
+ 
+The flaw was corrected by avoiding the use of `mem::uninitialized()`, using `MaybeUninit` instead.
+
+
+=== References
+
+* https://github.com/hyperium/hyper/pull/2545
+* https://rustsec.org/advisories/RUSTSEC-2022-0022.html
+* https://github.com/advisories/GHSA-f67m-9j94-qv9j
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::19[]
+## tag::20[]
+== H-20 Use after free in lru crate
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-qqmc-hwqp-8g2w[GHSA-qqmc-hwqp-8g2w] 
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L3055-L3059[HalbornCTF_Rust_Substrate/Cargo.lock#L3055-L3059]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=3055..3059]
+----
+
+Lru crate has use after free vulnerability.
+
+Lru crate has two functions for getting an iterator. Both iterators give
+references to key and value. Calling specific functions, like pop(), will remove
+and free the value, and but it's still possible to access the reference of value
+which is already dropped causing use after free.
+
+
+=== References
+
+* https://github.com/jeromefroe/lru-rs/issues/120
+* https://rustsec.org/advisories/RUSTSEC-2021-0130.html
+* https://github.com/advisories/GHSA-qqmc-hwqp-8g2w
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::20[]
+## tag::21[]
+== H-21 Data race in `Iter` and `IterMut`
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-9hpw-r23r-xgm5[GHSA-9hpw-r23r-xgm5] {url-cwe}362.html[CWE-362]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L7765-L7769[HalbornCTF_Rust_Substrate/Cargo.lock#L7765-L7769]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=7765..7769]
+----
+
+In the affected version of this crate, `{Iter, IterMut}::next` used a weaker memory ordering when loading values than what was required, exposing a potential data race
+when iterating over a `ThreadLocal`'s values.
+
+Crates using `Iter::next`, or `IterMut::next` are affected by this issue.
+
+
+=== References
+
+* https://github.com/Amanieu/thread_local-rs/issues/33
+* https://rustsec.org/advisories/RUSTSEC-2022-0006.html
+* https://github.com/advisories/GHSA-9hpw-r23r-xgm5
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::21[]
+## tag::22[]
+== H-22 Wasmtime may have data leakage between instances in the pooling allocator
+
+Tags: `runtime`, Weaknesses: {url-cwe}212.html[CWE-212], {url-cwe}226.html[CWE-226], CVE ID: {url-nist}CVE-2022-39393[CVE-2022-39393], GHSA ID: {url-ghsa}GHSA-wh6w-3828-g9qf[GHSA-wh6w-3828-g9qf]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L5822-L5826[HalbornCTF_Rust_Substrate/Cargo.lock#L5822-L5826]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=5822..5826]
+----
+
+There is a bug in Wasmtime's implementation of it's pooling instance allocator where when a linear memory is reused for another instance the initial heap snapshot of the prior instance can be visible, erroneously to the next instance. The pooling instance allocator in Wasmtime works by preallocating virtual memory for a fixed number of instances to reside in and then new instantiations pick a slot to use. Most conventional modules additionally have an initial copy-on-write "heap image" which is mapped in Wasmtime into the linear memory slot. When a heap slot is deallocated Wasmtime resets all of its contents back to the initial state but it does not unmap the image in case the next instance is an instantiation of the same module.
+
+The bug in Wasmtime occurs when a slot in the pooling allocator previously was used for a module with a heap image, meaning that its current state of memory contains the initial heap contents of that module. If the next instantiation within that slot does not itself contain a heap image then Wasmtime would leave the old heap image in place erroneously and continue with instantiation. This means that instantiations of modules without a heap image can see the initial heap image of the prior instantiation within that slot.
+
+Heap images in Wasmtime are created by precomputing WebAssembly `data` segments into one large mapping to be placed into linear memory at a particular offset. Most modules produced by toolchains today will have a heap image and an initialization snapshot. Creating a module without a heap image would require a hand-crafted `*.wat` file or a specially crafted source program. This consequence means that this bug is highly unlikely to be accidentally triggered and would otherwise require an intentional trigger with a hand-crafted module.
+
+One important part of this vulnerability is Wasmtime is highly likely to segfault when the slot is reused again with a module that itself has an initialization image. For example if module A has a heap initialization image and module B does not have a heap initialization image, then the following sequence of events could happen if they all are instantiated into the same instance slot:
+
+* Module A is instantiated, and then deallocated. This leaves A's heap image in place, reset to its initial contents.
+* Module B is instantiated and erroneously can see the initial heap contents of A. Module B is then deallocated and the entire heap is unmapped and reset back to zero.
+* Module A is instantiated again, but the state tracking the slot did not account for module B so it thinks the module image is still mapped and proceeds with instantiation. Any action on A's part to access linear memory will then trap and if the host accesses A's memory it will segfault because the data that's supposed to be mapped is all unmapped.
+
+Adding this all together this means that in practice modules must be deliberately crafted to not have an initial heap image to view the contents of a prior image. If this module is instantiated though then when the slot is reused the next, likely image-using, module will believe its memory is mapped when it isn't, causing the host to segfault on unmapped memory it believed was mapped.
+
+=== Impact: High 8.6 / 10
+
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:N/A:N
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Changed
+| Confidentiality | High
+| Integrity | None
+| Availability  | None
+|===
+
+=== Patches
+
+This bug has been patched and users should upgrade to Wasmtime 2.0.2.
+
+<RECOMMENDATION>
+
+=== References
+
+* https://docs.rs/wasmtime/2.0.1/wasmtime/struct.Config.html#method.allocation_strategy[`Config::allocation_strategy`] - configuration required to enable the pooling allocator.
+* https://docs.rs/wasmtime/2.0.1/wasmtime/struct.Config.html#method.memory_init_cow[`Config::memory_init_cow`] - configuration required to enable or disable copy-on-write (this is enabled by default).
+* https://groups.google.com/a/bytecodealliance.org/g/sec-announce/c/c1HBDDJwNPA[Mailing list announcement]
+* https://github.com/bytecodealliance/wasmtime/commit/2614f2e9d2d36805ead8a8da0fa0c6e0d9e428a0[Patch for `release-2.0.0` branch]
+* https://github.com/bytecodealliance/wasmtime/commit/3535acbf3be032ef1ba0b469b8ab92538a8a18a6[Patch for `main`]
+
+## end::22[]
+## tag::23[]
+== H-23 libp2p DoS vulnerability from lack of resource management
+
+Tags: `runtime`, Weaknesses: {url-cwe}400.html[CWE-400], {url-cwe}770.html[CWE-770], CVE ID: {url-nist}CVE-2022-23486[CVE-2022-23486], GHSA ID: {url-ghsa}GHSA-jvgw-gccv-q5p8[GHSA-jvgw-gccv-q5p8]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L2747-L2751[HalbornCTF_Rust_Substrate/Cargo.lock#L2747-L2751]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=2747..2751]
+----
+
+An attacker node can cause a victim node to allocate a large number of small memory chunks, which can ultimately lead to the victim’s process running out of memory and thus getting killed by its operating system. When executed continuously, this can lead to a denial of service attack, especially relevant on a larger scale when run against more than one node of a libp2p based network.
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== Patches
+
+Users are advised to upgrade to `libp2p` `v0.45.1` or above.
+
+<RECOMMENDATION>
+
+=== References
+
+
+
+## end::23[]
+## tag::24[]
+== H-24 Race Condition in tokio
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-fg7r-2g4j-5cgr[GHSA-fg7r-2g4j-5cgr] {url-cwe}362.html[CWE-362]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L2064-L2068[HalbornCTF_Rust_Substrate/Cargo.lock#L2064-L2068]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=2064..2068]
+----
+
+If a tokio::sync::oneshot channel is closed (via the oneshot::Receiver::close method), a data race may occur if the oneshot::Sender::send method is called while the corresponding oneshot::Receiver is awaited or calling try_recv.
+
+When these methods are called concurrently on a closed channel, the two halves of the channel can concurrently access a shared memory location, resulting in a data race. This has been observed to cause memory corruption.
+
+Note that the race only occurs when both halves of the channel are used after the Receiver half has called close. Code where close is not used, or where the Receiver is not awaited and try_recv is not called after calling close, is not affected.
+
+
+
+=== Impact: High 8.1 / 10
+
+.CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | High
+| Integrity | High
+| Availability  | High
+|===
+
+=== References
+
+* https://nvd.nist.gov/vuln/detail/CVE-2021-45710
+* https://raw.githubusercontent.com/rustsec/advisory-db/main/crates/tokio/RUSTSEC-2021-0124.md
+* https://rustsec.org/advisories/RUSTSEC-2021-0124.html
+* https://github.com/tokio-rs/tokio/issues/4225
+* https://github.com/advisories/GHSA-fg7r-2g4j-5cgr
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::24[]
+## tag::25[]
+== H-25 webpki: CPU denial of service in certificate path building
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-8qv2-5vq6-g2g7[GHSA-8qv2-5vq6-g2g7] {url-cwe}400.html[CWE-400]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L1885-L1889[HalbornCTF_Rust_Substrate/Cargo.lock#L1885-L1889]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=1885..1889]
+----
+
+When this crate is given a pathological certificate chain to validate, it will spend CPU time exponential with the number of candidate certificates at each step of path building.
+
+Both TLS clients and TLS servers that accept client certificate are affected.
+
+This was previously reported in https://github.com/briansmith/webpki/issues/69.
+
+`rustls-webpki` is a fork of this crate which contains a fix for this issue and is actively maintained.
+
+=== Impact: High 7.5 / 10
+
+.CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== References
+
+* https://github.com/crypto-com/sgx-vendor
+* https://rustsec.org/advisories/RUSTSEC-2023-0052.html
+* https://github.com/briansmith/webpki/issues/69
+* https://github.com/briansmith/webpki/issues/69#issuecomment-1699894848
+* https://github.com/briansmith/webpki/commit/30a108e0802fd09585e0d071013f24b8272d139b
+* https://github.com/advisories/GHSA-8qv2-5vq6-g2g7
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::25[]
+## tag::26[]
+== H-26 Multiple issues involving quote API in shlex
+Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-r7qv-8r2h-pg27[GHSA-r7qv-8r2h-pg27] 
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L469-L473[HalbornCTF_Rust_Substrate/Cargo.lock#L469-L473]
+[source, rust, %linenums]
+----
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=469..473]
+----
+
+=== Issue 1: Failure to quote characters
+
+Affected versions of this crate allowed the bytes `{` and `\xa0` to appear
+unquoted and unescaped in command arguments.
+
+If the output of `quote` or `join` is passed to a shell, then what should be a
+single command argument could be interpreted as multiple arguments.
+
+This does not *directly* allow arbitrary command execution (you can't inject a
+command substitution or similar).  But depending on the command you're running,
+being able to inject multiple arguments where only one is expected could lead
+to undesired consequences, potentially including arbitrary command execution.
+
+The flaw was corrected in version 1.2.1 by escaping additional characters.
+Updating to 1.3.0 is recommended, but 1.2.1 offers a more minimal fix if
+desired.
+
+Workaround: Check for the bytes `{` and `\xa0` in `quote`/`join` input or
+output.
+
+(Note: `{` is problematic because it is used for glob expansion.  `\xa0` is
+problematic because it's treated as a word separator in [specific
+environments][solved-xa0].)
+
+=== Issue 2: Dangerous API w.r.t. nul bytes
+
+Version 1.3.0 deprecates the `quote` and `join` APIs in favor of `try_quote`
+and `try_join`, which behave the same except that they have `Result` return
+type, returning `Err` if the input contains nul bytes.
+
+Strings containing nul bytes generally cannot be used in Unix command arguments
+or environment variables, and most shells cannot handle nul bytes even
+internally.  If you try to pass one anyway, then the results might be
+security-sensitive in uncommon scenarios.  [More details here.][nul-bytes]
+
+Due to the low severity, the behavior of the original `quote` and `join` APIs
+has not changed; they continue to allow nuls.
+
+Workaround: Manually check for nul bytes in `quote`/`join` input or output.
+
+=== Issue 3: Lack of documentation for interactive shell risks
+
+The `quote` family of functions does not and cannot escape control characters.
+With non-interactive shells this is perfectly safe, as control characters have
+no special effect.  But if you writing directly to the standard input of an
+interactive shell (or through a pty), then control characters [can cause
+misbehavior including arbitrary command injection.][control-characters]
+
+This is essentially unfixable, and has not been patched.  But as of version
+1.3.0, documentation has been added.
+
+Future versions of `shlex` may add API variants that avoid the issue at the
+cost of reduced portability.
+
+[solved-xa0]: https://docs.rs/shlex/latest/shlex/quoting_warning/index.html#solved-xa0
+[nul-bytes]: https://docs.rs/shlex/latest/shlex/quoting_warning/index.html#nul-bytes
+[control-characters]: https://docs.rs/shlex/latest/shlex/quoting_warning/index.html#control-characters-interactive-contexts-only
+
+=== References
+
+* https://github.com/comex/rust-shlex/security/advisories/GHSA-r7qv-8r2h-pg27
+* https://rustsec.org/advisories/RUSTSEC-2024-0006.html
+* https://github.com/advisories/GHSA-r7qv-8r2h-pg27
+
+=== Recommendation
+
+Consider alternatives of this dependency.
+
+## end::26[]
