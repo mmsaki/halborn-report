@@ -1,5 +1,4 @@
 import json
-from pygments import highlight, lexers, formatters
 
 class DependabotData:
   def __init__(self, data):
@@ -24,7 +23,7 @@ class DependabotData:
     return self.data[index]
 
   def __str__(self):
-    return highlight(json.dumps(self.data, indent=2), lexers.JsonLexer(), formatters.TerminalFormatter())
+    return json.dumps(self.data, indent=2)
 
 class Issue:
   def __init__(self, issue):
@@ -44,17 +43,14 @@ class Issue:
     self.description              = self.advisory["description"]
     self.severity                 = self.advisory["severity"]
     self.identifiers              = self.advisory["identifiers"]
-    self.all_ids()                # self.all_ids created here
     self.references               = [url["url"] for url in self.advisory["references"]]
     self.published_at             = self.advisory["published_at"]
     self.updated_at               = self.advisory["updated_at"]
     self.withdrawn_at             = self.advisory["withdrawn_at"]
     self.vulnerabilities          = self.advisory["vulnerabilities"]
-    self.all_vuls()               # self.all_vuls created here
     self.cvss                     = self.advisory["cvss"]["vector_string"]
     self.score                    = self.advisory["cvss"]["score"]
     self.cwes                     = self.advisory["cwes"] 
-    self.all_cwes()               # self.all_cwes created here
     self.vulnerability            = self.issue["security_vulnerability"]
     self.vulnerability_package    = self.vulnerability["package"]["name"]
     self.vulnerability_serverity  = self.vulnerability["severity"]
@@ -69,32 +65,5 @@ class Issue:
     self.dismissed_by             = self.issue["dismissed_by"]
     self.dismissed_reason         = self.issue["dismissed_reason"]
 
-
   def __str__(self):
-    return highlight(json.dumps(self.issue, indent=2), lexers.PythonLexer(), formatters.TerminalFormatter())
-  
-  def __repr__(self):
-    return 
-
-  def all_vuls(self):
-    items = []
-    if type(self.vulnerabilities) == list:
-      for vul in self.vulnerabilities:
-
-        items.append(f"name: {vul['package']['name']}, severity: {vul['severity']}, vulnerable_version: {vul['vulnerable_version_range']}, patch_version: {vul['first_patched_version']}")
-    self.all_vuls = items
-  
-  def all_cwes(self):
-    items = []
-    for cwe in self.cwes:
-      items.append(f"{cwe['name']} - {cwe['cwe_id']}")
-    self.all_cwes = items
-  
-  def all_ids(self):
-    items = []
-    for id in self.identifiers:
-      if id["type"].upper() == "GHSA":
-        items.append("{url-ghsa}" + f"{id['value']}" + f"[{id['value']}]")
-      if id["type"].upper() == "CVE":
-        items.append("{url-nist}" + f"{id['value']}" + f"[{id['value']}]")
-    self.all_ids = items
+    return json.dumps(self.issue, indent=2)
