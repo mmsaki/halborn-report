@@ -1,4 +1,5 @@
 
+import re
 import json
 from DependabotData import DependabotData, Issue
 
@@ -30,6 +31,22 @@ class ReportItem():
     self.type = severity.upper()[0]
     self.number = number
     self.title = self.type + "-" + str(self.number) + " " + self.issue.summary
+    self.get_desc()
 
-  def title(self):
-    return f"{self.severity}"
+  def get_desc(self):
+    if self.issue.is_markdown:
+      pattern = '(?<=# Impact\n\n)((\\s*)(.+)(\\s*))+?(?=)'
+      grep = re.search(pattern, self.issue.description)
+      try:
+        start = grep.start()
+        end = grep.end()
+        self.desc = self.issue.description[start:end].rstrip()
+        self.has_impact = True
+      except:
+        # is markdown but no impact title
+        self.has_impact = False
+        self.desc = self.issue.description  
+    else:
+      self.has_impact = False
+      self.desc = self.issue.description
+
