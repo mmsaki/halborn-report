@@ -44,6 +44,7 @@ class Issue:
     self.cve_id                   = self.advisory["cve_id"]
     self.summary                  = self.advisory["summary"]
     self.description              = self.advisory["description"]
+    self.is_markdown              = self.description.startswith("#")
     self.severity                 = self.advisory["severity"]
     self.identifiers              = self.advisory["identifiers"]
     self.references               = [url["url"] for url in self.advisory["references"]]
