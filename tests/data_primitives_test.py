@@ -1,12 +1,12 @@
 import pytest
 
 class TestDependabotData:
-  def test_all_issues_present(self, test_data):
-    self.issues = test_data
+  def test_all_issues_present(self, all_data):
+    self.issues = all_data
     assert all(issue for issue in self.issues)
   
-  def test_all_issues_with_values(self, test_data):
-    self.issues = test_data
+  def test_all_issues_with_values(self, all_data):
+    self.issues = all_data
     assert all(
       all([
         issue.number,

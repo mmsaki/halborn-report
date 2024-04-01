@@ -5,14 +5,12 @@ from Report import Report
 
 # open dependabot results.json and store results in `data` variable
 @pytest.fixture
-def test_data():
+def all_data():
   path = './results.json'
   with open(path, 'r') as file:
     data = json.load(file)
-
   return DependabotData(data)
 
 @pytest.fixture
-def report_data(test_data):
-  return Report(test_data)
-  
+def all_reports(all_data):
+  return Report(all_data)
