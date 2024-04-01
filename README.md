@@ -78,4 +78,7 @@ Getting started with general prerequisites set up:
    asciidoctor -r asciidoctor-pdf -b pdf report/README.adoc
    ```
 
-   **Common Errors**: Gems not installed
+1. Include URI reference content see [documentation](https://docs.asciidoctor.org/asciidoc/latest/directives/include-uri/)
+   ```sh
+   asciidoctor -a allow-uri-read filename.adoc
+   ```
