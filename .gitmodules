@@ -1,0 +1,3 @@
+[submodule "CTFs"]
+	path = CTFs
+	url = https://github.com/HalbornSecurity/CTFs.git
