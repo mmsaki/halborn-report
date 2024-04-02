@@ -1,6 +1,6 @@
 import pytest
 import json
-from DependabotData import DependabotData
+from Dependabot import DependabotData
 from Report import Report
 
 # open dependabot results.json and store results in `data` variable
