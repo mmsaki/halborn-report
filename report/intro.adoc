@@ -1,12 +1,12 @@
 ## tag::intro[]
 == Summary
 
-This security assessment was conducted on the commit {url-commit}{commit-hash}[e0e91e5...ca1ee] of master {url-repo}[CTFs] repo starting on March 25th, 2024 and ended on April 2nd, 2024. 
+This security assessment was conducted on the commit {url-commit}{commit-hash}[e0e91e5...ca1ee] of master {url-repo}[CTFs] repo starting on March 25th, 2024 and ended on April 1st, 2024. 
 
 ## end::intro[]
 
 ## tag::file-tree[]
-== Files
+== Project Files
 
 [source,shell]
 ----

@@ -2,7 +2,7 @@
 Meek Msaki <meek10x@gmail.com>
 :revnumber: v1.0
 :revdate: 04.01.2024
-:revremark: Final Draft
+:revremark: Final Report
 :sectnums: 
 :partnums:
 :toc: auto
@@ -29,8 +29,11 @@ Meek Msaki <meek10x@gmail.com>
 [preface]
 = Introduction
 
-include::intro.adoc[leveloffset=1, tags=intro]
 include::revisions.adoc[leveloffset=1, tags=version]
+
+include::intro.adoc[leveloffset=1, tags=intro]
+include::intro.adoc[leveloffset=2, tags=file-tree]
+include::intro.adoc[leveloffset=2, tags=loc]
 
 = Critical
 include::findings-critical.adoc[tags=1]

@@ -1,9 +1,9 @@
 ## tag::version[]
-=== Document Revisions
+== Document Revisions
 
 |===
 | 0.1 | Draft report | 03.26.2024
-| 1.0 | Final report | 04.02.2024
+| 1.0 | Final report | 04.01.2024
 | 1.1 | Fixes review | -
 |===
 
