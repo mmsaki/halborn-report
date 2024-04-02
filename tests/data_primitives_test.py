@@ -14,7 +14,7 @@ class TestDependabotData:
         issue.ecosystem,
         issue.package,
         issue.name,
-        issue.path,
+        issue.file_path,
         issue.scope,
         issue.advisory,
         issue.ghsa_id,
