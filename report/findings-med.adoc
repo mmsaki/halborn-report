@@ -1,0 +1,1820 @@
+## tag::1[]
+== M-1 Default inheritable capabilities for linux container should be empty
+Tags: `runtime`, Weakness: {url-cwe}276.html[CWE-276], CVE ID: {url-nist}CVE-2022-29162[CVE-2022-29162], GHSA ID: {url-ghsa}GHSA-f3fp-gc8g-vw66[GHSA-f3fp-gc8g-vw66]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L189
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=189]
+++++
+----
+
+=== CVSS Score: 5.9/10
+.CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | Low
+| Integrity | Low
+| Availability  | Low
+|===
+
+=== Impact
+
+A bug was found in runc where `runc exec --cap` executed processes with non-empty inheritable Linux process capabilities, creating an atypical Linux environment and enabling programs with inheritable file capabilities to elevate those capabilities to the permitted set during execve(2).
+
+This bug did not affect the container security sandbox as the inheritable set never contained more capabilities than were included in the container's bounding set.
+
+=== Patches
+This bug has been fixed in runc 1.1.2. Users should update to this version as soon as possible.
+
+This fix changes `runc exec --cap` behavior such that the additional capabilities granted to the process being executed (as specified via `--cap` arguments) do not include inheritable capabilities.
+
+In addition, `runc spec` is changed to not set any inheritable capabilities in the created example OCI spec (`config.json`) file.
+
+=== Credits
+The opencontainers project would like to thank https://github.com/AndrewGMorgan[Andrew G. Morgan] for responsibly disclosing this issue in accordance with the https://github.com/opencontainers/.github/blob/master/SECURITY.md[opencontainers org security policy].
+
+=== For more information
+If you have any questions or comments about this advisory:
+
+* https://github.com/opencontainers/runc/issues/new[Open an issue]
+* Email us at mailto:security@opencontainers.org[security@opencontainers.org] if you think you’ve found a security bug
+
+## end::1[]
+## tag::2[]
+== M-2 golang.org/x/sys/unix has Incorrect privilege reporting in syscall
+Tags: `runtime`, Weakness: {url-cwe}269.html[CWE-269], CVE ID: {url-nist}CVE-2022-29526[CVE-2022-29526], GHSA ID: {url-ghsa}GHSA-p782-xgp4-8hr8[GHSA-p782-xgp4-8hr8]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L249
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=249]
+++++
+----
+
+=== CVSS Score: 5.3/10
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | Low
+| Integrity | None
+| Availability  | None
+|===
+
+Go before 1.17.10 and 1.18.x before 1.18.2 has Incorrect Privilege Reporting in syscall. When called with a non-zero flags parameter, the Faccessat function could incorrectly report that a file is accessible.
+
+=== Specific Go Packages Affected
+golang.org/x/sys/unix
+
+## end::2[]
+## tag::3[]
+== M-3 runc AppArmor bypass with symlinked /proc
+Tags: `runtime`, Weakness: {url-cwe}59.html[CWE-59], {url-cwe}281.html[CWE-281], CVE ID: {url-nist}CVE-2023-28642[CVE-2023-28642], GHSA ID: {url-ghsa}GHSA-g2j6-57v7-gm8c[GHSA-g2j6-57v7-gm8c]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L189
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=189]
+++++
+----
+
+=== CVSS Score: 6.1/10
+.CVSS:3.1/AV:L/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | Required
+| Scope | Changed
+| Confidentiality | Low
+| Integrity | Low
+| Availability  | Low
+|===
+
+=== Impact
+It was found that AppArmor, and potentially SELinux, can be bypassed when `/proc` inside the container is symlinked with a specific mount configuration.
+
+=== Patches
+Fixed in runc v1.1.5, by prohibiting symlinked `/proc`: https://github.com/opencontainers/runc/pull/3785
+
+This PR fixes CVE-2023-27561 as well.
+
+=== Workarounds
+Avoid using an untrusted container image.
+
+
+
+## end::3[]
+## tag::4[]
+== M-4 Docker Swarm encrypted overlay network with a single endpoint is unauthenticated
+Tags: `runtime`, Weakness: {url-cwe}420.html[CWE-420], {url-cwe}636.html[CWE-636], CVE ID: {url-nist}CVE-2023-28842[CVE-2023-28842], GHSA ID: {url-ghsa}GHSA-6wrf-mxfj-pf5p[GHSA-6wrf-mxfj-pf5p]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L84
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=84]
+++++
+----
+
+=== CVSS Score: 6.8/10
+.CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:N/I:H/A:N
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | None
+| User interaction | None
+| Scope | Changed
+| Confidentiality | None
+| Integrity | High
+| Availability  | None
+|===
+
+https://mobyproject.org/[Moby] is an open source container framework developed by Docker Inc. that is distributed as Docker, Mirantis Container Runtime, and various other downstream projects/products. The Moby daemon component (`dockerd`), which is developed as https://github.com/moby/moby[moby/moby] is commonly referred to as *Docker*.
+
+Swarm Mode, which is compiled in and delivered by default in `dockerd` and is thus present in most major Moby downstreams, is a simple, built-in container orchestrator that is implemented through a combination of https://github.com/moby/swarmkit[SwarmKit] and supporting network code.
+
+The `overlay` network driver is a core feature of Swarm Mode, providing isolated virtual LANs that allow communication between containers and services across the cluster. This driver is an implementation/user of https://en.wikipedia.org/wiki/Virtual_Extensible_LAN[VXLAN], which encapsulates link-layer (Ethernet) frames in UDP datagrams that tag the frame with a VXLAN Network ID (VNI) that identifies the originating overlay network. In addition, the overlay network driver supports an optional, off-by-default encrypted mode, which is especially useful when VXLAN packets traverses an untrusted network between nodes.
+
+Encrypted overlay networks function by encapsulating the VXLAN datagrams through the use of the https://en.wikipedia.org/wiki/IPsec#Encapsulating_Security_Payload[IPsec Encapsulating Security Payload] protocol in https://en.wikipedia.org/wiki/IPsec#Transport_mode[Transport mode]. By deploying IPSec encapsulation, encrypted overlay networks gain the additional properties of source authentication through cryptographic proof, data integrity through check-summing, and confidentiality through encryption.
+
+When setting an endpoint up on an encrypted overlay network, Moby installs three https://www.netfilter.org/projects/iptables/index.html[iptables] (Linux kernel firewall) rules that enforce both incoming and outgoing IPSec. These rules rely on the `u32` iptables extension provided by the `xt_u32` kernel module to directly filter on a VXLAN packet's VNI field, so that IPSec guarantees can be enforced on encrypted overlay networks without interfering with other overlay networks or other users of VXLAN.
+
+The `overlay` driver dynamically and lazily defines the kernel configuration for the VXLAN network on each node as containers are attached and detached. Routes and encryption parameters are only defined for destination nodes that participate in the network. The iptables rules that prevent encrypted overlay networks from accepting unencrypted packets are not created until a peer is available with which to communicate.
+
+=== Impact
+Encrypted overlay networks silently accept cleartext VXLAN datagrams that are tagged with the VNI of an encrypted overlay network. As a result, it is possible to inject arbitrary Ethernet frames into the encrypted overlay network by encapsulating them in VXLAN datagrams. The implications of this can be quite dire, and https://github.com/moby/moby/security/advisories/GHSA-vwm3-crmr-xfxw[GHSA-vwm3-crmr-xfxw] should be referenced for a deeper exploration.
+
+=== Patches
+Patches are available in Moby releases 23.0.3, and 20.10.24. As Mirantis Container Runtime's 20.10 releases are numbered differently, users of that platform should update to 20.10.16.
+
+=== Workarounds
+* In multi-node clusters, deploy a global ‘pause’ container for each encrypted overlay network, on every node. For example, use the `registry.k8s.io/pause` image and a `--mode global` service.
+* For a single-node cluster, do not use overlay networks of any sort. Bridge networks provide the same connectivity on a single node and have no multi-node features.
+The Swarm ingress feature is implemented using an overlay network, but can be disabled by publishing ports in `host` mode instead of `ingress` mode (allowing the use of an external load balancer), and removing the `ingress` network.
+* If encrypted overlay networks are in exclusive use, block UDP port 4789 from traffic that has not been validated by IPSec. For example, `iptables -A INPUT -m udp —-dport 4789 -m policy --dir in --pol none -j DROP`.
+
+=== Background
+* This issue was discovered while characterizing and mitigating https://github.com/moby/moby/security/advisories/GHSA-232p-vwff-86mp[CVE-2023-28840] and https://github.com/moby/moby/security/advisories/GHSA-33pg-m6jh-5237[CVE-2023-28841].
+
+=== Related
+* https://github.com/moby/moby/security/advisories/GHSA-33pg-m6jh-5237[CVE-2023-28841: Encrypted overlay network traffic may be unencrypted]
+* https://github.com/moby/moby/security/advisories/GHSA-232p-vwff-86mp[CVE-2023-28840: Encrypted overlay network may be unauthenticated]
+* https://github.com/moby/moby/security/advisories/GHSA-vwm3-crmr-xfxw[GHSA-vwm3-crmr-xfxw: The Swarm VXLAN port may be exposed to attack due to ambiguous documentation]
+* https://github.com/moby/libnetwork/security/advisories/GHSA-gvm4-2qqg-m333[GHSA-gvm4-2qqg-m333: Security issues in encrypted overlay networks] (libnetwork)
+
+## end::4[]
+## tag::5[]
+== M-5 Docker Swarm encrypted overlay network traffic may be unencrypted
+Tags: `runtime`, Weakness: {url-cwe}311.html[CWE-311], {url-cwe}636.html[CWE-636], CVE ID: {url-nist}CVE-2023-28841[CVE-2023-28841], GHSA ID: {url-ghsa}GHSA-33pg-m6jh-5237[GHSA-33pg-m6jh-5237]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L84
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=84]
+++++
+----
+
+=== CVSS Score: 6.8/10
+.CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:N/A:N
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | None
+| User interaction | None
+| Scope | Changed
+| Confidentiality | High
+| Integrity | None
+| Availability  | None
+|===
+
+https://mobyproject.org/[Moby] is an open source container framework developed by Docker Inc. that is distributed as Docker, Mirantis Container Runtime, and various other downstream projects/products. The Moby daemon component (`dockerd`), which is developed as https://github.com/moby/moby[moby/moby] is commonly referred to as *Docker*.
+
+Swarm Mode, which is compiled in and delivered by default in `dockerd` and is thus present in most major Moby downstreams, is a simple, built-in container orchestrator that is implemented through a combination of https://github.com/moby/swarmkit[SwarmKit] and supporting network code.
+
+The `overlay` network driver is a core feature of Swarm Mode, providing isolated virtual LANs that allow communication between containers and services across the cluster. This driver is an implementation/user of https://en.wikipedia.org/wiki/Virtual_Extensible_LAN[VXLAN], which encapsulates link-layer (Ethernet) frames in UDP datagrams that tag the frame with a VXLAN Network ID (VNI) that identifies the originating overlay network. In addition, the overlay network driver supports an optional, off-by-default encrypted mode, which is especially useful when VXLAN packets traverses an untrusted network between nodes.
+
+Encrypted overlay networks function by encapsulating the VXLAN datagrams through the use of the https://en.wikipedia.org/wiki/IPsec#Encapsulating_Security_Payload[IPsec Encapsulating Security Payload] protocol in https://en.wikipedia.org/wiki/IPsec#Transport_mode[Transport mode]. By deploying IPSec encapsulation, encrypted overlay networks gain the additional properties of source authentication through cryptographic proof, data integrity through check-summing, and confidentiality through encryption.
+
+When setting an endpoint up on an encrypted overlay network, Moby installs three https://www.netfilter.org/projects/iptables/index.html[iptables] (Linux kernel firewall) rules that enforce both incoming and outgoing IPSec. These rules rely on the `u32` iptables extension provided by the `xt_u32` kernel module to directly filter on a VXLAN packet's VNI field, so that IPSec guarantees can be enforced on encrypted overlay networks without interfering with other overlay networks or other users of VXLAN.
+
+An https://github.com/moby/libnetwork/blob/d9fae4c73daf76c3b0f77e14b45b8bf612ba764d/drivers/overlay/encryption.go#L205-L207[iptables rule] designates outgoing VXLAN datagrams with a VNI that corresponds to an encrypted overlay network for IPsec encapsulation.
+
+On Red Hat Enterprise Linux and derivatives such as CentOS and Rocky, the `xt_u32` module has been:
+* https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/8.3_release_notes/rhel-8-3-0-release#technology-preview_networking[moved to the kernel-modules-extra package and no longer installed by default in RHEL 8.3]
+* https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/8.6_release_notes/deprecated_functionality#deprecated-functionality_networking[officially deprecated in RHEL 8.6]
+* https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/considerations_in_adopting_rhel_9/assembly_networking_considerations-in-adopting-rhel-9#ref_firewall-networking_assembly_networking[removed completely in RHEL 9]
+
+This rule is not created when `xt_u32` is unavailable, even though the container is still attached to the network.
+
+=== Impact
+Encrypted overlay networks on affected platforms silently transmit unencrypted data. As a result, `overlay` networks may appear to be functional, passing traffic as expected, but without any of the expected confidentiality or data integrity guarantees.
+
+It is possible for an attacker sitting in a trusted position on the network to read all of the application traffic that is moving across the overlay network, resulting in unexpected secrets or user data disclosure. Thus, because many database protocols, internal APIs, etc. are not protected by a second layer of encryption, a user may rely on Swarm encrypted overlay networks to provide confidentiality, which due to this vulnerability is no longer guaranteed.
+
+=== Patches
+Patches are available in Moby releases 23.0.3, and 20.10.24. As Mirantis Container Runtime's 20.10 releases are numbered differently, users of that platform should update to 20.10.16.
+
+=== Workarounds
+* Close the VXLAN port (by default, UDP port 4789) to outgoing traffic at the Internet boundary (see https://github.com/moby/moby/security/advisories/GHSA-vwm3-crmr-xfxw[GHSA-vwm3-crmr-xfxw]) in order to prevent unintentionally leaking unencrypted traffic over the Internet.
+* Ensure that the `xt_u32` kernel module is available on all nodes of the Swarm cluster.
+
+=== Background
+* https://github.com/moby/moby/issues/43382[#43382 ]partially discussed this concern, but did not consider the security implications.
+* Mirantis FIELD-5788 essentially duplicates https://github.com/moby/moby/issues/43382[#43382], and was created six months earlier; it similarly overlooked the security implications.
+* https://github.com/moby/moby/pull/45118[#45118] is the ancestor of the final patches, and was where the security implications were discovered.
+
+=== Related
+* https://github.com/moby/moby/security/advisories/GHSA-232p-vwff-86mp[CVE-2023-28840: Encrypted overlay network may be unauthenticated]
+* https://github.com/moby/moby/security/advisories/GHSA-6wrf-mxfj-pf5p[CVE-2023-28842: Encrypted overlay network with a single endpoint is unauthenticated]
+* https://github.com/moby/moby/security/advisories/GHSA-vwm3-crmr-xfxw[GHSA-vwm3-crmr-xfxw: The Swarm VXLAN port may be exposed to attack due to ambiguous documentation]
+* https://github.com/moby/libnetwork/security/advisories/GHSA-gvm4-2qqg-m333[GHSA-gvm4-2qqg-m333: Security issues in encrypted overlay networks] (libnetwork)
+
+## end::5[]
+## tag::6[]
+== M-6 Cosmos-SDK Cosmovisor component may be vulnerable to denial of service
+Tags: `runtime`, GHSA ID: {url-ghsa}GHSA-23px-mw2p-46qm[GHSA-23px-mw2p-46qm]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L6
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=6]
+++++
+----
+
+
+**Component**: Cosmovisor
+**Criticality**: Medium
+**Affected Versions**: Cosmovisor < v1.0.0 (distributed with Cosmos-SDK < 0.46)
+**Affected Users**: Validators and Node operators utilizing unsupported versions of Cosmovisor
+**Impact**: DOS, potential RCE on node depending on configuration
+
+
+An issue has been identified on unsupported versions of Cosmovisor which may result in a Denial of Service or Remote Code Execution path depending on configuration for a node or validator using the vulnerable version to manage their node. 
+
+If a validator is utilizing an affected version of Cosmovisor with `DAEMON_ALLOW_DOWNLOAD_BINARIES` set to true, a non-default configuration, it may be possible for an attacker to trigger a Remote Code Execution path as well on the host. In this configuration it is recommended to immediately stop use of the `DAEMON_ALLOW_DOWNLOAD_BINARIES` feature, and then proceed with an upgrade of Cosmovisor.
+
+It is recommended that all validators utilizing unsupported versions of Cosmovisor to upgrade to the latest supported versions immediately.  If you are utilizing a forked version of Cosmos-SDK, it is recommended to stop use of Cosmovisor until it is possible to update to a supported version of Cosmovisor, whether through your project’s fork, or directly compiled from the Cosmos-SDK. At the time of this advisory, the latest version of Cosmovisor is v1.5.0. 
+
+Additionally, the Amulet team recommends that developers building chains powered by Cosmos-SDK share this advisory with validators and node operators to ensure this information is available to all impacted parties within their ecosystems.
+
+For more information about Cosmovisor, see https://docs.cosmos.network/main/tooling/cosmovisor
+
+This issue was discovered by https://maxwelldulin.com[Maxwell Dulin] and Nathan Kirkland, who reported it to the Cosmos Bug Bounty Program.  If you believe you have found a bug in the Interchain Stack or would like to contribute to the program by reporting a bug, please see https://hackerone.com/cosmos[https://hackerone.com/cosmos].
+
+=== How to tell if I am affected?
+
+Running the following command will output whether your cosmovisor version is vulnerable to this issue or not.  
+
+Vulnerable to this issue: 
+
+```
+strings ./cosmovisor | grep -q "NEEDED at" && echo "vulnerable" || echo "NOT vulnerable"
+
+vulnerable
+```
+
+
+NOT vulnerable to this issue:
+
+```
+strings ./cosmovisor_new | grep -q "NEEDED at" && echo "vulnerable" || echo "NOT vulnerable"
+
+NOT vulnerable
+```
+
+A Note from Amulet on the Security Advisory Process
+
+In the interest of timely resolution of this issue for validators and node operators, the Amulet team has chosen to use existing processes and resources for distributing security advisories within the Cosmos and Interchain Ecosystems. Stay tuned as we implement an improved, more robust security advisory distribution system that will provide equitable access to information about security issues in the Interchain Stack.
+
+
+## end::6[]
+## tag::7[]
+== M-7 Improper rendering of text nodes in golang.org/x/net/html
+Tags: `runtime`, Weakness: {url-cwe}79.html[CWE-79], CVE ID: {url-nist}CVE-2023-3978[CVE-2023-3978], GHSA ID: {url-ghsa}GHSA-2wrh-6pvc-2jm9[GHSA-2wrh-6pvc-2jm9]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L247
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=247]
+++++
+----
+
+=== CVSS Score: 6.1/10
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | Required
+| Scope | Changed
+| Confidentiality | Low
+| Integrity | Low
+| Availability  | None
+|===
+
+Text nodes not in the HTML namespace are incorrectly literally rendered, causing text which should be escaped to not be. This could lead to an XSS attack. 
+
+## end::7[]
+## tag::8[]
+== M-8 HTTP/2 Stream Cancellation Attack
+Tags: `runtime`, Weakness: {url-cwe}400.html[CWE-400], CVE ID: {url-nist}CVE-2023-44487[CVE-2023-44487], GHSA ID: {url-ghsa}GHSA-qppj-fm5r-hxr3[GHSA-qppj-fm5r-hxr3]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L247
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=247]
+++++
+----
+
+=== CVSS Score: 5.3/10
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | Low
+|===
+
+=== HTTP/2 Rapid reset attack
+The HTTP/2 protocol allows clients to indicate to the server that a previous stream should be canceled by sending a RST_STREAM frame. The protocol does not require the client and server to coordinate the cancellation in any way, the client may do it unilaterally. The client may also assume that the cancellation will take effect immediately when the server receives the RST_STREAM frame, before any other data from that TCP connection is processed.
+
+Abuse of this feature is called a Rapid Reset attack because it relies on the ability for an endpoint to send a RST_STREAM frame immediately after sending a request frame, which makes the other endpoint start working and then rapidly resets the request. The request is canceled, but leaves the HTTP/2 connection open. 
+
+The HTTP/2 Rapid Reset attack built on this capability is simple: The client opens a large number of streams at once as in the standard HTTP/2 attack, but rather than waiting for a response to each request stream from the server or proxy, the client cancels each request immediately.
+
+The ability to reset streams immediately allows each connection to have an indefinite number of requests in flight. By explicitly canceling the requests, the attacker never exceeds the limit on the number of concurrent open streams. The number of in-flight requests is no longer dependent on the round-trip time (RTT), but only on the available network bandwidth.
+
+In a typical HTTP/2 server implementation, the server will still have to do significant amounts of work for canceled requests, such as allocating new stream data structures, parsing the query and doing header decompression, and mapping the URL to a resource. For reverse proxy implementations, the request may be proxied to the backend server before the RST_STREAM frame is processed. The client on the other hand paid almost no costs for sending the requests. This creates an exploitable cost asymmetry between the server and the client.
+
+Multiple software artifacts implementing HTTP/2 are affected. This advisory was originally ingested from the `swift-nio-http2` repo advisory and their original conent follows.
+
+=== swift-nio-http2 specific advisory
+swift-nio-http2 is vulnerable to a denial-of-service vulnerability in which a malicious client can create and then reset a large number of HTTP/2 streams in a short period of time. This causes swift-nio-http2 to commit to a large amount of expensive work which it then throws away, including creating entirely new `Channel`s to serve the traffic. This can easily overwhelm an `EventLoop` and prevent it from making forward progress.
+
+swift-nio-http2 1.28 contains a remediation for this issue that applies reset counter using a sliding window. This constrains the number of stream resets that may occur in a given window of time. Clients violating this limit will have their connections torn down. This allows clients to continue to cancel streams for legitimate reasons, while constraining malicious actors.
+
+## end::8[]
+## tag::9[]
+== M-9 HTTP/2 Stream Cancellation Attack
+Tags: `runtime`, Weakness: {url-cwe}400.html[CWE-400], CVE ID: {url-nist}CVE-2023-44487[CVE-2023-44487], GHSA ID: {url-ghsa}GHSA-qppj-fm5r-hxr3[GHSA-qppj-fm5r-hxr3]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L28
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=28]
+++++
+----
+
+=== CVSS Score: 5.3/10
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | Low
+|===
+
+=== HTTP/2 Rapid reset attack
+The HTTP/2 protocol allows clients to indicate to the server that a previous stream should be canceled by sending a RST_STREAM frame. The protocol does not require the client and server to coordinate the cancellation in any way, the client may do it unilaterally. The client may also assume that the cancellation will take effect immediately when the server receives the RST_STREAM frame, before any other data from that TCP connection is processed.
+
+Abuse of this feature is called a Rapid Reset attack because it relies on the ability for an endpoint to send a RST_STREAM frame immediately after sending a request frame, which makes the other endpoint start working and then rapidly resets the request. The request is canceled, but leaves the HTTP/2 connection open. 
+
+The HTTP/2 Rapid Reset attack built on this capability is simple: The client opens a large number of streams at once as in the standard HTTP/2 attack, but rather than waiting for a response to each request stream from the server or proxy, the client cancels each request immediately.
+
+The ability to reset streams immediately allows each connection to have an indefinite number of requests in flight. By explicitly canceling the requests, the attacker never exceeds the limit on the number of concurrent open streams. The number of in-flight requests is no longer dependent on the round-trip time (RTT), but only on the available network bandwidth.
+
+In a typical HTTP/2 server implementation, the server will still have to do significant amounts of work for canceled requests, such as allocating new stream data structures, parsing the query and doing header decompression, and mapping the URL to a resource. For reverse proxy implementations, the request may be proxied to the backend server before the RST_STREAM frame is processed. The client on the other hand paid almost no costs for sending the requests. This creates an exploitable cost asymmetry between the server and the client.
+
+Multiple software artifacts implementing HTTP/2 are affected. This advisory was originally ingested from the `swift-nio-http2` repo advisory and their original conent follows.
+
+=== swift-nio-http2 specific advisory
+swift-nio-http2 is vulnerable to a denial-of-service vulnerability in which a malicious client can create and then reset a large number of HTTP/2 streams in a short period of time. This causes swift-nio-http2 to commit to a large amount of expensive work which it then throws away, including creating entirely new `Channel`s to serve the traffic. This can easily overwhelm an `EventLoop` and prevent it from making forward progress.
+
+swift-nio-http2 1.28 contains a remediation for this issue that applies reset counter using a sliding window. This constrains the number of stream resets that may occur in a given window of time. Clients violating this limit will have their connections torn down. This allows clients to continue to cancel streams for legitimate reasons, while constraining malicious actors.
+
+## end::9[]
+## tag::10[]
+== M-10 Prefix Truncation Attack against ChaCha20-Poly1305 and Encrypt-then-MAC aka Terrapin
+Tags: `runtime`, Weakness: {url-cwe}345.html[CWE-345], {url-cwe}354.html[CWE-354], CVE ID: {url-nist}CVE-2023-48795[CVE-2023-48795], GHSA ID: {url-ghsa}GHSA-45x7-px36-x8w8[GHSA-45x7-px36-x8w8]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L245
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=245]
+++++
+----
+
+=== CVSS Score: 5.9/10
+.CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | High
+| Availability  | None
+|===
+
+=== Summary
+
+Terrapin is a prefix truncation attack targeting the SSH protocol. More precisely, Terrapin breaks the integrity of SSH's secure channel. By carefully adjusting the sequence numbers during the handshake, an attacker can remove an arbitrary amount of messages sent by the client or server at the beginning of the secure channel without the client or server noticing it.
+
+=== Mitigations
+
+To mitigate this protocol vulnerability, OpenSSH suggested a so-called "strict kex" which alters the SSH handshake to ensure a Man-in-the-Middle attacker cannot introduce unauthenticated messages as well as convey sequence number manipulation across handshakes.
+
+**Warning: To take effect, both the client and server must support this countermeasure.** 
+
+As a stop-gap measure, peers may also (temporarily) disable the affected algorithms and use unaffected alternatives like AES-GCM instead until patches are available.
+
+=== Details
+
+The SSH specifications of ChaCha20-Poly1305 (chacha20-poly1305@openssh.com) and Encrypt-then-MAC (*-etm@openssh.com MACs) are vulnerable against an arbitrary prefix truncation attack (a.k.a. Terrapin attack). This allows for an extension negotiation downgrade by stripping the SSH_MSG_EXT_INFO sent after the first message after SSH_MSG_NEWKEYS, downgrading security, and disabling attack countermeasures in some versions of OpenSSH. When targeting Encrypt-then-MAC, this attack requires the use of a CBC cipher to be practically exploitable due to the internal workings of the cipher mode. Additionally, this novel attack technique can be used to exploit previously unexploitable implementation flaws in a Man-in-the-Middle scenario.
+
+The attack works by an attacker injecting an arbitrary number of SSH_MSG_IGNORE messages during the initial key exchange and consequently removing the same number of messages just after the initial key exchange has concluded. This is possible due to missing authentication of the excess SSH_MSG_IGNORE messages and the fact that the implicit sequence numbers used within the SSH protocol are only checked after the initial key exchange.
+
+In the case of ChaCha20-Poly1305, the attack is guaranteed to work on every connection as this cipher does not maintain an internal state other than the message's sequence number. In the case of Encrypt-Then-MAC, practical exploitation requires the use of a CBC cipher; while theoretical integrity is broken for all ciphers when using this mode, message processing will fail at the application layer for CTR and stream ciphers.
+
+For more details see https://terrapin-attack.com[https://terrapin-attack.com]. 
+
+=== Impact
+
+This attack targets the specification of ChaCha20-Poly1305 (chacha20-poly1305@openssh.com) and Encrypt-then-MAC (*-etm@openssh.com), which are widely adopted by well-known SSH implementations and can be considered de-facto standard. These algorithms can be practically exploited; however, in the case of Encrypt-Then-MAC, we additionally require the use of a CBC cipher. As a consequence, this attack works against all well-behaving SSH implementations supporting either of those algorithms and can be used to downgrade (but not fully strip) connection security in case SSH extension negotiation (RFC8308) is supported. The attack may also enable attackers to exploit certain implementation flaws in a man-in-the-middle (MitM) scenario.
+
+## end::10[]
+## tag::11[]
+== M-11 Denial of service when decrypting attack controlled input in github.com/dvsekhvalnov/jose2go
+Tags: `runtime`, Weakness: {url-cwe}400.html[CWE-400], GHSA ID: {url-ghsa}GHSA-mhpq-9638-x6pw[GHSA-mhpq-9638-x6pw]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L88
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=88]
+++++
+----
+
+=== CVSS Score: 5.3/10
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | Low
+|===
+
+An attacker controlled input of a PBES2 encrypted JWE blob can have a very large p2c value that, when decrypted, produces a denial-of-service.
+
+## end::11[]
+## tag::12[]
+== M-12 /sys/devices/virtual/powercap accessible by default to containers
+Tags: `runtime`, GHSA ID: {url-ghsa}GHSA-jq35-85cj-fj4p[GHSA-jq35-85cj-fj4p]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L84
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=84]
+++++
+----
+
+
+Intel's RAPL (Running Average Power Limit) feature, introduced by the Sandy Bridge microarchitecture, provides software insights into hardware energy consumption. To facilitate this, Intel introduced the powercap framework in Linux kernel 3.13, which reads values via relevant MSRs (model specific registers) and provides unprivileged userspace access via `sysfs`. As RAPL is an interface to access a hardware feature, it is only available when running on bare metal with the module compiled into the kernel.
+
+By 2019, it was realized that in some cases unprivileged access to RAPL readings could be exploited as a power-based side-channel against security features including AES-NI (potentially inside a SGX enclave) and KASLR (kernel address space layout randomization). Also known as the https://platypusattack.com/[PLATYPUS attack], Intel assigned https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8694[CVE-2020-8694] and https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8695[CVE-2020-8695], and AMD assigned https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-12912[CVE-2020-12912].
+
+Several mitigations were applied; Intel reduced the sampling resolution via a microcode update, and the Linux kernel https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=949dd0104c496fa7c14991a23c03c62e44637e71[prevents access by non-root users] since 5.10. However, this kernel-based mitigation does not apply to many container-based scenarios:
+* Unless using user namespaces, root inside a container has the same level of privilege as root outside the container, but with a slightly more narrow view of the system
+* `sysfs` is mounted inside containers read-only; however only read access is needed to carry out this attack on an unpatched CPU
+
+While this is not a direct vulnerability in container runtimes, defense in depth and safe defaults are valuable and preferred, especially as this poses a risk to multi-tenant container environments running directly on affected hardware. This is provided by masking `/sys/devices/virtual/powercap` in the default mount configuration, and adding an additional set of rules to deny it in the default AppArmor profile.
+
+While `sysfs` is not the only way to read from the RAPL subsystem, other ways of accessing it require additional capabilities such as `CAP_SYS_RAWIO` which is not available to containers by default, or `perf` paranoia level less than 1, which is a non-default kernel tunable.
+
+=== References
+
+* https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8694
+* https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-8695
+* https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2020-12912
+* https://platypusattack.com/
+* https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=949dd0104c496fa7c14991a23c03c62e44637e71
+* https://web.eece.maine.edu/~vweaver/projects/rapl/
+
+## end::12[]
+## tag::13[]
+== M-13 ASA-2024-002: Default `PrepareProposalHandler` may produce invalid proposals when used with default `SenderNonceMempool`
+Tags: `runtime`, Weakness: {url-cwe}1285.html[CWE-1285], GHSA ID: {url-ghsa}GHSA-2557-x9mg-76w8[GHSA-2557-x9mg-76w8]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L6
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=6]
+++++
+----
+
+=== CVSS Score: 5.3/10
+.CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | Low
+|===
+
+=== ASA-2024-002: Default `PrepareProposalHandler` may produce invalid proposals when used with default `SenderNonceMempool`
+
+**Component**: Cosmos SDK
+**Criticality**: Medium
+**Affected** Versions: Cosmos SDK versions <= 0.50.3; <= 0.47.8
+**Affected** Users: Chain developers, Validator and Node operators
+**Impact**: Denial of Service
+
+=== Summary
+
+When using the default `PrepareProposalHandler` and the default `SenderNonceMempool`, an issue was identified which may allow invalid blocks to be proposed when a single sender includes multiple transactions with non-sequential sequence numbers in certain conditions. If this state is reached, it can lead to a reduction in block production for a network.
+
+=== Next Steps for Impacted Parties
+
+If you are a chain developer on an affected version of the Cosmos SDK, it is advised to update to the latest available version of the Cosmos SDK for your project.  Once a patched version is available, it is recommended that network operators upgrade.
+
+A Github Security Advisory for this issue is available in the Cosmos-SDK https://github.com/cosmos/cosmos-sdk/security/advisories[repository]. For more information about Cosmos SDK, see https://docs.cosmos.network/.
+
+This issue was found by https://github.com/KonradStaniec[KonradStaniec], https://github.com/gitferry[gitferry], https://github.com/SebastianElvis[SebastianElvis], and https://github.com/vitsalis[vitsalis] who reported it to the Cosmos Bug Bounty Program on HackerOne on January 16, 2024. If you believe you have found a bug in the Interchain Stack or would like to contribute to the program by reporting a bug, please see https://hackerone.com/cosmos.
+
+
+## end::13[]
+## tag::14[]
+== M-14 jose2go vulnerable to denial of service via large p2c value
+Tags: `runtime`, CVE ID: {url-nist}CVE-2023-50658[CVE-2023-50658], GHSA ID: {url-ghsa}GHSA-6294-6rgp-fr7r[GHSA-6294-6rgp-fr7r]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L88
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=88]
+++++
+----
+
+
+The jose2go component before 1.6.0 for Go allows attackers to cause a denial of service (CPU consumption) via a large p2c (aka PBES2 Count) value.
+
+## end::14[]
+## tag::15[]
+== M-15 Golang protojson.Unmarshal function infinite loop when unmarshaling certain forms of invalid JSON
+Tags: `runtime`, Weakness: {url-cwe}835.html[CWE-835], CVE ID: {url-nist}CVE-2024-24786[CVE-2024-24786], GHSA ID: {url-ghsa}GHSA-8r3f-844c-mc37[GHSA-8r3f-844c-mc37]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L29
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=29]
+++++
+----
+
+
+The protojson.Unmarshal function can enter an infinite loop when unmarshaling certain forms of invalid JSON. This condition can occur when unmarshaling into a message which contains a google.protobuf.Any value, or when the UnmarshalOptions.DiscardUnknown option is set.
+
+## end::15[]
+## tag::16[]
+== M-16 Classic builder cache poisoning
+Tags: `runtime`, Weakness: {url-cwe}345.html[CWE-345], {url-cwe}346.html[CWE-346], CVE ID: {url-nist}CVE-2024-24557[CVE-2024-24557], GHSA ID: {url-ghsa}GHSA-xw73-rw38-6vjc[GHSA-xw73-rw38-6vjc]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L84
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=84]
+++++
+----
+
+=== CVSS Score: 6.9/10
+.CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:C/C:L/I:H/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | High
+| Privileges required | None
+| User interaction | Required
+| Scope | Changed
+| Confidentiality | Low
+| Integrity | High
+| Availability  | Low
+|===
+
+The classic builder cache system is prone to cache poisoning if the image is built `FROM scratch`.
+Also, changes to some instructions (most important being `HEALTHCHECK` and `ONBUILD`) would not cause a cache miss.
+
+
+An attacker with the knowledge of the Dockerfile someone is using could poison their cache by making them pull a specially crafted image that would be considered as a valid cache candidate for some build steps.
+
+For example, an attacker could create an image that is considered as a valid cache candidate for:
+```
+FROM scratch
+MAINTAINER Pawel
+```
+
+when in fact the malicious image used as a cache would be an image built from a different Dockerfile.
+
+In the second case, the attacker could for example substitute a different `HEALTCHECK` command.
+
+
+=== Impact
+
+23.0+ users are only affected if they explicitly opted out of Buildkit (`DOCKER_BUILDKIT=0` environment variable) or are using the `/build` API endpoint (which uses the classic builder by default).
+
+All users on versions older than 23.0 could be impacted. An example could be a CI with a shared cache, or just a regular Docker user pulling a malicious image due to misspelling/typosquatting.
+
+Image build API endpoint (`/build`) and `ImageBuild` function from `github.com/docker/docker/client` is also affected as it the uses classic builder by default. 
+
+
+=== Patches
+
+Patches are included in Moby releases:
+
+- v25.0.2
+- v24.0.9
+
+=== Workarounds
+
+- Use `--no-cache` or use Buildkit if possible (`DOCKER_BUILDKIT=1`, it's default on 23.0+ assuming that the buildx plugin is installed).
+- Use `Version = types.BuilderBuildKit` or `NoCache = true` in `ImageBuildOptions` for `ImageBuild` call.
+
+
+
+## end::16[]
+## tag::17[]
+== M-17 Moby's external DNS requests from 'internal' networks could lead to data exfiltration
+Tags: `runtime`, Weakness: {url-cwe}669.html[CWE-669], CVE ID: {url-nist}CVE-2024-29018[CVE-2024-29018], GHSA ID: {url-ghsa}GHSA-mq39-4gv4-mvpx[GHSA-mq39-4gv4-mvpx]
+
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L84
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=84]
+++++
+----
+
+=== CVSS Score: 5.9/10
+.CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | High
+| Integrity | None
+| Availability  | None
+|===
+
+Moby is an open source container framework originally developed by Docker Inc. as Docker. It is a key component of Docker Engine, Docker Desktop, and other distributions of container tooling or runtimes. As a batteries-included container runtime, Moby comes with a built-in networking implementation that enables communication between containers, and between containers and external resources.
+
+Moby's networking implementation allows for creating and using many networks, each with their own subnet and gateway. This feature is frequently referred to as custom networks, as each network can have a different driver, set of parameters, and thus behaviors. When creating a network, the `--internal` flag is used to designate a network as _internal_. The `internal` attribute in a docker-compose.yml file may also be used to mark a network _internal_, and other API clients may specify the `internal` parameter as well.
+
+When containers with networking are created, they are assigned unique network interfaces and IP addresses (typically from a non-routable https://datatracker.ietf.org/doc/html/rfc1918[RFC 1918] subnet). The root network namespace (hereafter referred to as the 'host') serves as a router for non-internal networks, with a gateway IP that provides SNAT/DNAT to/from container IPs.
+
+Containers on an _internal_ network may communicate between each other, but are precluded from communicating with any networks the host has access to (LAN or WAN) as no default route is configured, and firewall rules are set up to drop all outgoing traffic. Communication with the gateway IP address (and thus appropriately configured host services) is possible, and the host may communicate with any container IP directly.
+
+In addition to configuring the Linux kernel's various networking features to enable container networking, `dockerd` directly provides some services to container networks. Principal among these is serving as a resolver, enabling service discovery (looking up other containers on the network by name), and resolution of names from an upstream resolver.
+
+When a DNS request for a name that does not correspond to a container is received, the request is forwarded to the configured upstream resolver (by default, the host's configured resolver). This request is made from the container network namespace: the level of access and routing of traffic is the same as if the request was made by the container itself.
+
+As a consequence of this design, containers solely attached to _internal_ network(s) will be unable to resolve names using the upstream resolver, as the container itself is unable to communicate with that nameserver. Only the names of containers also attached to the internal network are able to be resolved.
+
+Many systems will run a local forwarding DNS resolver, typically present on a loopback address (`127.0.0.0/8`), such as systemd-resolved or dnsmasq. Common loopback address examples include `127.0.0.1` or `127.0.0.53`. As the host and any containers have separate loopback devices, a consequence of the design described above is that containers are unable to resolve names from the host's configured resolver, as they cannot reach these addresses on the host loopback device.
+
+To bridge this gap, and to allow containers to properly resolve names even when a local forwarding resolver is used on a loopback address, `dockerd` will detect this scenario and instead forward DNS requests from the host/root network namespace. The loopback resolver will then forward the requests to its configured upstream resolvers, as expected.
+
+=== Impact
+
+Because `dockerd` will forward DNS requests to the host loopback device, bypassing the container network namespace's normal routing semantics entirely, _internal_ networks can unexpectedly forward DNS requests to an external nameserver.
+
+By registering a domain for which they control the authoritative nameservers, an attacker could arrange for a compromised container to exfiltrate data by encoding it in DNS queries that will eventually be answered by their nameservers. For example, if the domain `evil.example` was registered, the authoritative nameserver(s) for that domain could (eventually and indirectly) receive a request for `this-is-a-secret.evil.example`.
+
+Docker Desktop is not affected, as Docker Desktop always runs an internal resolver on a RFC 1918 address.
+
+=== Patches
+
+Moby releases 26.0.0-rc3, 25.0.5 (released) and 23.0.11 (to be released) are patched to prevent forwarding DNS requests from internal networks.
+
+=== Workarounds
+
+-   Run containers intended to be solely attached to _internal_ networks with a custom upstream address (`--dns` argument to `docker run`, or API equivalent), which will force all upstream DNS queries to be resolved from the container network namespace.
+
+=== Background
+
+- yair zak originally reported this issue to the Docker security team.
+-  PR <https://github.com/moby/moby/pull/46609> was opened in public to fix this issue, as it was not originally considered to have a security implication.
+- https://docs.docker.com/network/drivers/ipvlan/#:~:text=If%20the%20parent,the%20network%20completely[The official documentation] claims that "the `--internal` flag that will completely isolate containers on a network from any communications external to that network," which necessitated this advisory and CVE.
+
+## end::17[]
+## tag::18[]
+== M-18 Integer Overflow in Chunked Transfer-Encoding
+Tags: `runtime`, Weakness: {url-cwe}190.html[CWE-190], CVE ID: {url-nist}CVE-2021-32714[CVE-2021-32714], GHSA ID: {url-ghsa}GHSA-5h46-h7hh-c6x9[GHSA-5h46-h7hh-c6x9]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L2259
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=2258..2262]
+++++
+----
+
+=== CVSS Score: 5.9/10
+.CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== Summary
+
+hyper's HTTP server and client code had a flaw that could trigger an integer overflow when decoding chunk sizes that are too big. This allows possible data loss, or if combined with an upstream HTTP proxy that allows chunk sizes larger than hyper does, can result in "request smuggling" or "desync attacks".
+
+=== Vulnerability
+
+Example:
+
+```
+GET / HTTP/1.1
+Host: example.com
+Transfer-Encoding: chunked
+
+f0000000000000003
+abc
+0
+
+```
+
+hyper only reads the rightmost 64-bit integer as the chunk size. So it reads `f0000000000000003` as `3`. A loss of data can occur since hyper would then read only 3 bytes of the body. Additionally, an HTTP request smuggling vulnerability would occur if using a proxy which instead has prefix truncation in the chunk size, or that understands larger than 64-bit chunk sizes.
+
+Read more about desync attacks: https://portswigger.net/research/http-desync-attacks-request-smuggling-reborn
+
+=== Impact
+
+To determine if vulnerable to _data loss_, these things must be true:
+
+- **Using HTTP/1.1.** Since HTTP/2 does not use chunked encoding, it is not vulnerable.
+- **Using hyper as a server or client.** The body would be improperly truncated in either case.
+- **Users send requests or responses with chunk sizes greater than 18 exabytes**.
+
+To determine if vulnerable to _desync attacks_, these things must be true:
+
+- **Using an upstream proxy that allows chunks sizes larger than 64-bit.** If the proxy rejects chunk sizes that are too large, that request won't be forwarded to hyper.
+
+=== Patches
+
+We have released the following patch versions:
+
+ - v0.14.10 (to be released when this advisory is published)
+
+=== Workarounds
+
+Besides upgrading hyper, you can take the following options:
+
+- Reject requests manually that contain a `Transfer-Encoding` header.
+- Ensure any upstream proxy rejects `Transfer-Encoding` chunk sizes greater than what fits in 64-bit unsigned integers.
+
+
+=== Credits
+This issue was initially reported by https://grenfeldt.dev/[Mattias Grenfeldt] and Asta Olofsson.
+
+## end::18[]
+## tag::19[]
+== M-19 Error on unsupported architectures in raw-cpuid
+Tags: `runtime`, Weakness: {url-cwe}400.html[CWE-400], {url-cwe}657.html[CWE-657], CVE ID: {url-nist}CVE-2021-26307[CVE-2021-26307], GHSA ID: {url-ghsa}GHSA-jrf8-cmgg-gv2m[GHSA-jrf8-cmgg-gv2m]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L5154
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=5153..5157]
+++++
+----
+
+=== CVSS Score: 5.5/10
+.CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | Low
+| Privileges required | Low
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+native_cpuid::cpuid_count() exposes the unsafe __cpuid_count() intrinsic from core::arch::x86 or core::arch::x86_64 as a safe function, and uses it internally, without checking the safety requirement:
+
+* The CPU the program is currently running on supports the function being called.
+
+CPUID is available in most, but not all, x86/x86_64 environments. The crate compiles only on these architectures, so others are unaffected. This issue is mitigated by the fact that affected programs are expected to crash deterministically every time.
+
+The flaw has been fixed in v9.0.0, by intentionally breaking compilation when targeting SGX or 32-bit x86 without SSE. This covers all affected CPUs.
+
+## end::19[]
+## tag::20[]
+== M-20 Data races in lock_api
+Tags: `runtime`, Weakness: {url-cwe}362.html[CWE-362], CVE ID: {url-nist}CVE-2020-35913[CVE-2020-35913], GHSA ID: {url-ghsa}GHSA-hj9h-wrgg-hgmx[GHSA-hj9h-wrgg-hgmx]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L3219
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=3218..3222]
+++++
+----
+
+=== CVSS Score: 4.7/10
+.CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | High
+| Privileges required | Low
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+An issue was discovered in the lock_api crate before 0.4.2 for Rust. A data race can occur because of RwLockReadGuard unsoundness.
+
+## end::20[]
+## tag::21[]
+== M-21 Data races in lock_api
+Tags: `runtime`, Weakness: {url-cwe}362.html[CWE-362], CVE ID: {url-nist}CVE-2020-35912[CVE-2020-35912], GHSA ID: {url-ghsa}GHSA-5wg8-7c9q-794v[GHSA-5wg8-7c9q-794v]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L3219
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=3218..3222]
+++++
+----
+
+=== CVSS Score: 4.7/10
+.CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | High
+| Privileges required | Low
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+An issue was discovered in the lock_api crate before 0.4.2 for Rust. A data race can occur because of MappedRwLockWriteGuard unsoundness.
+
+## end::21[]
+## tag::22[]
+== M-22 Data races in lock_api
+Tags: `runtime`, Weakness: {url-cwe}362.html[CWE-362], CVE ID: {url-nist}CVE-2020-35911[CVE-2020-35911], GHSA ID: {url-ghsa}GHSA-vh4p-6j7g-f4j9[GHSA-vh4p-6j7g-f4j9]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L3219
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=3218..3222]
+++++
+----
+
+=== CVSS Score: 4.7/10
+.CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | High
+| Privileges required | Low
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+An issue was discovered in the lock_api crate before 0.4.2 for Rust. A data race can occur because of MappedRwLockReadGuard unsoundness.
+
+## end::22[]
+## tag::23[]
+== M-23 Data races in lock_api
+Tags: `runtime`, Weakness: {url-cwe}362.html[CWE-362], CVE ID: {url-nist}CVE-2020-35914[CVE-2020-35914], GHSA ID: {url-ghsa}GHSA-gmv4-vmx3-x9f3[GHSA-gmv4-vmx3-x9f3]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L3219
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=3218..3222]
+++++
+----
+
+=== CVSS Score: 4.7/10
+.CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | High
+| Privileges required | Low
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+An issue was discovered in the lock_api crate before 0.4.2 for Rust. A data race can occur because of RwLockWriteGuard unsoundness.
+
+## end::23[]
+## tag::24[]
+== M-24 Data races in lock_api
+Tags: `runtime`, Weakness: {url-cwe}362.html[CWE-362], CVE ID: {url-nist}CVE-2020-35910[CVE-2020-35910], GHSA ID: {url-ghsa}GHSA-ppj3-7jw3-8vc4[GHSA-ppj3-7jw3-8vc4]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L3219
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=3218..3222]
+++++
+----
+
+=== CVSS Score: 5.5/10
+.CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | Low
+| Privileges required | Low
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+An issue was discovered in the lock_api crate before 0.4.2 for Rust. A data race can occur because of MappedMutexGuard unsoundness.
+
+## end::24[]
+## tag::25[]
+== M-25 Invalid drop of partially-initialized instances in the pooling instance allocator for modules with defined `externref` globals 
+Tags: `runtime`, Weakness: {url-cwe}824.html[CWE-824], CVE ID: {url-nist}CVE-2022-23636[CVE-2022-23636], GHSA ID: {url-ghsa}GHSA-88xq-w8cq-xfg7[GHSA-88xq-w8cq-xfg7]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L8590
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=8589..8593]
+++++
+----
+
+=== CVSS Score: 5.1/10
+.CVSS:3.1/AV:L/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | High
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== Impact
+
+There exists a bug in the pooling instance allocator in Wasmtime's runtime where a failure to instantiate an instance for a module that defines an `externref` global will result in an invalid drop of a `VMExternRef` via an uninitialized pointer.
+
+As instance slots may be reused between consecutive instantiations, the value of the uninitialized pointer may be from a previous instantiation and therefore under the control of an attacker via a module's initial values for its globals. If the attacker can somehow determine an address under their control inside the mapped memory representing the instance pool, it is possible to trick the runtime to call `drop_in_place` on a trait object under the attacker's control and therefore cause remote code execution.
+
+Exploiting the bug to cause remote code execution would be very difficult as attackers cannot determine the addresses of globals from code executing within the WebAssembly VM and the memory space for the instance pool cannot be statically determined. Operating system mitigations, such as https://en.wikipedia.org/wiki/Address_space_layout_randomization[address space layout randomization], would additionally increase the difficulty for attackers to determine useful executable code to target with an exploit. It is also very unlikely that attackers will be able to directly influence the conditions that trigger the bug as described below.
+
+When the conditions to trigger the bug are met, however, it is much easier to exploit this bug to cause a denial of service by crashing the host with an invalid memory read.
+
+The following engine configuration (via https://docs.rs/wasmtime/0.34.0/wasmtime/struct.Config.html[Config]) is required to be impacted by this bug:
+
+* support for the reference types proposal must be enabled (this is the default for `Config`).
+* a pooling allocation strategy must be configured via https://docs.rs/wasmtime/0.34.0/wasmtime/struct.Config.html#method.allocation_strategy[Config::allocation_strategy], which is **not the default allocation strategy**.
+
+A module must be instantiated with **all the following characteristics**:
+
+* The module defines at least one table or memory.
+* The module defines at least one `externref` global.
+
+During instantiation, **one of the following** must occur to cause the instantiation to fail:
+
+* a call to `mprotect` or `VirtualAlloc` fails (e.g. out-of-memory conditions).
+* a resource limiter was configured in the associated `Store` (via https://docs.rs/wasmtime/0.34.0/wasmtime/struct.Store.html#method.limiter[Store::limiter] or https://docs.rs/wasmtime/0.34.0/wasmtime/struct.Store.html#method.limiter_async[Store::limiter_async]) and the limiter returns `false` from the initial call to `memory_growing` or `table_growing`. **Stores do not have a resource limiter set by default**.
+
+This results in a partially-initialized instance being dropped and that attempts to drop the uninitialized `VMExternRef` representing the defined `externref` global.
+
+We have reason to believe that the effective impact of this bug is relatively small because the usage of `externref` is still uncommon and without a resource limiter configured on the `Store`, which is not the default configuration, it is only possible to trigger the bug from an error returned by `mprotect` or `VirtualAlloc`.
+
+Note that on Linux with the `uffd` feature enabled, it is only possible to trigger the bug from a resource limiter as the call to `mprotect` is skipped; if no resource limiter is used, then this configuration is not vulnerable.
+
+=== Patches
+
+The bug has been fixed in 0.34.1 and 0.33.1; users are encouraged to upgrade as soon as possible.
+
+=== Workarounds
+
+If it is not possible to upgrade to 0.34.1 or 0.33.1 of the `wasmtime` crate, it is recommend that support for the reference types proposal be disabled by passing `false` to https://docs.rs/wasmtime/latest/wasmtime/struct.Config.html#method.wasm_reference_types[Config::wasm_reference_types].
+
+Doing so will prevent modules that use `externref` from being loaded entirely.
+
+=== For more information
+
+If you have any questions or comments about this advisory:
+
+* Reach out to us on https://bytecodealliance.zulipchat.com/#narrow/stream/217126-wasmtime[the Bytecode Alliance Zulip chat]
+* Open an issue in https://github.com/bytecodealliance/wasmtime/[the bytecodealliance/wasmtime repository]
+
+## end::25[]
+## tag::26[]
+== M-26 Wrong type for `Linker`-define functions when used across two `Engine`s
+Tags: `runtime`, Weakness: {url-cwe}843.html[CWE-843], CVE ID: {url-nist}CVE-2021-39219[CVE-2021-39219], GHSA ID: {url-ghsa}GHSA-q879-9g95-56mx[GHSA-q879-9g95-56mx]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L8590
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=8589..8593]
+++++
+----
+
+=== CVSS Score: 6.3/10
+.CVSS:3.1/AV:L/AC:H/PR:N/UI:R/S:U/C:N/I:H/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | High
+| Privileges required | None
+| User interaction | Required
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | High
+| Availability  | High
+|===
+
+=== Impact
+
+As a Rust library the `wasmtime` crate clearly marks which functions are safe and which are `unsafe`, guaranteeing that if consumers never use `unsafe` then it should not be possible to have memory unsafety issues in their embeddings of Wasmtime. An issue was discovered in the safe API of `Linker::func_*` APIs. These APIs were previously not sound when one `Engine` was used to create the `Linker` and then a different `Engine` was used to create a `Store` and then the `Linker` was used to instantiate a module into that `Store`. Cross-`Engine` usage of functions is not supported in Wasmtime and this can result in type confusion of function pointers, resulting in being able to safely call a function with the wrong type.
+
+Triggering this bug requires using at least two `Engine` values in an embedding and then additionally using two different values with a `Linker` (one at the creation time of the `Linker` and another when instantiating a module with the `Linker`).
+
+It's expected that usage of more-than-one `Engine` in an embedding is relatively rare since an `Engine` is intended to be a globally shared resource, so the expectation is that the impact of this issue is relatively small.
+
+The fix implemented is to change this behavior to `panic!()` in Rust instead of silently allowing it. Using different `Engine` instances with a `Linker` is a programmer bug that `wasmtime` catches at runtime.
+
+=== Patches
+
+This bug has been patched and users should upgrade to Wasmtime version 0.30.0.
+
+=== Workarounds
+
+If you cannot upgrade Wasmtime and are using more than one `Engine` in your embedding it's recommended to instead use only one `Engine` for the entire program if possible. An `Engine` is designed to be a globally shared resource that is suitable to have only one for the lifetime of an entire process. If using multiple `Engine`s is required then code should be audited to ensure that `Linker` is only used with one `Engine`.
+
+=== For more information
+
+If you have any questions or comments about this advisory:
+
+* Reach out to us on https://bytecodealliance.zulipchat.com/#narrow/stream/217126-wasmtime[the Bytecode Alliance Zulip chat]
+* Open an issue in https://github.com/bytecodealliance/wasmtime/[the `bytecodealliance/wasmtime` repository]
+
+## end::26[]
+## tag::27[]
+== M-27 Miscompilation of `i8x16.swizzle` and `select` with v128 inputs
+Tags: `runtime`, Weakness: {url-cwe}682.html[CWE-682], CVE ID: {url-nist}CVE-2022-31104[CVE-2022-31104], GHSA ID: {url-ghsa}GHSA-jqwc-c49r-4w2x[GHSA-jqwc-c49r-4w2x]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L8590
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=8589..8593]
+++++
+----
+
+=== CVSS Score: 4.8/10
+.CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | Low
+| Availability  | Low
+|===
+
+=== Impact
+
+Wasmtime's implementation of the https://github.com/webassembly/simd[SIMD proposal for WebAssembly] on x86_64 contained two distinct bugs in the instruction lowerings implemented in Cranelift. The aarch64 implementation of the simd proposal is not affected. The bugs were presented in the `i8x16.swizzle` and `select` WebAssembly instructions. The `select` instruction is only affected when the inputs are of `v128` type. The correspondingly affected Cranelift instructions were `swizzle` and `select`.
+
+The `swizzle` instruction lowering in Cranelift erroneously overwrote the mask input register which could corrupt a constant value, for example. This means that future uses of the same constant may see a different value than the constant itself.
+
+The `select` instruction lowering in Cranelift wasn't correctly implemented for vector types that are 128-bits wide. When the condition was 0 the wrong instruction was used to move the correct input to the output of the instruction meaning that only the low 32 bits were moved and the upper 96 bits of the result were left as whatever the register previously contained (instead of the input being moved from). The `select` instruction worked correctly if the condition was nonzero, however.
+
+This bug in Wasmtime's implementation of these instructions on x86_64 represents an incorrect implementation of the specified semantics of these instructions according to the https://webassembly.github.io/spec/[WebAssembly specification]. The impact of this is benign for hosts running WebAssembly but represents possible vulnerabilities within the execution of a guest program. For example a WebAssembly program could take unintended branches or materialize incorrect values internally which runs the risk of exposing the program itself to other related vulnerabilities which can occur from miscompilations.
+
+=== Patches
+
+We have released Wasmtime 0.38.1 and cranelift-codegen (and other associated cranelift crates) 0.85.1 which contain the corrected implementations of these two instructions in Cranelift.
+
+=== Workarounds
+
+If upgrading is not an option for you at this time, you can avoid the vulnerability by https://docs.rs/wasmtime/latest/wasmtime/struct.Config.html#method.wasm_simd[disabling the Wasm simd proposal]
+
+```rust
+config.wasm_simd(false);
+```
+
+Additionally the bug is only present on x86_64 hosts. Other aarch64 hosts are not affected. Note that s390x hosts don't yet implement the simd proposal and are not affected.
+
+=== References
+
+* https://github.com/webassembly/simd[The WebAssembly simd proposal]
+* https://github.com/bytecodealliance/wasmtime/issues/4315[Original test case showing the erroneous behavior]
+* https://github.com/bytecodealliance/wasmtime/pull/4318[Fix for the `swizzle` instruction]
+* https://github.com/bytecodealliance/wasmtime/pull/4317[Fix for the `select` instruction]
+
+=== For more information
+
+If you have any questions or comments about this advisory:
+
+* Reach out to us on https://bytecodealliance.zulipchat.com/#narrow/stream/217126-wasmtime[the Bytecode Alliance Zulip chat]
+* Open an issue in https://github.com/bytecodealliance/wasmtime/[the bytecodealliance/wasmtime repository]
+
+## end::27[]
+## tag::28[]
+== M-28 Cranelift vulnerable to miscompilation of constant values in division on AArch64
+Tags: `runtime`, Weakness: {url-cwe}682.html[CWE-682], CVE ID: {url-nist}CVE-2022-31169[CVE-2022-31169], GHSA ID: {url-ghsa}GHSA-7f6x-jwh5-m9r4[GHSA-7f6x-jwh5-m9r4]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L8590
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=8589..8593]
+++++
+----
+
+=== CVSS Score: 5.9/10
+.CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | High
+| Availability  | None
+|===
+
+=== Impact
+
+There was a bug in Wasmtime's code generator, Cranelift, for AArch64 targets where constant divisors could result in incorrect division results at runtime. The translation rules for constants did not take into account whether sign- or zero-extension should happen, which resulted in an incorrect value being placed into a register when a division was encountered. For example, a constant 32-bit unsigned divisor of `0xfffffffe` would be incorrectly sign-extended to 64-bits to `0xfffffffffffffffe`. Any kind of division of operands smaller than 64 bits is implemented with a 64-bit division instruction which would then result in an incorrect result because the divisor was larger than expected.
+
+The impact of this bug is that programs executing within the WebAssembly sandbox would not behave according to the WebAssembly specification. This means that it is hypothetically possible for execution within the sandbox to go awry and WebAssembly programs could produce unexpected results. This should not impact hosts executing WebAssembly, but does affect the correctness of guest programs.
+
+This bug was found with differential fuzzing of Wasmtime against other engines on the AArch64 platform. Fuzzing on AArch64 is not regularly performed at this time and the Wasmtime team is investigating how best to continuously fuzz AArch64 in the same manner as x86_64.
+
+=== Patches
+
+This bug has been patched and users should upgrade to Wasmtime version 0.38.2.
+
+=== Workarounds
+
+If upgrading is not an option at this time, direct users of Cranelift that control the exact Cranelift instructions being compiled can avoid the vulnerability by explicitly extending constant divisors to 64 bits using either the `sextend.i64` or the `uextend.i64` operation.
+
+Note, though, that this issue only affects the AArch64 targets. Other platforms are not affected.
+
+=== For more information
+
+If you have any questions or comments about this advisory:
+
+* Reach out to us on https://bytecodealliance.zulipchat.com/#narrow/stream/217126-wasmtime[the Bytecode Alliance Zulip chat]
+* Open an issue in https://github.com/bytecodealliance/wasmtime/[the bytecodealliance/wasmtime repository]
+
+## end::28[]
+## tag::29[]
+== M-29 Cranelift vulnerable to miscompilation of constant values in division on AArch64
+Tags: `runtime`, Weakness: {url-cwe}682.html[CWE-682], CVE ID: {url-nist}CVE-2022-31169[CVE-2022-31169], GHSA ID: {url-ghsa}GHSA-7f6x-jwh5-m9r4[GHSA-7f6x-jwh5-m9r4]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L901
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=900..904]
+++++
+----
+
+=== CVSS Score: 5.9/10
+.CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:H/A:N
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | High
+| Availability  | None
+|===
+
+=== Impact
+
+There was a bug in Wasmtime's code generator, Cranelift, for AArch64 targets where constant divisors could result in incorrect division results at runtime. The translation rules for constants did not take into account whether sign- or zero-extension should happen, which resulted in an incorrect value being placed into a register when a division was encountered. For example, a constant 32-bit unsigned divisor of `0xfffffffe` would be incorrectly sign-extended to 64-bits to `0xfffffffffffffffe`. Any kind of division of operands smaller than 64 bits is implemented with a 64-bit division instruction which would then result in an incorrect result because the divisor was larger than expected.
+
+The impact of this bug is that programs executing within the WebAssembly sandbox would not behave according to the WebAssembly specification. This means that it is hypothetically possible for execution within the sandbox to go awry and WebAssembly programs could produce unexpected results. This should not impact hosts executing WebAssembly, but does affect the correctness of guest programs.
+
+This bug was found with differential fuzzing of Wasmtime against other engines on the AArch64 platform. Fuzzing on AArch64 is not regularly performed at this time and the Wasmtime team is investigating how best to continuously fuzz AArch64 in the same manner as x86_64.
+
+=== Patches
+
+This bug has been patched and users should upgrade to Wasmtime version 0.38.2.
+
+=== Workarounds
+
+If upgrading is not an option at this time, direct users of Cranelift that control the exact Cranelift instructions being compiled can avoid the vulnerability by explicitly extending constant divisors to 64 bits using either the `sextend.i64` or the `uextend.i64` operation.
+
+Note, though, that this issue only affects the AArch64 targets. Other platforms are not affected.
+
+=== For more information
+
+If you have any questions or comments about this advisory:
+
+* Reach out to us on https://bytecodealliance.zulipchat.com/#narrow/stream/217126-wasmtime[the Bytecode Alliance Zulip chat]
+* Open an issue in https://github.com/bytecodealliance/wasmtime/[the bytecodealliance/wasmtime repository]
+
+## end::29[]
+## tag::30[]
+== M-30 owning_ref vulnerable to multiple soundness issues
+Tags: `runtime`, GHSA ID: {url-ghsa}GHSA-9qxh-258v-666c[GHSA-9qxh-258v-666c]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L3891
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=3890..3894]
+++++
+----
+
+
+- `OwningRef::map_with_owner` is https://github.com/Kimundi/owning-ref-rs/issues/77[unsound] and may result in a use-after-free.
+- `OwningRef::map` is https://github.com/Kimundi/owning-ref-rs/issues/71[unsound] and may result in a use-after-free.
+- `OwningRefMut::as_owner` and `OwningRefMut::as_owner_mut` are https://github.com/Kimundi/owning-ref-rs/issues/61[unsound] and may result in a use-after-free.
+- The crate https://github.com/Kimundi/owning-ref-rs/issues/49[violates Rust's aliasing rules], which may cause miscompilations on recent compilers that emit the LLVM `noalias` attribute.
+
+No patched versions are available at this time. While a pull request with some fixes is outstanding, the maintainer appears to be unresponsive.
+
+
+## end::30[]
+## tag::31[]
+== M-31 rocksdb vulnerable to out-of-bounds read
+Tags: `runtime`, GHSA ID: {url-ghsa}GHSA-xpp3-xrff-w6rh[GHSA-xpp3-xrff-w6rh]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L5330
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=5329..5333]
+++++
+----
+
+
+Affected versions of this crate called the RocksDB C API
+`rocksdb_open_column_families_with_ttl()` with a pointer to a single integer
+TTL value, but one TTL value for each column family is expected.
+
+This is only relevant when using
+`rocksdb::DBWithThreadMode::open_cf_descriptors_with_ttl()` with multiple
+column families.
+
+This bug has been fixed in v0.19.0.
+
+
+## end::31[]
+## tag::32[]
+== M-32 bumpalo has use-after-free due to a lifetime error in `Vec::into_iter()`
+Tags: `runtime`, GHSA ID: {url-ghsa}GHSA-f85w-wvc7-crwc[GHSA-f85w-wvc7-crwc]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L634
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=633..637]
+++++
+----
+
+
+In affected versions of this crate, the lifetime of the iterator produced by `Vec::into_iter()` is not constrained to the lifetime of the `Bump` that allocated the vector's memory. Using the iterator after the `Bump` is dropped causes use-after-free accesses.
+
+The following example demonstrates memory corruption arising from a misuse of this unsoundness.
+
+```rust
+use bumpalo::{collections::Vec, Bump};
+
+fn main() {
+    let bump = Bump::new();
+    let mut vec = Vec::new_in(&bump);
+    vec.extend([0x01u8; 32]);
+    let into_iter = vec.into_iter();
+    drop(bump);
+
+    for _ in 0..100 {
+        let reuse_bump = Bump::new();
+        let _reuse_alloc = reuse_bump.alloc([0x41u8; 10]);
+    }
+
+    for x in into_iter {
+        print!("0x{:02x} ", x);
+    }
+    println!();
+}
+```
+
+The issue was corrected in version 3.11.1 by adding a lifetime to the `IntoIter` type, and updating the signature of `Vec::into_iter()` to constrain this lifetime.
+
+
+## end::32[]
+## tag::33[]
+== M-33 Wasmtime out of bounds read/write with zero-memory-pages configuration
+Tags: `runtime`, Weakness: {url-cwe}119.html[CWE-119], {url-cwe}125.html[CWE-125], {url-cwe}787.html[CWE-787], CVE ID: {url-nist}CVE-2022-39392[CVE-2022-39392], GHSA ID: {url-ghsa}GHSA-44mr-8vmm-wjhg[GHSA-44mr-8vmm-wjhg]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L8590
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=8589..8593]
+++++
+----
+
+=== CVSS Score: 5.9/10
+.CVSS:3.1/AV:N/AC:H/PR:H/UI:N/S:U/C:H/I:H/A:N
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | High
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | High
+| Integrity | High
+| Availability  | None
+|===
+
+=== Impact
+
+There is a bug in Wasmtime's implementation of its pooling instance allocator when the allocator is configured to give WebAssembly instances a maximum of zero pages of memory. In this configuration the virtual memory mapping for WebAssembly memories did not meet the compiler-required configuration requirements for safely executing WebAssembly modules. Wasmtime's default settings require virtual memory page faults to indicate that wasm reads/writes are out-of-bounds, but the pooling allocator's configuration would not create an appropriate virtual memory mapping for this meaning out of bounds reads/writes can successfully read/write memory unrelated to the wasm sandbox within range of the base address of the memory mapping created by the pooling allocator.
+
+This bug can only be triggered by setting https://docs.rs/wasmtime/2.0.1/wasmtime/struct.InstanceLimits.html#structfield.memory_pages[`InstanceLimits::memory_pages`] to zero. This is expected to be a very rare configuration since this means that wasm modules cannot allocate any pages of linear memory. All wasm modules produced by all current toolchains are highly likely to use linear memory, so it's expected to be unlikely that this configuration is set to zero by any production embedding of Wasmtime, hence the low severity of this bug despite the critical consequences.
+
+=== Patches
+
+This bug has been patched and users should upgrade to Wasmtime 2.0.2.
+
+=== Workarounds
+
+One way to mitigate this issue is to disable usage of the pooling allocator. Note that the pooling allocator is not enabled by default.
+
+This bug can also only be worked around by increasing the `memory_pages` allotment when configuring the pooling allocator to a value greater than zero. If an embedding wishes to still prevent memory from actually being used then the `Store::limiter` method can be used to dynamically disallow growth of memory beyond 0 bytes large. Note that the default `memory_pages` value is greater than zero.
+
+This bug is not applicable with the default settings of the `wasmtime` crate.
+
+=== References
+
+* https://docs.rs/wasmtime/2.0.1/wasmtime/struct.Config.html#method.allocation_strategy[`Config::allocation_strategy`] - configuration required to enable the pooling allocator.
+* https://docs.rs/wasmtime/2.0.1/wasmtime/struct.InstanceLimits.html#structfield.memory_pages[`InstanceLimits::memory_pages`] - configuration field that, when zero, exhibits this bug.
+* https://docs.rs/wasmtime/2.0.1/wasmtime/struct.Store.html#method.limiter[`Store::limiter`] - means of limiting memory without using `memory_pages`
+* https://groups.google.com/a/bytecodealliance.org/g/sec-announce/c/c1HBDDJwNPA[Mailing list announcement]
+* https://github.com/bytecodealliance/wasmtime/commit/e60c3742904ccbb3e26da201c9221c38a4981d72[Patch for the `release-2.0.0` branch]
+
+=== For more information
+
+If you have any questions or comments about this advisory:
+
+* Reach out to us on https://bytecodealliance.zulipchat.com/#narrow/stream/217126-wasmtime[the Bytecode Alliance Zulip chat]
+* Open an issue in https://github.com/bytecodealliance/wasmtime/[the bytecodealliance/wasmtime repository]
+
+
+## end::33[]
+## tag::34[]
+== M-34 Segmentation fault in time
+Tags: `runtime`, Weakness: {url-cwe}476.html[CWE-476], CVE ID: {url-nist}CVE-2020-26235[CVE-2020-26235], GHSA ID: {url-ghsa}GHSA-wcg3-cvx6-7396[GHSA-wcg3-cvx6-7396]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L7784
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=7783..7787]
+++++
+----
+
+=== CVSS Score: 6.2/10
+.CVSS:3.1/AV:L/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | Low
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | High
+|===
+
+=== Impact
+
+Unix-like operating systems may segfault due to dereferencing a dangling pointer in specific circumstances. This requires an environment variable to be set in a different thread than the affected functions. This may occur without the user's knowledge, notably in a third-party library.
+
+The affected functions from time 0.2.7 through 0.2.22 are:
+
+- `time::UtcOffset::local_offset_at`
+- `time::UtcOffset::try_local_offset_at`
+- `time::UtcOffset::current_local_offset`
+- `time::UtcOffset::try_current_local_offset`
+- `time::OffsetDateTime::now_local`
+- `time::OffsetDateTime::try_now_local`
+
+The affected functions in time 0.1 (all versions) are:
+
+- `at`
+- `at_utc`
+- `now`
+
+Non-Unix targets (including Windows and wasm) are unaffected.
+
+=== Patches
+
+In some versions of `time`, the internal method that determines the local offset has been modified to always return `None` on the affected operating systems. This has the effect of returning an `Err` on the `try_*` methods and `UTC` on the non-`try_*` methods. In later versions, `time` will attempt to determine the number of threads running in the process. If the process is single-threaded, the call will proceed as its safety invariant is upheld.
+
+Users and library authors with time in their dependency tree must perform `cargo update`, which will pull in the updated, unaffected code.
+
+Users of time 0.1 do not have a patch and must upgrade to an unaffected version: time 0.2.23 or greater or the 0.3 series.
+
+=== Workarounds
+
+Library authors must ensure that the program only has one running thread at the time of calling any affected method. Binary authors may do the same and/or ensure that no other thread is actively mutating the environment.
+
+=== References
+
+https://github.com/time-rs/time/issues/293[time-rs/time#293].
+
+## end::34[]
+## tag::35[]
+== M-35 h2 vulnerable to denial of service
+Tags: `runtime`, Weakness: {url-cwe}770.html[CWE-770], CVE ID: {url-nist}CVE-2023-26964[CVE-2023-26964], GHSA ID: {url-ghsa}GHSA-f8vr-r385-rh5r[GHSA-f8vr-r385-rh5r]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L2051
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=2050..2054]
+++++
+----
+
+
+Hyper is an HTTP library for Rust and h2 is an HTTP 2.0 client & server implementation for Rust. An issue was discovered in h2 v0.2.4 when processing header frames. It incorrectly processes the HTTP2 `RST_STREAM` frames by not always releasing the memory immediately upon receiving the reset frame, leading to stream stacking. As a result, the memory and CPU usage are high which can lead to a Denial of Service (DoS).
+
+This issue affects users only when dealing with http2 connections.
+
+## end::35[]
+## tag::36[]
+== M-36 Optional `Deserialize` implementations lacking validation
+Tags: `runtime`, GHSA ID: {url-ghsa}GHSA-jf5h-cf95-w759[GHSA-jf5h-cf95-w759]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L5154
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=5153..5157]
+++++
+----
+
+
+When activating the non-default feature `serialize`, most structs implement
+`serde::Deserialize` without sufficient validation. This allows breaking
+invariants in safe code, leading to:
+
+* Undefined behavior in `as_string()` methods (which use
+  `std::str::from_utf8_unchecked()` internally).
+* Panics due to failed assertions.
+
+See https://github.com/gz/rust-cpuid/issues/43.
+
+
+## end::36[]
+## tag::37[]
+== M-37 Use after free passing `externref`s to Wasm in Wasmtime
+Tags: `runtime`, Weakness: {url-cwe}416.html[CWE-416], CVE ID: {url-nist}CVE-2021-39216[CVE-2021-39216], GHSA ID: {url-ghsa}GHSA-v4cp-h94r-m7xf[GHSA-v4cp-h94r-m7xf]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L8590
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=8589..8593]
+++++
+----
+
+=== CVSS Score: 6.3/10
+.CVSS:3.1/AV:L/AC:H/PR:L/UI:N/S:U/C:N/I:H/A:H
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | High
+| Privileges required | Low
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | High
+| Availability  | High
+|===
+
+=== Impact
+
+There was a use-after-free bug when passing `externref`s from the host to guest Wasm content.
+
+To trigger the bug, you have to explicitly pass multiple `externref`s from the host to a Wasm instance at the same time, either by
+
+* passing multiple `externref`s as arguments from host code to a Wasm function,
+* or returning multiple `externref`s to Wasm from a multi-value return function defined in the host.
+ 
+If you do not have host code that matches one of these shapes, then you are not impacted.
+
+If Wasmtime's https://github.com/bytecodealliance/wasmtime/blob/37c094faf53f1b356aab3c79d451395e4f7edb34/crates/runtime/src/externref.rs#L493[`VMExternRefActivationsTable`] became filled to capacity after passing the first `externref` in, then passing in the second `externref` could trigger a garbage collection. However the first `externref` is not rooted until we pass control to Wasm, and therefore could be reclaimed by the collector if nothing else was holding a reference to it or otherwise keeping it alive. Then, when control was passed to Wasm after the garbage collection, Wasm could use the first `externref`, which at this point has already been freed.
+
+We have reason to believe that the effective impact of this bug is relatively small because usage of `externref` is currently quite rare.
+
+=== Patches
+
+The bug has been fixed, and users should upgrade to Wasmtime 0.30.0.
+
+Additionally, we have updated https://github.com/bytecodealliance/wasmtime/blob/37c094faf53f1b356aab3c79d451395e4f7edb34/fuzz/fuzz_targets/table_ops.rs[our primary `externref` fuzz target] such that it better exercises these code paths and we can have greater confidence in their correctness going forward.
+
+=== Workarounds
+
+If you cannot upgrade Wasmtime yet, you can avoid the bug by disabling reference types support in Wasmtime by passing `false` to https://docs.rs/wasmtime/0.29.0/wasmtime/struct.Config.html#method.wasm_reference_types[`wasmtime::Config::wasm_reference_types`].
+
+=== References
+
+* https://github.com/WebAssembly/reference-types/[The reference types Wasm proposal, which introduces `externref`]
+
+=== For more information
+
+If you have any questions or comments about this advisory:
+
+* Reach out to us on https://bytecodealliance.zulipchat.com/#narrow/stream/217126-wasmtime[the Bytecode Alliance Zulip chat]
+* Open an issue in https://github.com/bytecodealliance/wasmtime/[the `bytecodealliance/wasmtime` repository]
+
+## end::37[]
+## tag::38[]
+== M-38 memoffset allows reading uninitialized memory
+Tags: `runtime`, GHSA ID: {url-ghsa}GHSA-wfg4-322g-9vqv[GHSA-wfg4-322g-9vqv]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L3468
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=3467..3471]
+++++
+----
+
+
+memoffset allows attempt of reading data from address `0` with arbitrary type. This behavior is an undefined behavior because address `0` to `std::mem::size_of<T>` may not have valid bit-pattern with `T`. Old implementation dereferences uninitialized memory obtained from `std::mem::align_of`. Older implementation prior to it allows using uninitialized data obtained from `std::mem::uninitialized` with arbitrary type then compute offset by taking the address of field-projection. This may also result in an undefined behavior for "father" that includes (directly or transitively) type that https://doc.rust-lang.org/nightly/reference/behavior-considered-undefined.html[does not allow to be uninitialized].
+
+This flaw was corrected by using `std::ptr::addr_of` in <https://github.com/Gilnaa/memoffset/pull/50>.
+
+
+## end::38[]
+## tag::39[]
+== M-39 `ed25519-dalek` Double Public Key Signing Function Oracle Attack
+Tags: `runtime`, GHSA ID: {url-ghsa}GHSA-w5vr-6qhr-36cc[GHSA-w5vr-6qhr-36cc]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L1312
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=1311..1315]
+++++
+----
+
+
+Versions of `ed25519-dalek` prior to v2.0 model private and public keys as separate types which can be assembled into a `Keypair`, and also provide APIs for serializing and deserializing 64-byte private/public keypairs.
+
+Such APIs and serializations are inherently unsafe as the public key is one of the inputs used in the deterministic computation of the `S` part of the signature, but not in the `R` value. An adversary could somehow use the signing function as an oracle that allows arbitrary public keys as input can obtain two signatures for the same message sharing the same `R` and only differ on the `S` part.
+
+Unfortunately, when this happens, one can easily extract the private key.
+
+Revised public APIs in v2.0 of `ed25519-dalek` do NOT allow a decoupled private/public keypair as signing input, except as part of specially labeled "hazmat" APIs which are clearly labeled as being dangerous if misused.
+
+
+## end::39[]
+## tag::40[]
+== M-40 Resource exhaustion vulnerability in h2 may lead to Denial of Service (DoS)
+Tags: `runtime`, GHSA ID: {url-ghsa}GHSA-8r5v-vm4m-4g25[GHSA-8r5v-vm4m-4g25]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L2051
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=2050..2054]
+++++
+----
+
+
+An attacker with an HTTP/2 connection to an affected endpoint can send a steady stream of invalid frames to force the
+generation of reset frames on the victim endpoint.
+By closing their recv window, the attacker could then force these resets to be queued in an unbounded fashion,
+resulting in Out Of Memory (OOM) and high CPU usage.
+
+This fix is corrected in https://github.com/hyperium/h2/pull/737[hyperium/h2#737], which limits the total number of
+internal error resets emitted by default before the connection is closed.
+
+
+## end::40[]
+## tag::41[]
+== M-41 Unauthenticated Nonce Increment in snow
+Tags: `runtime`, Weakness: {url-cwe}440.html[CWE-440], GHSA ID: {url-ghsa}GHSA-7g9j-g5jg-3vv3[GHSA-7g9j-g5jg-3vv3]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L6744
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=6743..6747]
+++++
+----
+
+
+=== Impact
+There was a logic bug where unauthenticated payloads could still cause a nonce increment in snow's internal state. For an attacker with the ability to inject packets into the channel Noise is talking over, this allows a denial-of-service type attack which could prevent communication as it causes the sending and receiving side to be expecting different nonce values than would arrive.
+
+Note that this only affects those who are using the stateful `TransportState`, not those using `StatelessTransportState`.
+
+=== Patches
+This has been patched in version 0.9.5, and all users are recommended to update.
+
+=== References
+There will be a more formal report of this in the near future.
+
+
+## end::41[]
+## tag::42[]
+== M-42 Miscompilation of `i8x16.swizzle` and `select` with v128 inputs
+Tags: `runtime`, Weakness: {url-cwe}682.html[CWE-682], CVE ID: {url-nist}CVE-2022-31104[CVE-2022-31104], GHSA ID: {url-ghsa}GHSA-jqwc-c49r-4w2x[GHSA-jqwc-c49r-4w2x]
+
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L901
+[source,rust]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=900..904]
+++++
+----
+
+=== CVSS Score: 4.8/10
+.CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Network
+| Attack complexity | High
+| Privileges required | None
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | Low
+| Availability  | Low
+|===
+
+=== Impact
+
+Wasmtime's implementation of the https://github.com/webassembly/simd[SIMD proposal for WebAssembly] on x86_64 contained two distinct bugs in the instruction lowerings implemented in Cranelift. The aarch64 implementation of the simd proposal is not affected. The bugs were presented in the `i8x16.swizzle` and `select` WebAssembly instructions. The `select` instruction is only affected when the inputs are of `v128` type. The correspondingly affected Cranelift instructions were `swizzle` and `select`.
+
+The `swizzle` instruction lowering in Cranelift erroneously overwrote the mask input register which could corrupt a constant value, for example. This means that future uses of the same constant may see a different value than the constant itself.
+
+The `select` instruction lowering in Cranelift wasn't correctly implemented for vector types that are 128-bits wide. When the condition was 0 the wrong instruction was used to move the correct input to the output of the instruction meaning that only the low 32 bits were moved and the upper 96 bits of the result were left as whatever the register previously contained (instead of the input being moved from). The `select` instruction worked correctly if the condition was nonzero, however.
+
+This bug in Wasmtime's implementation of these instructions on x86_64 represents an incorrect implementation of the specified semantics of these instructions according to the https://webassembly.github.io/spec/[WebAssembly specification]. The impact of this is benign for hosts running WebAssembly but represents possible vulnerabilities within the execution of a guest program. For example a WebAssembly program could take unintended branches or materialize incorrect values internally which runs the risk of exposing the program itself to other related vulnerabilities which can occur from miscompilations.
+
+=== Patches
+
+We have released Wasmtime 0.38.1 and cranelift-codegen (and other associated cranelift crates) 0.85.1 which contain the corrected implementations of these two instructions in Cranelift.
+
+=== Workarounds
+
+If upgrading is not an option for you at this time, you can avoid the vulnerability by https://docs.rs/wasmtime/latest/wasmtime/struct.Config.html#method.wasm_simd[disabling the Wasm simd proposal]
+
+```rust
+config.wasm_simd(false);
+```
+
+Additionally the bug is only present on x86_64 hosts. Other aarch64 hosts are not affected. Note that s390x hosts don't yet implement the simd proposal and are not affected.
+
+=== References
+
+* https://github.com/webassembly/simd[The WebAssembly simd proposal]
+* https://github.com/bytecodealliance/wasmtime/issues/4315[Original test case showing the erroneous behavior]
+* https://github.com/bytecodealliance/wasmtime/pull/4318[Fix for the `swizzle` instruction]
+* https://github.com/bytecodealliance/wasmtime/pull/4317[Fix for the `select` instruction]
+
+=== For more information
+
+If you have any questions or comments about this advisory:
+
+* Reach out to us on https://bytecodealliance.zulipchat.com/#narrow/stream/217126-wasmtime[the Bytecode Alliance Zulip chat]
+* Open an issue in https://github.com/bytecodealliance/wasmtime/[the bytecodealliance/wasmtime repository]
+
+## end::42[]

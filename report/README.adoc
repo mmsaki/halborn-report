@@ -1,8 +1,8 @@
 = Halborn CTF Secutiy Report: Halborn Offensive Security Engineer applying for a full time position
-Meek Msaki <meek.dev3@gmail.com>
-:revnumber: v0.1
+Meek Msaki <meek10x@gmail.com>
+:revnumber: v1.0
 :revdate: 03.26.2024
-:revremark: Work in progress
+:revremark: Final Draft
 :sectnums: 
 :partnums:
 :toc: auto
@@ -33,7 +33,6 @@ include::intro.adoc[leveloffset=1, tags=intro]
 include::revisions.adoc[leveloffset=1, tags=version]
 
 = Critical
-
 include::findings-critical.adoc[tags=1]
 include::findings-critical.adoc[tags=2]
 include::findings-critical.adoc[tags=3]
@@ -45,7 +44,6 @@ include::findings-critical.adoc[tags=8]
 include::findings-critical.adoc[tags=9]
 
 = High
-
 include::findings-high.adoc[tags=1]
 include::findings-high.adoc[tags=2]
 include::findings-high.adoc[tags=3]
@@ -74,7 +72,6 @@ include::findings-high.adoc[tags=25]
 include::findings-high.adoc[tags=26]
 
 = Medium
-
 include::findings-med.adoc[tags=1]
 include::findings-med.adoc[tags=2]
 include::findings-med.adoc[tags=3]
@@ -91,6 +88,32 @@ include::findings-med.adoc[tags=13]
 include::findings-med.adoc[tags=14]
 include::findings-med.adoc[tags=15]
 include::findings-med.adoc[tags=16]
+include::findings-med.adoc[tags=17]
+include::findings-med.adoc[tags=18]
+include::findings-med.adoc[tags=19]
+include::findings-med.adoc[tags=20]
+include::findings-med.adoc[tags=21]
+include::findings-med.adoc[tags=22]
+include::findings-med.adoc[tags=23]
+include::findings-med.adoc[tags=24]
+include::findings-med.adoc[tags=25]
+include::findings-med.adoc[tags=26]
+include::findings-med.adoc[tags=27]
+include::findings-med.adoc[tags=28]
+include::findings-med.adoc[tags=29]
+include::findings-med.adoc[tags=30]
+include::findings-med.adoc[tags=31]
+include::findings-med.adoc[tags=32]
+include::findings-med.adoc[tags=33]
+include::findings-med.adoc[tags=34]
+include::findings-med.adoc[tags=35]
+include::findings-med.adoc[tags=36]
+include::findings-med.adoc[tags=37]
+include::findings-med.adoc[tags=38]
+include::findings-med.adoc[tags=39]
+include::findings-med.adoc[tags=40]
+include::findings-med.adoc[tags=41]
+include::findings-med.adoc[tags=42]
 
 = Low
 include::findings-low.adoc[tags=1]
@@ -105,16 +128,13 @@ include::findings-low.adoc[tags=9]
 include::findings-low.adoc[tags=10]
 include::findings-low.adoc[tags=11]
 
+= Informational
+include::manual-review.adoc[tags=1]
+
 [appendix]
 == Tools Used
 
-=== SARIF
-
-=== Certora
-
-=== Wake
-
-=== Foundry
+=== Dependabot
 
 [appendix]
 == Challenges

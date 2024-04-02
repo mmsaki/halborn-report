@@ -1,12 +1,29 @@
 ## tag::1[]
 == L-1 rootless: `/sys/fs/cgroup` is writable when cgroupns isn't unshared in runc
-Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-m8cg-xc2p-r3fc[GHSA-m8cg-xc2p-r3fc] {url-cwe}281.html[CWE-281]
+Tags: `runtime`, Weakness: {url-cwe}281.html[CWE-281], CVE ID: {url-nist}CVE-2023-25809[CVE-2023-25809], GHSA ID: {url-ghsa}GHSA-m8cg-xc2p-r3fc[GHSA-m8cg-xc2p-r3fc]
 
-.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#None[HalbornCTF_Golang_Cosmos/go.mod#None]
-[source, go, %linenums]
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L189
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=189]
+++++
 ----
-include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=1..5]
-----
+
+=== CVSS Score: 2.5/10
+.CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:C/C:N/I:N/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Local
+| Attack complexity | High
+| Privileges required | High
+| User interaction | None
+| Scope | Changed
+| Confidentiality | None
+| Integrity | None
+| Availability  | Low
+|===
 
 === Impact
 It was found that rootless runc makes `/sys/fs/cgroup` writable in following conditons:
@@ -24,43 +41,19 @@ v1.1.5 (planned)
 - Condition 2 (very rare): add `/sys/fs/cgroup` to `maskedPaths`
 
 
-=== Impact: Low 2.5 / 10
-
-.CVSS:3.1/AV:L/AC:H/PR:H/UI:N/S:C/C:N/I:N/A:L
-[%header]
-|===
-2+| CVSS base metrics
-| Attack vector | Local
-| Attack complexity | High
-| Privileges required | High
-| User interaction | None
-| Scope | Changed
-| Confidentiality | None
-| Integrity | None
-| Availability  | Low
-|===
-
-=== References
-
-* https://github.com/opencontainers/runc/security/advisories/GHSA-m8cg-xc2p-r3fc
-* https://nvd.nist.gov/vuln/detail/CVE-2023-25809
-* https://github.com/opencontainers/runc/commit/0d62b950e60f6980b54fe3bafd9a9c608dc1df17
-* https://github.com/advisories/GHSA-m8cg-xc2p-r3fc
-
-=== Recommendation
-
-Consider alternatives of this dependency.
-
 ## end::1[]
 ## tag::2[]
 == L-2 Go package github.com/cosmos/cosmos-sdk module x/crisis does NOT cause chain halt
-Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-qfc5-6r3j-jj22[GHSA-qfc5-6r3j-jj22] 
+Tags: `runtime`, GHSA ID: {url-ghsa}GHSA-qfc5-6r3j-jj22[GHSA-qfc5-6r3j-jj22]
 
-.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#None[HalbornCTF_Golang_Cosmos/go.mod#None]
-[source, go, %linenums]
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L6
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=6]
+++++
 ----
-include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=1..5]
-----
+
 
 === x/crisis does NOT cause chain halt
 
@@ -90,27 +83,19 @@ In case of a valid invariant check failure that requires a chain halt, the netwo
 SDK developer epic about invariant checking: https://github.com/cosmos/cosmos-sdk/issues/15706
 Public report: https://github.com/cosmos/cosmos-sdk/issues/15325
 
-=== References
-
-* https://github.com/cosmos/cosmos-sdk/security/advisories/GHSA-qfc5-6r3j-jj22
-* https://github.com/cosmos/cosmos-sdk/issues/15325
-* https://github.com/cosmos/cosmos-sdk/issues/15706
-* https://github.com/advisories/GHSA-qfc5-6r3j-jj22
-
-=== Recommendation
-
-Consider alternatives of this dependency.
-
 ## end::2[]
 ## tag::3[]
 == L-3 github.com/cosmos/cosmos-sdk's x/crisis does not charge ConstantFee
-Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-w5w5-2882-47pc[GHSA-w5w5-2882-47pc] 
+Tags: `runtime`, GHSA ID: {url-ghsa}GHSA-w5w5-2882-47pc[GHSA-w5w5-2882-47pc]
 
-.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#None[HalbornCTF_Golang_Cosmos/go.mod#None]
-[source, go, %linenums]
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L6
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=6]
+++++
 ----
-include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=1..5]
-----
+
 
 === x/crisis does not charge ConstantFee
 === Impact
@@ -139,26 +124,33 @@ There is no workaround posted. Validators are advised to leave some extra comput
 SDK developer epic about invariant checking: https://github.com/cosmos/cosmos-sdk/issues/15706
 
 
-=== References
-
-* https://github.com/cosmos/cosmos-sdk/security/advisories/GHSA-w5w5-2882-47pc
-* https://github.com/cosmos/cosmos-sdk/issues/15706
-* https://github.com/advisories/GHSA-w5w5-2882-47pc
-
-=== Recommendation
-
-Consider alternatives of this dependency.
-
 ## end::3[]
 ## tag::4[]
 == L-4 ASA-2024-003: Missing `BlockedAddressed` Validation in Vesting Module
-Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-4j93-fm92-rp4m[GHSA-4j93-fm92-rp4m] {url-cwe}20.html[CWE-20]
+Tags: `runtime`, Weakness: {url-cwe}20.html[CWE-20], GHSA ID: {url-ghsa}GHSA-4j93-fm92-rp4m[GHSA-4j93-fm92-rp4m]
 
-.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#None[HalbornCTF_Golang_Cosmos/go.mod#None]
-[source, go, %linenums]
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L6
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=6]
+++++
 ----
-include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=1..5]
-----
+
+=== CVSS Score: 3.5/10
+.CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L
+[%header]
+|===
+2+| CVSS base metrics
+| Attack vector | Adjacent
+| Attack complexity | Low
+| Privileges required | Low
+| User interaction | None
+| Scope | Unchange
+| Confidentiality | None
+| Integrity | None
+| Availability  | Low
+|===
 
 === ASA-2024-003: Missing `BlockedAddressed` Validation in Vesting Module
 
@@ -184,43 +176,19 @@ A Github Security Advisory for this issue is available in the Cosmos-SDK https:/
 
 This issue was found by https://github.com/dongsam[Dongsam] who reported it to the Cosmos Bug Bounty Program on HackerOne on January 30, 2024. If you believe you have found a bug in the Interchain Stack or would like to contribute to the program by reporting a bug, please see https://hackerone.com/cosmos.
 
-=== Impact: Low 3.5 / 10
-
-.CVSS:3.1/AV:A/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L
-[%header]
-|===
-2+| CVSS base metrics
-| Attack vector | Adjacent
-| Attack complexity | Low
-| Privileges required | Low
-| User interaction | None
-| Scope | Unchange
-| Confidentiality | None
-| Integrity | None
-| Availability  | Low
-|===
-
-=== References
-
-* https://github.com/cosmos/cosmos-sdk/security/advisories/GHSA-4j93-fm92-rp4m
-* https://github.com/cosmos/cosmos-sdk/releases/tag/v0.47.9
-* https://github.com/cosmos/cosmos-sdk/releases/tag/v0.50.4
-* https://github.com/advisories/GHSA-4j93-fm92-rp4m
-
-=== Recommendation
-
-Consider alternatives of this dependency.
-
 ## end::4[]
 ## tag::5[]
 == L-5 ASA-2024-005: Potential slashing evasion during re-delegation
-Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-86h5-xcpx-cfqc[GHSA-86h5-xcpx-cfqc] {url-cwe}372.html[CWE-372]
+Tags: `runtime`, Weakness: {url-cwe}372.html[CWE-372], GHSA ID: {url-ghsa}GHSA-86h5-xcpx-cfqc[GHSA-86h5-xcpx-cfqc]
 
-.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#None[HalbornCTF_Golang_Cosmos/go.mod#None]
-[source, go, %linenums]
+.File {url-repo}{url-blob}HalbornCTF_Golang_Cosmos/go.mod#L6
+[source,go]
+---- 
+++++ <.>
+include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=6]
+++++
 ----
-include::{ctf-dir}HalbornCTF_Golang_Cosmos/go.mod[lines=1..5]
-----
+
 
 === ASA-2024-005: Potential slashing evasion during re-delegation
 
@@ -243,37 +211,20 @@ A Github Security Advisory for this issue is available in the Cosmos-SDK https:/
 This issue was found by cat shark (Khanh) who reported it to the Cosmos Bug Bounty Program on HackerOne on December 6, 2024. If you believe you have found a bug in the Interchain Stack or would like to contribute to the program by reporting a bug, please see https://hackerone.com/cosmos.
 
 
-=== References
-
-* https://github.com/cosmos/cosmos-sdk/security/advisories/GHSA-86h5-xcpx-cfqc
-* https://github.com/cosmos/cosmos-sdk/commit/7dbed2fc0c3ed7c285645e21cb1037d8810372ae
-* https://github.com/cosmos/cosmos-sdk/commit/d1b5b0c5ae2c51206cc1849e09e4d59986742cc3
-* https://github.com/advisories/GHSA-86h5-xcpx-cfqc
-
-=== Recommendation
-
-Consider alternatives of this dependency.
-
 ## end::5[]
 ## tag::6[]
 == L-6 Lenient Parsing of Content-Length Header When Prefixed with Plus Sign
+Tags: `runtime`, Weakness: {url-cwe}444.html[CWE-444], CVE ID: {url-nist}CVE-2021-32715[CVE-2021-32715], GHSA ID: {url-ghsa}GHSA-f3pg-qwvg-p99c[GHSA-f3pg-qwvg-p99c]
 
-Tags: `runtime`, Weaknesses: {url-cwe}444.html[CWE-444], CVE ID: {url-nist}CVE-2021-32715[CVE-2021-32715], GHSA ID: {url-ghsa}GHSA-f3pg-qwvg-p99c[GHSA-f3pg-qwvg-p99c]
-
-.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L2258-L2262[HalbornCTF_Rust_Substrate/Cargo.lock#L2258-L2262]
-[source, rust, %linenums]
-----
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L2259
+[source,rust]
+---- 
+++++ <.>
 include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=2258..2262]
+++++
 ----
 
-To determine if vulnerable, all these things must be true:
-
-- **Using hyper as an HTTP server**. While the lenient decoder also exists in the client, a vulnerability does not exist around _responses_.
-- **Using HTTP/1**. The HTTP/2 code uses a stricter parser.
-- **Using a vulnerable HTTP proxy upstream to hyper**. If an upstream proxy correctly rejects the illegal `Content-Length` header, *OR* can parse the length with the plus sign, the desync attack cannot succeed.
-
-=== Impact: Low 3.1 / 10
-
+=== CVSS Score: 3.1/10
 .CVSS:3.1/AV:N/AC:H/PR:N/UI:R/S:U/C:L/I:N/A:N
 [%header]
 |===
@@ -288,28 +239,67 @@ To determine if vulnerable, all these things must be true:
 | Availability  | None
 |===
 
+=== Summary
+
+hyper's HTTP/1 server code had a flaw that incorrectly parses and accepts requests with a `Content-Length` header with a prefixed plus sign, when it should have been rejected as illegal. This combined with an upstream HTTP proxy that doesn't parse such `Content-Length` headers, but forwards them, can result in "request smuggling" or "desync attacks".
+
+=== Vulnerability
+
+The flaw exists in all prior versions of hyper, if built with https://github.com/rust-lang/rust/pull/28826/commits/123a83326fb95366e94a3be1a74775df4db97739[`rustc` v1.5.0 or newer].
+
+Example:
+
+```
+GET / HTTP/1.1
+Host: example.com
+Content-Length: +3
+
+abc
+```
+
+This request gets accepted and hyper reads the body as abc. The request _should_ be rejected, according to RFC 7230, since the ABNF for `Content-Length` only allows for `DIGIT`s. This is due to using the `FromStr` implementation for `u64` in the standard library. By differing from the spec, it is possible to send requests like these to endpoints that have different HTTP implementations, with different interpretations of the payload semantics, and cause "desync attacks".
+
+In this particular case, an upstream proxy would need to error when parsing the `Content-Length`, but _not_ reject the request (swallowing its own error), and forwarding the request as-is with the `Content-Length` still included. _Then_ the upstream proxy and hyper would disagree on the length of the request body. The combination of these factors would be extremely rare.
+
+Read more about desync attacks: https://portswigger.net/research/http-desync-attacks-request-smuggling-reborn
+
+=== Impact
+
+To determine if vulnerable, all these things must be true:
+
+- **Using hyper as an HTTP server**. While the lenient decoder also exists in the client, a vulnerability does not exist around _responses_.
+- **Using HTTP/1**. The HTTP/2 code uses a stricter parser.
+- **Using a vulnerable HTTP proxy upstream to hyper**. If an upstream proxy correctly rejects the illegal `Content-Length` header, *OR* can parse the length with the plus sign, the desync attack cannot succeed.
+
 === Patches
 
 We have released the following patch versions:
 
 - v0.14.10 (to be released when this advisor is published)
 
-<RECOMMENDATION>
+=== Workarounds
 
-=== References
+Besides upgrading hyper, you can take the following options:
 
+- Reject requests manually that contain a plus sign prefix in the `Content-Length` header.
+- Ensure any upstream proxy handles `Content-Length` headers with a plus sign prefix.
 
+=== Credits
+This issue was initially reported by https://grenfeldt.dev/[Mattias Grenfeldt] and Asta Olofsson.
 
 ## end::6[]
 ## tag::7[]
 == L-7 `tokio::io::ReadHalf<T>::unsplit` is Unsound
-Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-4q83-7cq4-p6wg[GHSA-4q83-7cq4-p6wg] 
+Tags: `runtime`, GHSA ID: {url-ghsa}GHSA-4q83-7cq4-p6wg[GHSA-4q83-7cq4-p6wg]
 
-.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L7836-L7840[HalbornCTF_Rust_Substrate/Cargo.lock#L7836-L7840]
-[source, rust, %linenums]
-----
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L7837
+[source,rust]
+---- 
+++++ <.>
 include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=7836..7840]
+++++
 ----
+
 
 `tokio::io::ReadHalf<T>::unsplit` can violate the `Pin` contract
 
@@ -330,64 +320,38 @@ Tokio before 0.2.0 used `futures` 0.1 that did not have `Pin`, so it is not
 affected by this issue.
 
 
-=== References
-
-* https://github.com/tokio-rs/tokio/issues/5372
-* https://rustsec.org/advisories/RUSTSEC-2023-0005.html
-* https://github.com/advisories/GHSA-4q83-7cq4-p6wg
-
-=== Recommendation
-
-Consider alternatives of this dependency.
-
 ## end::7[]
 ## tag::8[]
 == L-8 Race Condition Enabling Link Following and Time-of-check Time-of-use (TOCTOU) Race Condition in remove_dir_all
-Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-mc8h-8q98-g5hr[GHSA-mc8h-8q98-g5hr] {url-cwe}366.html[CWE-366], {url-cwe}367.html[CWE-367]
+Tags: `runtime`, Weakness: {url-cwe}366.html[CWE-366], {url-cwe}367.html[CWE-367], GHSA ID: {url-ghsa}GHSA-mc8h-8q98-g5hr[GHSA-mc8h-8q98-g5hr]
 
-.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L5299-L5303[HalbornCTF_Rust_Substrate/Cargo.lock#L5299-L5303]
-[source, rust, %linenums]
-----
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L5300
+[source,rust]
+---- 
+++++ <.>
 include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=5299..5303]
+++++
 ----
+
 
 The `remove_dir_all` crate is a Rust library that offers additional features over the Rust standard library `fs::remove_dir_all` function. It suffers the same class of failure as the code it was layering over: TOCTOU race conditions, with the ability to cause arbitrary paths to be deleted by substituting a symlink for a path after the type of the path was checked.
 
 Thanks to the Rust security team for identifying the problem and alerting us to it.
 
-=== References
-
-* https://github.com/XAMPPRocky/remove_dir_all/security/advisories/GHSA-mc8h-8q98-g5hr
-* https://github.com/XAMPPRocky/remove_dir_all/commit/7247a8b6ee59fc99bbb69ca6b3ca4bfd8c809ead
-* https://rustsec.org/advisories/RUSTSEC-2023-0018.html
-* https://github.com/advisories/GHSA-mc8h-8q98-g5hr
-
-=== Recommendation
-
-Consider alternatives of this dependency.
-
 ## end::8[]
 ## tag::9[]
 == L-9 Undefined Behavior in Rust runtime functions
+Tags: `runtime`, Weakness: {url-cwe}758.html[CWE-758], CVE ID: {url-nist}CVE-2023-30624[CVE-2023-30624], GHSA ID: {url-ghsa}GHSA-ch89-5g45-qwc7[GHSA-ch89-5g45-qwc7]
 
-Tags: `runtime`, Weaknesses: {url-cwe}758.html[CWE-758], CVE ID: {url-nist}CVE-2023-30624[CVE-2023-30624], GHSA ID: {url-ghsa}GHSA-ch89-5g45-qwc7[GHSA-ch89-5g45-qwc7]
-
-.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L8589-L8593[HalbornCTF_Rust_Substrate/Cargo.lock#L8589-L8593]
-[source, rust, %linenums]
-----
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L8590
+[source,rust]
+---- 
+++++ <.>
 include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=8589..8593]
+++++
 ----
 
-Wasmtime's implementation of managing per-instance state, such as tables and memories, contains LLVM-level undefined behavior. This undefined behavior was found to cause runtime-level issues when compiled with LLVM 16 which causes some writes, which are critical for correctness, to be optimized away. Vulnerable versions of Wasmtime compiled with Rust 1.70, which is currently in beta, or later are known to have incorrectly compiled functions. Versions of Wasmtime compiled with the current Rust stable release, 1.69, and prior are not known at this time to have any issues, but can theoretically exhibit potential issues.
-
-The underlying problem is that Wasmtime's runtime state for an instance involves a Rust-defined structure called `Instance` which has a trailing `VMContext` structure after it. This `VMContext` structure has a runtime-defined layout that is unique per-module. This representation cannot be expressed with safe code in Rust so `unsafe` code is required to maintain this state. The code doing this, however, has methods which take `&self` as an argument but modify data in the `VMContext` part of the allocation. This means that pointers derived from `&self` are mutated. This is typically not allowed, except in the presence of `UnsafeCell`, in Rust. When compiled to LLVM these functions have `noalias readonly` parameters which means it's UB to write through the pointers.
-
-Wasmtime's internal representation and management of `VMContext` has been updated to use `&mut self` methods where appropriate. Additionally verification tools for `unsafe` code in Rust, such as `cargo miri`, are planned to be executed on the `main` branch soon to fix any Rust-level issues that may be exploited in future compiler versions.
-
-Precomplied binaries available for Wasmtime from GitHub releases have been compiled with at most LLVM 15 so are not known to be vulnerable. As mentioned above, however, it's still recommended to update.
-
-=== Impact: Low 3.9 / 10
-
+=== CVSS Score: 3.9/10
 .CVSS:3.1/AV:N/AC:H/PR:H/UI:R/S:U/C:L/I:L/A:L
 [%header]
 |===
@@ -402,27 +366,50 @@ Precomplied binaries available for Wasmtime from GitHub releases have been compi
 | Availability  | Low
 |===
 
+=== Impact
+
+Wasmtime's implementation of managing per-instance state, such as tables and memories, contains LLVM-level undefined behavior. This undefined behavior was found to cause runtime-level issues when compiled with LLVM 16 which causes some writes, which are critical for correctness, to be optimized away. Vulnerable versions of Wasmtime compiled with Rust 1.70, which is currently in beta, or later are known to have incorrectly compiled functions. Versions of Wasmtime compiled with the current Rust stable release, 1.69, and prior are not known at this time to have any issues, but can theoretically exhibit potential issues.
+
+The underlying problem is that Wasmtime's runtime state for an instance involves a Rust-defined structure called `Instance` which has a trailing `VMContext` structure after it. This `VMContext` structure has a runtime-defined layout that is unique per-module. This representation cannot be expressed with safe code in Rust so `unsafe` code is required to maintain this state. The code doing this, however, has methods which take `&self` as an argument but modify data in the `VMContext` part of the allocation. This means that pointers derived from `&self` are mutated. This is typically not allowed, except in the presence of `UnsafeCell`, in Rust. When compiled to LLVM these functions have `noalias readonly` parameters which means it's UB to write through the pointers.
+
+Wasmtime's internal representation and management of `VMContext` has been updated to use `&mut self` methods where appropriate. Additionally verification tools for `unsafe` code in Rust, such as `cargo miri`, are planned to be executed on the `main` branch soon to fix any Rust-level issues that may be exploited in future compiler versions.
+
+Precomplied binaries available for Wasmtime from GitHub releases have been compiled with at most LLVM 15 so are not known to be vulnerable. As mentioned above, however, it's still recommended to update.
+
 === Patches
 
-Wasmtime version 6.0.2, 7.0.1, and 8.0.1 have been issued which contain the patch necessary to work correctly on LLVM 16 and have no known UB on LLVM 15 and earlier.
+Wasmtime version 6.0.2, 7.0.1, and 8.0.1 have been issued which contain the patch necessary to work correctly on LLVM 16 and have no known UB on LLVM 15 and earlier. 
 
-<RECOMMENDATION>
+=== Workarounds
+
+If Wasmtime is compiled with Rust 1.69 and prior, which use LLVM 15, then there are no known issues. There is a theoretical possibility for UB to exploited, however, so it's recommended that users upgrade to a patched version of Wasmtime. Users using beta Rust (1.70 at this time) or nightly Rust (1.71 at this time) must update to a patched version to work correctly.
 
 === References
 
 * https://github.com/bytecodealliance/wasmtime/security/advisories/GHSA-ch89-5g45-qwc7[GitHub Advisory]
 * https://groups.google.com/a/bytecodealliance.org/g/sec-announce/c/ecK-6G2yi90[Mailing list announcement]
 
+=== For more information
+
+If you have any questions or comments about this advisory:
+
+* Reach out to us on https://bytecodealliance.zulipchat.com/#narrow/stream/217126-wasmtime[the Bytecode Alliance Zulip chat]
+* Open an issue in https://github.com/bytecodealliance/wasmtime/[the bytecodealliance/wasmtime repository]
+
+
 ## end::9[]
 ## tag::10[]
 == L-10 atty potential unaligned read
-Tags: `runtime`, Weaknesses: GHSA ID: {url-ghsa}GHSA-g98v-hv3f-hcfr[GHSA-g98v-hv3f-hcfr] 
+Tags: `runtime`, GHSA ID: {url-ghsa}GHSA-g98v-hv3f-hcfr[GHSA-g98v-hv3f-hcfr]
 
-.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L389-L393[HalbornCTF_Rust_Substrate/Cargo.lock#L389-L393]
-[source, rust, %linenums]
-----
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L390
+[source,rust]
+---- 
+++++ <.>
 include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=389..393]
+++++
 ----
+
 
 On windows, `atty` dereferences a potentially unaligned pointer.
 
@@ -444,33 +431,20 @@ The below list has not been vetted in any way and may or may not contain alterna
 - https://crates.io/crates/is-terminal[is-terminal] - Standalone crate supporting Rust older than 1.70.0"
 
 
-=== References
-
-* https://github.com/softprops/atty/issues/50
-* https://github.com/softprops/atty/pull/51
-* https://rustsec.org/advisories/RUSTSEC-2021-0145.html
-* https://github.com/advisories/GHSA-g98v-hv3f-hcfr
-
-=== Recommendation
-
-Consider alternatives of this dependency.
-
 ## end::10[]
 ## tag::11[]
 == L-11 wasmtime_trap_code C API function has out of bounds write vulnerability
+Tags: `runtime`, Weakness: {url-cwe}787.html[CWE-787], CVE ID: {url-nist}CVE-2022-39394[CVE-2022-39394], GHSA ID: {url-ghsa}GHSA-h84q-m8rr-3v9q[GHSA-h84q-m8rr-3v9q]
 
-Tags: `runtime`, Weaknesses: {url-cwe}787.html[CWE-787], CVE ID: {url-nist}CVE-2022-39394[CVE-2022-39394], GHSA ID: {url-ghsa}GHSA-h84q-m8rr-3v9q[GHSA-h84q-m8rr-3v9q]
-
-.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L8589-L8593[HalbornCTF_Rust_Substrate/Cargo.lock#L8589-L8593]
-[source, rust, %linenums]
-----
+.File {url-repo}{url-blob}HalbornCTF_Rust_Substrate/Cargo.lock#L8590
+[source,rust]
+---- 
+++++ <.>
 include::{ctf-dir}HalbornCTF_Rust_Substrate/Cargo.lock[lines=8589..8593]
+++++
 ----
 
-There is a bug in Wasmtime's C API implementation where the definition of the `wasmtime_trap_code` does not match its declared signature in the `wasmtime/trap.h` header file. This discrepancy causes the function implementation to perform a 4-byte write into a 1-byte buffer provided by the caller. This can lead to three zero bytes being written beyond the 1-byte location provided by the caller.
-
-=== Impact: Low 3.8 / 10
-
+=== CVSS Score: 3.8/10
 .CVSS:3.1/AV:L/AC:H/PR:H/UI:R/S:U/C:L/I:L/A:L
 [%header]
 |===
@@ -485,16 +459,31 @@ There is a bug in Wasmtime's C API implementation where the definition of the `w
 | Availability  | Low
 |===
 
+=== Impact
+
+There is a bug in Wasmtime's C API implementation where the definition of the `wasmtime_trap_code` does not match its declared signature in the `wasmtime/trap.h` header file. This discrepancy causes the function implementation to perform a 4-byte write into a 1-byte buffer provided by the caller. This can lead to three zero bytes being written beyond the 1-byte location provided by the caller.
+
 === Patches
 
 This bug has been patched and users should upgrade to Wasmtime 2.0.2.
 
-<RECOMMENDATION>
+=== Workarounds
+
+This can be worked around by providing a 4-byte buffer casted to a 1-byte buffer when calling `wasmtime_trap_code`. Users of the `wasmtime` crate are not affected by this issue, only users of the C API function `wasmtime_trap_code` are affected.
 
 === References
 
 * https://docs.wasmtime.dev/c-api/trap_8h.html#a6580f4f209d3eaebb6e8b9a901a30b7a[Definition of `wasmtime_trap_code`]
 * https://groups.google.com/a/bytecodealliance.org/g/sec-announce/c/c1HBDDJwNPA[Mailing list announcement]
 * https://github.com/bytecodealliance/wasmtime/commit/5b6d5e78de106503b3b9add218bb3d2b1d63c493[Patch to fix for `main` branch]
+
+=== For more information
+
+If you have any questions or comments about this advisory:
+
+* Reach out to us on https://bytecodealliance.zulipchat.com/#narrow/stream/217126-wasmtime[the Bytecode Alliance Zulip chat]
+* Open an issue in https://github.com/bytecodealliance/wasmtime/[the bytecodealliance/wasmtime repository]
+
+
 
 ## end::11[]

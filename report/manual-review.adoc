@@ -1,6 +1,6 @@
 ## tag::1[]
 
-== L-1 Malicious `.DS_Store` file
+== I-1 Malicious `.DS_Store` file
 
 I ran a dsstore parser <<2>> to extract the metadata from `/.DS_Store` binary file. I found that `/.DS_Store` file is a malicious file and has probably been tampered with. If you want to learn more about parsing the .DS_Store file and its security implications see article <<3>>.
 
