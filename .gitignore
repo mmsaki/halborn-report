@@ -10,4 +10,7 @@ venv
 # unstage files
 results.json
 mediums.json
+lows.json
+highs.json
+criticals.json
 pars.ipynb
