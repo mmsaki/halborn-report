@@ -1,6 +1,6 @@
 # Audit Report
 
-This report is generated using issues from dependency and supply chain vulnerabilities reported by [Dependabot](https://docs.github.com/en/code-security/dependabot/working-with-dependabot) and [Socketio](https://socket.dev). This repository has [format.py](./format.py) and [generate_report.py](./generate_report.py) to format and parse the results from these tools to be used in my audit report.
+This tool generates a report of issues from dependency and supply chain vulnerabilities reported by [Dependabot](https://docs.github.com/en/code-security/dependabot/working-with-dependabot).
 
 ## Asciidoc Setup
 
