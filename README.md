@@ -69,7 +69,7 @@ Getting started with general prerequisites set up:
 1. Run formating command reads the json and converts it into `.asciidoc` format report:
 
    ```sh
-   python3 format.py
+   python3 main.py
    ```
 
 1. Convert `.asciidoc` report to `.pdf` with `asciidoc-pdf`:
